@@ -3,4 +3,14 @@
   width: 100%;
   padding-left: 22px;
   padding-right: 22px;
+  margin-top: 62px;
+}
+
+/* line 8, ../sass/main.sass */
+.table-wrapper-item {
+  margin-top: -30px;
+  margin-left: 52px;
+  padding-left: 10px;
+  padding-right: 42px;
+  border-left: 4px solid gray;
 }

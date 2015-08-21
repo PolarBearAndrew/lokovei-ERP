@@ -1,32 +1,80 @@
 extends layout
 
 block content
+  //- date picker
+  link(rel="stylesheet", href="/stylesheets/bootstrap-datepicker3.min.css")
+  script(src="javascript/bootstrap-datepicker.min.js")
+
   link(rel="stylesheet", href="/stylesheets/main.css")
   script(src="javascript/main.js")
-
-  .table-wrapper
-    table#main-table.table.table-hover.display(cellspacing='0', width='100%')
-      thead
-        tr
-          th 訂單編號
-          th 客戶名稱
-          th 訂購日期
-          th 出車日期
-          th Start date
-          th Salary
-      tfoot
-        tr
-          th Name
-          th Position
-          th Office
-          th Age
-          th Start date
-          th Salary
-      tbody
-        tr
-          td(data-search='Tiger Nixon') T. Nixon
-          td System Architect
-          td Edinburgh
-          td Lokovei Fast-藍白天
-          td(data-order='1303686000') Mon 25th Apr 11
-          td(data-order='320800') $320,800/y
+  - for( var i = 0 ; i < 3 ; i ++)
+    .table-wrapper
+      table.table
+        thead
+          tr
+            th 訂單編號
+            th 客戶名稱
+            th 客戶地址
+            th 聯絡電話
+            th 採購人員
+            th 接單人員
+            th 數量合計
+            th 訂購日期
+            th 出車日期
+            th 狀態
+            th
+        tbody
+          tr
+            td 101111212
+            td(data-search='立倫車業社') 立倫
+            td 302 新竹縣竹北市中正東路61號
+            td 03-5513598
+            td(data-search='范逸臣老闆') 范老闆
+            td 陳柏安
+            td 25
+            td(data-order='1303686000', style='width: 150px')
+              input.datepicker(data-date-format='mm/dd/yyyy').form-control(type='text')
+            td(data-order='1303686000', style='width: 150px')
+              input.datepicker(data-date-format='mm/dd/yyyy').form-control(type='text')
+            td
+              button.btn.btn-success 已出貨
+            td
+              button.btn.btn-warning
+                span.glyphicon.glyphicon-pencil(aria-hidden='true')
+              = '  '
+              button.btn.btn-danger
+                span.glyphicon.glyphicon-trash(aria-hidden='true')
+              = '  '
+              button.btn.btn-danger
+                span.glyphicon.glyphicon-print(aria-hidden='true')
+    .table-wrapper-item
+      table.table.table-hover
+        thead
+          tr
+            th 產品編號
+            th 品名規格
+            th 數量
+            th 狀態
+            th 備註
+        tbody
+          tr
+            td CHT-013-BO002
+            td Lokovei SR-800-寶馬棕
+            td 3
+            td
+              label.label.label-primary 檢驗完成
+            td 鎳氫電池改為離電池，並且加上懸掛系統
+          tr
+            td CHT-013-BO002
+            td Lokovei SR-800-寶馬棕
+            td 3
+            td
+              label.label.label-warning 尚未檢驗
+            td 鎳氫電池改為離電池，並且加上懸掛系統
+          tr
+            td CHT-013-BO002
+            td Lokovei SR-800-寶馬棕
+            td 3
+            td
+              label.label.label-danger 維修中
+            td 鎳氫電池改為離電池，並且加上懸掛系統
