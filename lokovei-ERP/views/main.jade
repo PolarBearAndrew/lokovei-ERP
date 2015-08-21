@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  link(rel="stylesheet", href="/stylesheets/main.css")
+  script(src="javascript/main.js")
+
+  .table-wrapper
+    table#main-table.table.table-hover.display(cellspacing='0', width='100%')
+      thead
+        tr
+          th 訂單編號
+          th 客戶名稱
+          th 訂購日期
+          th 出車日期
+          th Start date
+          th Salary
+      tfoot
+        tr
+          th Name
+          th Position
+          th Office
+          th Age
+          th Start date
+          th Salary
+      tbody
+        tr
+          td(data-search='Tiger Nixon') T. Nixon
+          td System Architect
+          td Edinburgh
+          td Lokovei Fast-藍白天
+          td(data-order='1303686000') Mon 25th Apr 11
+          td(data-order='320800') $320,800/y
