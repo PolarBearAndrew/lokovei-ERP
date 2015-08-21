@@ -1,0 +1,24 @@
+@import "compass/css3/flexbox"
+
+.job
+  width: 200px
+  min-width: 200px
+  max-height: 230px
+
+.day
+  height: 230px
+  border-radius: 8px
+  padding-left: 22px
+  // padding-right: 22px
+  border: 1px solid #DEDEDE
+  width: 100%
+  overflow-x: scroll
+  @include display-flex
+  @include align-items(center)
+
+.wrapper
+  width: 100%
+  padding-left: 32px
+  .thumbnail
+    float: left
+    margin-right: 12px

@@ -6,8 +6,12 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-router.get('/main', function(req, res, next) {
-  res.render('main');
+router.get('/order', function(req, res, next) {
+  res.render('queue_order');
+});
+
+router.get('/factory', function(req, res, next) {
+  res.render('queue_factory');
 });
 
 module.exports = router;

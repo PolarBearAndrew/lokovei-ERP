@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  link(rel="stylesheet", href="stylesheets/queue_factory.css")
+  .wrapper
+    - for( var line = 0; line < 5; line++ )
+      .day
+        .thumbnail.job
+          h4 產線1
+        - for( var job = 0; job < 10; job++ )
+          .thumbnail.job
+            p CHT-013-BO002
+            p Lokovei SR-800-寶馬棕
+            p 數量 3
+            p
+              label.label.label-warning 尚未檢驗
+            p
+              | 備註：
+              | 鎳氫電池改為離電池，並且加上懸掛系統
