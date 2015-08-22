@@ -18,14 +18,14 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='/order?page=queue_order') lokovei 內部訂單管理
+          a.navbar-brand(href='/order') lokovei 內部訂單管理
         // Collect the nav links, forms, and other content for toggling
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
             li
-              a(href='/order?page=queue_order') 訂單佇列
+              a(href='/order') 訂單佇列
             li
-              a(href='/factory?page=queue_factory') 產線佇列
+              a(href='/factory') 產線佇列
           //- form.navbar-form.navbar-left(role='search')
           //-   .form-group
           //-     input.form-control(type='text', placeholder='Search')
@@ -34,21 +34,21 @@ html
             li
               a(href='#') 您好，陳柏安
             li
-              a(href='#').btn-lg(type='button', data-toggle='modal', data-target='#loginDialog') 登入
+              a(href='#' type='button', data-toggle='modal', data-target='#loginDialog').btn-lg 登入
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
                 | 工作台
                 span.caret
               ul.dropdown-menu(role='menu')
                 li
-                  a(href='#') 廠商設定
+                  a(href='/crud/customer') 經銷商設定
                 li
-                  a(href='#') 產品設定
+                  a(href='/crud/product') 產品設定
                 li
-                  a(href='#') 產線設定
+                  a(href='/crud/line') 產線設定
                 li.divider
                 li
-                  a(href='#') 帳號管理
+                  a(href='/crud/account') 帳號管理
     //- login dialog
     form.form-inline(role='form')
       #loginDialog.modal.fade
@@ -60,11 +60,11 @@ html
                 span.sr-only Close
               h4.modal-title lokovei 內部訂單管理 登入
             .modal-body
-              &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+              | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               .form-group
                 label.sr-only(for='exampleInputEmail2') 帳號
                 input#exampleInputEmail2.form-control(type='text', placeholder='帳號')
-              &nbsp; &nbsp; &nbsp; &nbsp;
+              | &nbsp;&nbsp;&nbsp;&nbsp;
               .form-group
                 label.sr-only(for='exampleInputPassword2') 密碼
                 input#exampleInputPassword2.form-control(type='password', placeholder='密碼')

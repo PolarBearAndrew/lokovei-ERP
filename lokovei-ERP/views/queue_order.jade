@@ -7,6 +7,17 @@ block content
 
   link(rel="stylesheet", href="/stylesheets/queue_order.css")
   script(src="javascript/queue_order.js")
+
+  .container
+    .row
+      button.btn.btn-success.ctrl
+        span.glyphicon.glyphicon-plus(aria-hidden='true')
+        |   新增訂單
+      select.form-control.sortCtrl
+        option(value="startTime") 訂單日期
+        option(value="endTime") 出車日期
+        option(value="customer") 經銷商名稱
+
   - for( var i = 0 ; i < 3 ; i ++)
     - var orderId = i
     .order-wrapper(data-orderID= orderId )
@@ -15,8 +26,8 @@ block content
           thead
             tr
               th 訂單編號
-              th 客戶名稱
-              th 客戶地址
+              th 經銷商
+              th 經銷商地址
               th 聯絡電話
               th 採購人員
               th 接單人員
@@ -41,14 +52,14 @@ block content
               td
                 button.btn.btn-success 已出貨
               td
-                button.btn.btn-danger
+                button.btn.btn-danger.ctrl
                   span.glyphicon.glyphicon-trash(aria-hidden='true')
-                = '  '
-                button.btn.btn-warning.edit(data-orderID= orderId, data-onEdit='0')
+                button.btn.btn-warning.ctrl.edit(data-orderID= orderId, data-onEdit='0')
                   span.glyphicon.glyphicon-pencil(aria-hidden='true')
-                = '  '
-                button.btn.btn-primary
+                button.btn.btn-primary.ctrl
                   span.glyphicon.glyphicon-print(aria-hidden='true')
+                button.btn.btn-success.ctrl
+                  span.glyphicon.glyphicon-ok(aria-hidden='true')
       .table-wrapper-item
         table.table.table-hover
           thead
@@ -58,25 +69,29 @@ block content
               th 數量
               th 狀態
               th 備註
+              th 排程時間
           tbody
             tr
               td CHT-013-BO002
-              td(data-ctrl="product") Lokovei SR-800-寶馬棕
+              td(data-ctrl="product"  style='width: 300px') Lokovei SR-800-寶馬棕
               td(data-ctrl="num") 3
               td
                 label.label.label-primary 檢驗完成
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
+              td(data-ctrl="date") 2015/8/27
             tr
               td CHT-013-BO002
-              td(data-ctrl="product") Lokovei SR-800-寶馬棕
+              td(data-ctrl="product"  style='width: 300px') Lokovei SR-800-寶馬棕
               td(data-ctrl="num") 3
               td
-                label.label.label-primary 檢驗完成
+                label.label.label-warning 尚未完成
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
+              td(data-ctrl="date") 2015/8/27
             tr
               td CHT-013-BO002
-              td(data-ctrl="product") Lokovei SR-800-寶馬棕
+              td(data-ctrl="product"  style='width: 300px') Lokovei SR-800-寶馬棕
               td(data-ctrl="num") 3
               td
-                label.label.label-primary 檢驗完成
+                label.label.label-danger 維修中
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
+              td(data-ctrl="date") 2015/8/27

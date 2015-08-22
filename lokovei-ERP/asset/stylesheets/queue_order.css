@@ -14,3 +14,14 @@
   padding-right: 42px;
   border-left: 4px solid gray;
 }
+
+/* line 15, ../sass/queue_order.sass */
+.ctrl {
+  margin: 2px;
+}
+
+/* line 18, ../sass/queue_order.sass */
+.sortCtrl {
+  float: right;
+  width: 150px;
+}

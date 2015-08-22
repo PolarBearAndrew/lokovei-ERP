@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  link(rel="stylesheet", href="/stylesheets/crud.css")
+  script(src="/javascript/crud.js")
+  .wrapper
+    table#main.table.table-hover
+      thead
+        - for( var i = 0; i < schema.length; i++ )
+          th= schema[i].title
+        th
+      tbody
+        - for (var row = 0; row < data.length; row++)
+          - var orderId = row
+          tr(data-orderID= orderId)
+            - for( var i = 0; i < schema.length; i++ )
+              td(data-ctrl= schema[i].ctrl)= data[row][i]
+            td
+              button.btn.btn-danger.ctrl-table
+                span.glyphicon.glyphicon-trash(aria-hidden='true')
+              button.btn.btn-warning.ctrl-table.edit(data-orderID= orderId, data-onEdit='0')
+                span.glyphicon.glyphicon-pencil(aria-hidden='true')
+    center
+      button#add.btn.btn-primary.ctrl
+        span.glyphicon.glyphicon-plus(aria-hidden='true')
