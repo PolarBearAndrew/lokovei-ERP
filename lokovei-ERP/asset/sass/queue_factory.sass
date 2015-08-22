@@ -1,24 +1,50 @@
 @import "compass/css3/flexbox"
+@import "compass/typography/lists/inline-list"
 
 .job
-  width: 200px
-  min-width: 200px
+  // float: left
+  width: 180px
+  min-width: 180px
   max-height: 230px
+  margin-right: 4px
+  &:last-child
+    margin-right: 12px
+  .toRight
+    margin-left: auto
+    // color: red
+
+
+.lineName
+  margin-right: 12px
 
 .day
-  height: 230px
+  float: left
   border-radius: 8px
-  padding-left: 22px
-  // padding-right: 22px
-  border: 1px solid #DEDEDE
-  width: 100%
-  overflow-x: scroll
+  // border: 1px solid #DEDEDE
+  background-color: #F5F5F5
+  margin-right: 12px
+
+.dayTitle
+  text-align: center
+
+//   // width: 100%
+.line
+  // width: 700px
+  // overflow-x: scroll
+  height: 230px
+  padding-left: 12px
+  // border: 1px solid red
   @include display-flex
   @include align-items(center)
+  // .thumbnail
+    // float: left
+    // margin-right: 12px
+
 
 .wrapper
-  width: 100%
+  width: 200000px
   padding-left: 32px
-  .thumbnail
-    float: left
-    margin-right: 12px
+
+.screen
+  width: 100%
+  overflow-x: scroll

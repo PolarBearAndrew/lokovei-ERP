@@ -18,14 +18,14 @@ html
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#') lokovei 內部訂單管理
+          a.navbar-brand(href='/order?page=queue_order') lokovei 內部訂單管理
         // Collect the nav links, forms, and other content for toggling
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav
-            li.active
-              a(href='#') 訂單佇列
             li
-              a(href='#') 產線佇列
+              a(href='/order?page=queue_order') 訂單佇列
+            li
+              a(href='/factory?page=queue_factory') 產線佇列
           //- form.navbar-form.navbar-left(role='search')
           //-   .form-group
           //-     input.form-control(type='text', placeholder='Search')

@@ -2,18 +2,34 @@ extends layout
 
 block content
   link(rel="stylesheet", href="stylesheets/queue_factory.css")
-  .wrapper
-    - for( var line = 0; line < 5; line++ )
+  .screen
+    .wrapper
+      - var lineCount = 10
       .day
-        .thumbnail.job
-          h4 產線1
-        - for( var job = 0; job < 10; job++ )
-          .thumbnail.job
-            p CHT-013-BO002
-            p Lokovei SR-800-寶馬棕
-            p 數量 3
-            p
-              label.label.label-warning 尚未檢驗
-            p
-              | 備註：
-              | 鎳氫電池改為離電池，並且加上懸掛系統
+        - for( var line = 0; line < lineCount; line++ )
+          - if( line == 0 )
+            .thumbnail.dayTitle
+              h4 產線訂單佇列表
+          .line
+            .thumbnail.lineName
+              h3= '產線編號' + ( line + 1 )
+              p 產線資訊(1)
+              p 產線資訊(2)
+              p 產線資訊(3)
+      - for( var day = 0; day < 5; day++ )
+        .day
+          - for( var line = 0; line < lineCount; line++ )
+            - if( line == 0 )
+              .thumbnail.dayTitle
+                h4 2015/8/20 (四)
+            .line
+              - for( var job = 0; job < 3; job++ )
+                .thumbnail.job
+                  h5 CHT-013-BO002
+                  h5 Lokovei SR-800-寶馬棕
+                  p 數量 3
+                  p
+                    label.label.label-warning 尚未檢驗
+                  p
+                    | 備註：
+                    | 鎳氫電池改為離電池，並且加上懸掛系統

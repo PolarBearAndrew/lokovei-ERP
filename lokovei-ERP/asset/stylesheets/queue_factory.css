@@ -1,31 +1,55 @@
-/* line 3, ../sass/queue_factory.sass */
+/* line 4, ../sass/queue_factory.sass */
 .job {
-  width: 200px;
-  min-width: 200px;
+  width: 180px;
+  min-width: 180px;
   max-height: 230px;
+  margin-right: 4px;
+}
+/* line 10, ../sass/queue_factory.sass */
+.job:last-child {
+  margin-right: 12px;
+}
+/* line 12, ../sass/queue_factory.sass */
+.job .toRight {
+  margin-left: auto;
 }
 
-/* line 8, ../sass/queue_factory.sass */
+/* line 17, ../sass/queue_factory.sass */
+.lineName {
+  margin-right: 12px;
+}
+
+/* line 20, ../sass/queue_factory.sass */
 .day {
-  height: 230px;
+  float: left;
   border-radius: 8px;
-  padding-left: 22px;
-  border: 1px solid #DEDEDE;
-  width: 100%;
-  overflow-x: scroll;
+  background-color: #F5F5F5;
+  margin-right: 12px;
+}
+
+/* line 27, ../sass/queue_factory.sass */
+.dayTitle {
+  text-align: center;
+}
+
+/* line 31, ../sass/queue_factory.sass */
+.line {
+  height: 230px;
+  padding-left: 12px;
   display: -webkit-flex;
   display: flex;
   -webkit-align-items: center;
   align-items: center;
 }
 
-/* line 19, ../sass/queue_factory.sass */
+/* line 44, ../sass/queue_factory.sass */
 .wrapper {
-  width: 100%;
+  width: 200000px;
   padding-left: 32px;
 }
-/* line 22, ../sass/queue_factory.sass */
-.wrapper .thumbnail {
-  float: left;
-  margin-right: 12px;
+
+/* line 48, ../sass/queue_factory.sass */
+.screen {
+  width: 100%;
+  overflow-x: scroll;
 }
