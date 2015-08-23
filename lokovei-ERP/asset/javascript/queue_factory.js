@@ -1,5 +1,9 @@
 $(document).ready(function(){
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+  console.log('init factory')
+
+  $('.job-info').popover()
+
+  $('#myPopover').on('hidden.bs.popover', function () {
+    // do something…
   })
 });

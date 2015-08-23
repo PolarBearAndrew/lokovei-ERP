@@ -1,0 +1,97 @@
+extends layout
+
+block content
+  link(rel="stylesheet", href="/stylesheets/print_order.css")
+  .print
+    center
+      h1 可愛馬電行車品質檢驗單
+    table.table.table-bordered
+      thead
+        tr
+          th(style="width: 70px") 序號
+          th(style="width: 100px") 零件名稱
+          th 品質指標
+          th(style="width: 200px") 檢驗員
+      tbody
+        tr
+          td 1
+          td 煞車功能
+          td 抱剎、漲剎、鼓剎間隙應調整適宜，確認運行時要無雜音，制動性能良好，鬆剎後迅速復位。
+          td
+        tr
+          td 2
+          td 車頭
+          td 保證把立
+          td
+    br
+    br
+  .print
+    center
+      h1 可愛馬電行車出場檢驗隨車紀錄合格證
+    p 客戶名稱：
+    p.right= '合格標章 No.'
+    table.table.table-bordered
+      thead
+        tr
+          th(style="width: 70px") 序號
+          th(style="width: 300px") 紀錄名稱
+          th 品質紀錄
+      tbody
+        tr
+          td 1
+          td 車款 / 型號
+          td Polly / CHT-025
+        tr
+          td 2
+          td 車號 / 顏色
+          td LTTQ / 北菲棕
+        tr
+          td 3
+          td 馬達鋼印號
+          td 123
+        tr
+          td 4
+          td 馬達規格
+          td 500W
+        tr
+          td 5
+          td 控制器規格
+          td 48V
+        tr
+          td 6
+          td 電池規格
+          td
+        tr
+          td 7
+          td 車速數據
+          td 25km/hr
+        tr
+          td 8
+          td 欠壓保護值
+          td ok
+        tr
+          td 9
+          td 過流保護值
+          td ok
+        tr
+          td 10
+          td 斷電剎把手功能
+          td ok
+        tr
+          td 11
+          td 聲光系統功能
+          td ok
+        tr
+          td 12
+          td 霍爾調速功能
+          td ok
+        tr
+          td 13
+          td 絕緣電阻
+          td ok
+        tr
+          td 14
+          td 裝箱附件
+          td 電池、充電器、尾箱、菜籃
+    p 生產日期：2015/08/23
+    p.right= '出場檢驗員：'

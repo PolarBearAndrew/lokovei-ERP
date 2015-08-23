@@ -5,6 +5,7 @@ $(document).ready(function() {
   var customer = ['全馬', '竹輪', '立翔', '總太', '綠明'];
   var em = ['Andrew', 'Doro', 'Ray', 'Doro', 'Hsuan'];
   var product = ['CHT-013-BO002/Lokovei SR-800-寶馬棕', 'CHT-013-BO002/Lokovei SR-800-寶馬紅', 'CHT-013-BO002/Lokovei SR-800-寶馬藍', 'CHT-013-BO002/Lokovei SR-800-寶馬綠'];
+  var line = ['產線-新莊', '產線-南港', '產線-五股', '產線-社子', '產線-板橋'];
 
   $('html, body').on('click', '.edit', function(){
 
@@ -13,8 +14,8 @@ $(document).ready(function() {
     var icoSave = '<span aria-hidden="true" class="glyphicon glyphicon-floppy-open"></span>';
 
     // use controls list
-    var editInfo = ['none', 'customer', 'none', 'none', 'none', 'em', 'none', 'date', 'date', 'skip', 'skip',
-                    'none', 'product', 'num', 'none', 'text'];
+    // var editInfo = ['none', 'customer', 'none', 'none', 'none', 'em', 'none', 'date', 'date', 'skip', 'skip',
+    //                 'none', 'product', 'num', 'none', 'text'];
 
     // get info we need
     var id = $(this).attr('data-orderId');
@@ -84,6 +85,10 @@ $(document).ready(function() {
         show = buildSelector( product, value );
         break;
 
+      case 'line':
+        show = buildSelector( line, value );
+        break;
+
       case 'num':
         show = '<input type="number" class="form-control"  value="' + value + '" >';
         break;
@@ -118,6 +123,10 @@ $(document).ready(function() {
         break;
 
       case 'product':
+        show = $(obj).children('select').val();
+        break;
+
+      case 'line':
         show = $(obj).children('select').val();
         break;
 
@@ -167,7 +176,7 @@ $(document).ready(function() {
     $('.datepicker').datepicker({
         language: "zh-TW",
         format: 'yyyy/mm/dd',
-        startDate: '-3d',
+        startDate: '0d',
         orientation: "top rigth"
     })
   }

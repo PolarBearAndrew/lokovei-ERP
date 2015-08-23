@@ -151,7 +151,8 @@ $(document).ready(function() {
     };
 
     $('table#main tbody').append(row);
-    $('.edit')[].click();
+    var index = $('.edit').length - 1;
+    $( $('.edit')[index] ).click();
     return false
   });
 

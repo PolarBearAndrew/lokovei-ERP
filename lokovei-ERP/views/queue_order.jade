@@ -56,7 +56,7 @@ block content
                   span.glyphicon.glyphicon-trash(aria-hidden='true')
                 button.btn.btn-warning.ctrl.edit(data-orderID= orderId, data-onEdit='0')
                   span.glyphicon.glyphicon-pencil(aria-hidden='true')
-                button.btn.btn-primary.ctrl
+                a(href="/print/order/?id=" + orderId).btn.btn-primary.ctrl
                   span.glyphicon.glyphicon-print(aria-hidden='true')
                 button.btn.btn-success.ctrl(type='button', data-toggle='modal', data-target='#finishDialog')
                   span.glyphicon.glyphicon-ok(aria-hidden='true')
@@ -70,6 +70,7 @@ block content
               th 狀態
               th 備註
               th 排程時間
+              th 產線
           tbody
             tr
               td CHT-013-BO002
@@ -78,7 +79,8 @@ block content
               td
                 label.label.label-primary 檢驗完成
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
-              td(data-ctrl="date") 2015/8/27
+              td(data-ctrl="date") 2015/08/27
+              td(data-ctrl="line") 產線-五股
               //- td
               //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
               //-     span.glyphicon.glyphicon-trash(aria-hidden='true')
@@ -89,7 +91,8 @@ block content
               td
                 label.label.label-warning 尚未完成
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
-              td(data-ctrl="date") 2015/8/27
+              td(data-ctrl="date") 2015/08/27
+              td(data-ctrl="line") 產線-五股
               //- td
               //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
               //-     span.glyphicon.glyphicon-trash(aria-hidden='true')
@@ -101,7 +104,8 @@ block content
               td
                 label.label.label-danger 維修中
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
-              td(data-ctrl="date") 2015/8/27
+              td(data-ctrl="date") 2015/08/27
+              td(data-ctrl="line") 產線-五股
               //- td
               //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
                   span.glyphicon.glyphicon-trash(aria-hidden='true')

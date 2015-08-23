@@ -4,22 +4,23 @@
   min-width: 180px;
   max-height: 230px;
   margin-right: 4px;
+  cursor: -webkit-grab;
 }
-/* line 10, ../sass/queue_factory.sass */
+/* line 11, ../sass/queue_factory.sass */
 .job:last-child {
-  margin-right: 12px;
+  margin-right: 22px;
 }
-/* line 12, ../sass/queue_factory.sass */
+/* line 13, ../sass/queue_factory.sass */
 .job .toRight {
   margin-left: auto;
 }
 
-/* line 17, ../sass/queue_factory.sass */
+/* line 18, ../sass/queue_factory.sass */
 .lineName {
   margin-right: 12px;
 }
 
-/* line 20, ../sass/queue_factory.sass */
+/* line 21, ../sass/queue_factory.sass */
 .day {
   float: left;
   border-radius: 8px;
@@ -27,12 +28,12 @@
   margin-right: 12px;
 }
 
-/* line 27, ../sass/queue_factory.sass */
+/* line 28, ../sass/queue_factory.sass */
 .dayTitle {
   text-align: center;
 }
 
-/* line 31, ../sass/queue_factory.sass */
+/* line 32, ../sass/queue_factory.sass */
 .line {
   height: 230px;
   padding-left: 12px;
@@ -42,14 +43,22 @@
   align-items: center;
 }
 
-/* line 44, ../sass/queue_factory.sass */
+/* line 45, ../sass/queue_factory.sass */
 .wrapper {
   width: 200000px;
   padding-left: 32px;
 }
 
-/* line 48, ../sass/queue_factory.sass */
+/* line 49, ../sass/queue_factory.sass */
 .screen {
   width: 100%;
   overflow-x: scroll;
+}
+
+/* line 53, ../sass/queue_factory.sass */
+.info {
+  margin-right: 2px;
+  padding-right: 4px;
+  float: right;
+  cursor: help;
 }

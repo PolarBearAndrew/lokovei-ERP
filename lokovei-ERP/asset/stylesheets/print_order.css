@@ -1,0 +1,21 @@
+/* line 1, ../sass/print_order.sass */
+.print {
+  width: 21cm;
+  margin: 0 auto;
+  height: 29.7cm;
+}
+
+/* line 6, ../sass/print_order.sass */
+p {
+  font-size: 1.3em;
+  font-weight: bolder;
+}
+
+/* line 9, ../sass/print_order.sass */
+.right {
+  margin-top: -34px;
+  font-size: 1.3em;
+  font-weight: bolder;
+  float: right;
+  margin-right: 200px;
+}

@@ -91,5 +91,11 @@ router.get('/crud/:part', function(req, res, next) {
   res.render('crud', { schema: schema, data: data });
 });
 
+router.get('/print/order', function(req, res, next) {
+
+  let data = {};
+
+  res.render('print_order', data);
+});
 
 module.exports = router;
