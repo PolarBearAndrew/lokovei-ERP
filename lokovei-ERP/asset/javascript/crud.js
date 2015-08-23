@@ -151,6 +151,7 @@ $(document).ready(function() {
     };
 
     $('table#main tbody').append(row);
+    $('.edit')[].click();
     return false
   });
 

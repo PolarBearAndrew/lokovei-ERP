@@ -63,7 +63,8 @@ $(document).ready(function() {
 
     var show;
 
-    value = value.replace(/ /g, '');
+    if(value === ' ')
+      value = '';
 
     switch(ctrl){
 
@@ -150,7 +151,8 @@ $(document).ready(function() {
     var tmp = '';
 
     for (var i = 0; i < arr.length; i++) {
-      if( arr[i] !== selected )
+
+      if( arr[i].indexOf(selected) == -1 )
         tmp += option.replace( /@val/g, arr[i] );
       else
         tmp += optionChecked.replace( /@val/g, arr[i] );
@@ -182,7 +184,7 @@ $(document).ready(function() {
 
     for (var i = 0; i < arr.length ; i++) {
 
-      if( i == 2){
+      if( arr[i].indexOf('num')){
         row += '<td data-ctrl="num">0</td>';
         continue;
       }
@@ -196,10 +198,32 @@ $(document).ready(function() {
       row += td;
     };
 
+    // 尋找正確的 table body 插入資料
     $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody').append(row);
-    console.log($('button[data-orderId=' + $(this).attr('data-id')  + ']'))
-    $('button[data-orderId=' + $(this).attr('data-id') + ']').click();
+    $('button[data-orderId=' + $(this).attr('data-id') + ']').click(); //啟動 edit 模式
     return false
+  });
+
+  $('html, body').on('click', '#addorder', function(){
+
+    var id = $('.order-wrapper').length;
+    var order = '<div data-orderID="0" class="order-wrapper"> <div class="table-wrapper"> <table class="table"> <thead> <tr> <th>訂單編號</th> <th>經銷商</th> <th>經銷商地址</th> <th>聯絡電話</th> <th>採購人員</th> <th>接單人員</th> <th>數量合計</th> <th>訂購日期</th> <th>出車日期</th> <th>狀態</th> <th></th> </tr> </thead> <tbody> <tr> <td>@id</td> <td data-ctrl="customer" style="width: 100px"> </td> <td> </td> <td> </td> <td> </td> <td data-ctrl="em" style="width: 120px"> </td> <td data-ctrl="num"> </td> <td data-ctrl="date" style="width: 150px"> </td> <td data-ctrl="date" style="width: 150px"> </td> <td> <button class="btn btn-success">已出貨</button> </td> <td> <button type="button" data-toggle="modal" data-target="#delDialog" class="btn btn-danger ctrl"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button> <button data-orderID="0" data-onEdit="0" class="btn btn-warning ctrl edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button> <button class="btn btn-primary ctrl"><span aria-hidden="true" class="glyphicon glyphicon-print"></span></button> <button type="button" data-toggle="modal" data-target="#finishDialog" class="btn btn-success ctrl"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span></button> </td> </tr> </tbody> </table> </div> <div data-id="0" class="table-wrapper-item"> <table class="table table-hover"> <thead> <tr> <th>產品編號</th> <th>品名規格</th> <th>數量</th> <th>狀態</th> <th>備註</th> <th>排程時間</th> </tr> </thead> <tbody> <tr> <td>CHT-013-BO002</td> <td data-ctrl="product" style="width: 300px">Lokovei SR-800-寶馬棕</td> <td data-ctrl="num">1</td> <td> <label class="label label-warning">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="date"> </td> </tr> </tbody> </table> <button data-id="0" class="btn btn-info ctrl addItem"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span> 訂單增補</button> </div> </div>'
+    order = order.replace(/@id/, id);
+
+    $(order).insertBefore($('div.order-wrapper')[0]);
+
+    //set id
+    $( $('.order-wrapper')[0] ).attr('data-orderid', id);
+    $( $('.order-wrapper .edit')[0] ).attr('data-orderid', id);
+    // $( $('.order-wrapper')[0] ).children('td').text(' ');
+
+    var btn = $('.order-wrapper .edit')[0];
+    $(btn).click();
+
+    console.log( btn );
+    // .click();
+
+    return false;
   });
 
 });//  end doc reade
