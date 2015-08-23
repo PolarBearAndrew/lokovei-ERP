@@ -87,14 +87,17 @@ $(document).ready(function() {
         break;
 
       case 'auth':
-        show = $(obj).children('select').val() || ' ';
+        show = $(obj).children('select').val();
         break;
 
       case 'text':
         //console.log('show', show);
-        show = $(obj).children('input').val() || ' ';
+        show = $(obj).children('input').val();
         break;
     }
+
+    show = show || ' ';
+
     return show;
   }
 

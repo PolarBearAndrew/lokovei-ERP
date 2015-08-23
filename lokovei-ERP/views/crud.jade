@@ -16,10 +16,24 @@ block content
             - for( var i = 0; i < schema.length; i++ )
               td(data-ctrl= schema[i].ctrl)= data[row][i]
             td
-              button.btn.btn-danger.ctrl-table
+              button.btn.btn-danger.ctrl-table(type='button', data-toggle='modal', data-target='#delDialog')
                 span.glyphicon.glyphicon-trash(aria-hidden='true')
               button.btn.btn-warning.ctrl-table.edit(data-orderID= orderId, data-onEdit='0')
                 span.glyphicon.glyphicon-pencil(aria-hidden='true')
     center
-      button#add.btn.btn-primary.ctrl
+      button#add.btn.btn-success.ctrl
         span.glyphicon.glyphicon-plus(aria-hidden='true')
+  #delDialog.modal.fade
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') ×
+            span.sr-only Close
+          h4.modal-title 提醒您
+        .modal-body
+          p 是否要刪除該筆訂單?
+          P 刪除後員工將無法預覽。
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') 取消
+          button.btn.btn-danger(type='button') 刪除

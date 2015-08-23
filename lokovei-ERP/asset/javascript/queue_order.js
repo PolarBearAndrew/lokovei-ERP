@@ -63,6 +63,8 @@ $(document).ready(function() {
 
     var show;
 
+    value = value.replace(/ /g, '');
+
     switch(ctrl){
 
       case 'none':
@@ -79,6 +81,10 @@ $(document).ready(function() {
 
       case 'product':
         show = buildSelector( product, value );
+        break;
+
+      case 'num':
+        show = '<input type="number" class="form-control"  value="' + value + '" >';
         break;
 
       case 'date':
@@ -114,6 +120,10 @@ $(document).ready(function() {
         show = $(obj).children('select').val();
         break;
 
+      case 'num':
+        show = $(obj).children('input').val();
+        break;
+
       case 'date':
         //console.log('show', show);
         show = $(obj).children('input').val();
@@ -124,6 +134,9 @@ $(document).ready(function() {
         show = $(obj).children('input').val();
         break;
     }
+
+    show = show || ' ';
+
     return show;
   }
 
@@ -157,9 +170,37 @@ $(document).ready(function() {
     })
   }
 
-  //  $('#sandbox-container .input-group.date').datepicker({});
 
-  //  $('#sandbox-container input').datepicker({});
+  // add item
+  $('html, body').on('click', '.addItem', function(){
+
+
+    var id = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr').length + 1;
+    var arr = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr:first-child td');
+    var row = '<tr>';
+
+
+    for (var i = 0; i < arr.length ; i++) {
+
+      if( i == 2){
+        row += '<td data-ctrl="num">0</td>';
+        continue;
+      }
+
+      var td = '<td @attr></td>'
+      var ctrl = $(arr[i]).attr('data-ctrl');
+
+      if(ctrl) td = td.replace(/@attr/g, 'data-ctrl="' + ctrl + '"')
+      else td = td.replace(/@attr/g,'')
+
+      row += td;
+    };
+
+    $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody').append(row);
+    console.log($('button[data-orderId=' + $(this).attr('data-id')  + ']'))
+    $('button[data-orderId=' + $(this).attr('data-id') + ']').click();
+    return false
+  });
 
 });//  end doc reade
 

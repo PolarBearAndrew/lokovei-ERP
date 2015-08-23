@@ -25,3 +25,8 @@
   float: right;
   width: 150px;
 }
+
+/* line 22, ../sass/queue_order.sass */
+input[type="number"] {
+  width: 60px;
+}

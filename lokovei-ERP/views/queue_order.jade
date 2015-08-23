@@ -60,7 +60,7 @@ block content
                   span.glyphicon.glyphicon-print(aria-hidden='true')
                 button.btn.btn-success.ctrl(type='button', data-toggle='modal', data-target='#finishDialog')
                   span.glyphicon.glyphicon-ok(aria-hidden='true')
-      .table-wrapper-item
+      .table-wrapper-item(data-id=orderId)
         table.table.table-hover
           thead
             tr
@@ -79,6 +79,9 @@ block content
                 label.label.label-primary 檢驗完成
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
               td(data-ctrl="date") 2015/8/27
+              //- td
+              //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
+              //-     span.glyphicon.glyphicon-trash(aria-hidden='true')
             tr
               td CHT-013-BO002
               td(data-ctrl="product"  style='width: 300px') Lokovei SR-800-寶馬棕
@@ -87,6 +90,10 @@ block content
                 label.label.label-warning 尚未完成
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
               td(data-ctrl="date") 2015/8/27
+              //- td
+              //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
+              //-     span.glyphicon.glyphicon-trash(aria-hidden='true')
+
             tr
               td CHT-013-BO002
               td(data-ctrl="product"  style='width: 300px') Lokovei SR-800-寶馬棕
@@ -95,6 +102,14 @@ block content
                 label.label.label-danger 維修中
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
               td(data-ctrl="date") 2015/8/27
+              //- td
+              //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
+                  span.glyphicon.glyphicon-trash(aria-hidden='true')
+        button.btn.btn-info.ctrl.addItem(data-id=orderId)
+          span.glyphicon.glyphicon-plus(aria-hidden='true')
+          |     訂單增補
+
+  //- Dialog
   #delDialog.modal.fade
     .modal-dialog.modal-sm
       .modal-content
