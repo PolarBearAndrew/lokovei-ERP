@@ -3,6 +3,8 @@ extends layout
 block content
   link(rel="stylesheet", href="/stylesheets/crud.css")
   script(src="/javascript/crud.js")
+  #api.hidden user
+  //- #target.hidden null
   .wrapper
     table#main.table.table-hover
       thead
@@ -14,9 +16,10 @@ block content
           - var orderId = row
           tr(data-orderID= orderId)
             - for( var i = 0; i < schema.length; i++ )
-              td(data-ctrl= schema[i].ctrl)= data[row][i]
+              td(data-ctrl= schema[i].ctrl , data-schema= schema[i].schema)= data[row][i]
             td
-              button.btn.btn-danger.ctrl-table(type='button', data-toggle='modal', data-target='#delDialog')
+              //- , data-toggle='modal', data-target='#delDialog'
+              button#preDelete.btn.btn-danger.ctrl-table(type='button', data-orderID= orderId)
                 span.glyphicon.glyphicon-trash(aria-hidden='true')
               button.btn.btn-warning.ctrl-table.edit(data-orderID= orderId, data-onEdit='0')
                 span.glyphicon.glyphicon-pencil(aria-hidden='true')
@@ -32,8 +35,7 @@ block content
             span.sr-only Close
           h4.modal-title 提醒您
         .modal-body
-          p 是否要刪除該筆訂單?
-          P 刪除後員工將無法預覽。
+          p 是否要刪除該筆資料?
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') 取消
-          button.btn.btn-danger(type='button') 刪除
+          button#delete.btn.btn-danger(type='button') 刪除

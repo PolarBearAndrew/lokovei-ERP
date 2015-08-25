@@ -5,7 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+var user     = require('./routes/user');
+var routes   = require('./routes/index');
 
 var app = express();
 
@@ -21,7 +22,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'asset')));
 
+
+//set haeder
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    next();
+});
+
+
 app.use('/', routes);
+app.use('/user', user);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

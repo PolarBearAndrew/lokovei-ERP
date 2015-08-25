@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
+
   // edit tables=======================
+  var apiUrl = 'http://localhost:8080/' + $('#api').text() + '/'
 
   var auth = ['員工', '主管']
 
@@ -20,15 +22,35 @@ $(document).ready(function() {
       // chage btn icon
       $(this).empty().append(icoEdit);
 
+      var data = {};
+
+      data.uid = id;
+
       // loop to read each <td>
       for (var i = 0; i < arr.length; i++) {
-        var show = controlsValue( $(arr[i]).attr('data-ctrl'), arr[i] );
+        var show = controlsValue( $(arr[i]).attr('data-ctrl'), arr[i] ); //use data-ctrl to get vaule
+        data[ $(arr[i]).attr('data-schema') ] = show;                      //use data-shema to set json
         if(show) $(arr[i]).empty().append( show );
       };
 
-      //  !!!
-      // need ajax save api
-      //  !!!
+      // ajax save api
+      console.log('data', data);
+
+      $.ajax({
+
+        type: 'PUT',
+        url: apiUrl,
+        data: data,
+
+        success: function( result ){
+          console.log('資料更新成功', result);
+        },
+
+        error: function( err ){
+          console.log('新增資料失敗', err);
+        }
+
+      });
 
     // going to edit
     }else{
@@ -123,39 +145,99 @@ $(document).ready(function() {
 
   // end edit table
   // ===========================
-  //
 
+
+  // on add
   $('html, body').on('click', '#add', function(){
 
-    var id = $('table#main tbody tr').length + 1;
+    var id = '', row = '';
+    // var id = $('table#main tbody tr').length + 1;
     var arr = $('table#main tbody tr:first-child td');
-    var row = '<tr data-orderid="' + id +'">';
+    // var row = '<tr data-orderid="' + id +'">';
 
+    // create
+    $.ajax({
 
+      type: 'POST',
+      url: apiUrl,
 
-    for (var i = 0; i < arr.length ; i++) {
+      success: function( result ){
+        id = result._id;
+        row = '<tr data-orderid="' + id +'">';
+        todo();
+        console.log('新增資料成功', result);
+      },
 
-      if( i == arr.length - 1){
-
-        row += '<td><button class="btn btn-danger ctrl-table"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button><button data-orderid="@id" data-onedit="0" class="btn btn-warning ctrl-table edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button></td></tr>'.replace(/@id/g, id);
-        break;
+      error: function( err ){
+        console.log('新增資料失敗', err);
       }
 
-      var td = '<td @attr></td>'
-      var ctrl = $(arr[i]).attr('data-ctrl');
+    });
 
-      if(ctrl) td = td.replace(/@attr/g, 'data-ctrl="' + ctrl + '"')
-      else td = td.replace(/@attr/g,'')
+    function todo(){
 
-      row += td;
-    };
+      for (var i = 0; i < arr.length ; i++) {
 
-    $('table#main tbody').append(row);
-    var index = $('.edit').length - 1;
-    $( $('.edit')[index] ).click();
+        if( i == arr.length - 1){
+
+          row += '<td><button id="preDelete" data-orderId="@id" class="btn btn-danger ctrl-table"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button><button data-orderid="@id" data-onedit="0" class="btn btn-warning ctrl-table edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button></td></tr>'.replace(/@id/g, id);
+          break;
+        }
+
+        var td = '<td @attr @schema></td>'
+        var ctrl = $(arr[i]).attr('data-ctrl');
+
+        if(ctrl) td = td.replace(/@attr/g, 'data-ctrl="' + ctrl + '"')
+        else td = td.replace(/@attr/g,'')
+
+        var schema = $(arr[i]).attr('data-schema');
+        if(schema) td = td.replace(/@schema/g, 'data-schema="' + schema + '"')
+        else td = td.replace(/@schema/g,'')
+
+
+        row += td;
+      };
+
+      $('table#main tbody').append(row);
+      var index = $('.edit').length - 1;
+      $( $('.edit')[index] ).click();
+
+    }
     return false
   });
 
+  var target = '';
+
+  $('html, body').on('click', '#preDelete', function(){
+    target = $(this).attr('data-orderId');
+    //確保 del dialog
+    $('#delDialog').modal({})
+  });
+
+  // 刪除資料
+  $('html, body').on('click', '#delete', function(){
+
+    console.log('target', target);
+
+    $.ajax({
+
+      type: 'DELETE',
+      url: apiUrl,
+      data: { uid: target },
+      success: function( result ){
+        $('tr[data-orderId="' + target + '"]').remove();
+        $('#delDialog').modal('toggle')
+        // console.log('刪除資料成功', result);
+      },
+
+      error: function( err ){
+        console.log('刪除資料失敗', err);
+      }
+
+    });
+
+    return false;
+  });
 });//  end doc reade
 
 
