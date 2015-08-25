@@ -239,13 +239,3 @@ $(document).ready(function() {
     return false;
   });
 });//  end doc reade
-
-
-
-
-
-
-
-
-
-

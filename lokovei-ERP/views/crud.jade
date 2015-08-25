@@ -3,7 +3,7 @@ extends layout
 block content
   link(rel="stylesheet", href="/stylesheets/crud.css")
   script(src="/javascript/crud.js")
-  #api.hidden user
+  #api.hidden= apiUrl
   //- #target.hidden null
   .wrapper
     table#main.table.table-hover
@@ -13,7 +13,7 @@ block content
         th
       tbody
         - for (var row = 0; row < data.length; row++)
-          - var orderId = row
+          - var orderId = data[row][schema.length]
           tr(data-orderID= orderId)
             - for( var i = 0; i < schema.length; i++ )
               td(data-ctrl= schema[i].ctrl , data-schema= schema[i].schema)= data[row][i]

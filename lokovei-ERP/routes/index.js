@@ -1,6 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+let User      = require('../models/user.js');
+let Line      = require('../models/line.js');
+let Product   = require('../models/product.js');
+let Customeer = require('../models/customer.js');
+
+let debug   = require('debug')('API:route');
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index');
@@ -22,53 +30,127 @@ router.get('/crud/:part', function(req, res, next) {
 
     case 'customer':
       schema = [
-        { title: '經銷商名稱', ctrl: 'text' },
-        { title: '經銷商地址', ctrl: 'text' },
-        { title: '聯絡電話', ctrl: 'text' },
-        { title: '採購人員', ctrl: 'text' }
+        { title: '經銷商名稱', ctrl: 'text', schema: 'name' },
+        { title: '經銷商地址', ctrl: 'text', schema: 'address' },
+        { title: '聯絡電話', ctrl: 'text', schema: 'phone' },
+        { title: '採購人員', ctrl: 'text', schema: 'who' }
       ];
 
-      data = [
-        [ '永輝', '台北市新生南路1段199巷10-1號4樓', '0930-014-167', '陳老闆'],
-        [ '全馬', '台北市新生南路1段199巷10-1號4樓', '0930-014-167', '雷老闆'],
-        [ '竹輪', '台北市新生南路1段199巷10-1號4樓', '0930-014-167', '洪老闆'],
-        [ '立翔', '台北市新生南路1段199巷10-1號4樓', '0930-014-167', '王老闆'],
-        [ '總太', '台北市新生南路1段199巷10-1號4樓', '0930-014-167', '謝老闆'],
-      ]
+      let initCustomer = [{
+        _id: '0',
+        name: '系統初始化機器人經銷商',
+        address: '機器工廠',
+        phone: '0930-013-167',
+        who: '瓦力'
+      }]
+
+      Customeer.find()
+               .execAsync()
+               .then( result => {
+                  if(result.length === 0) result = initCustomer;
+
+                  result = result.map( val => {
+
+                    let tmp = [];
+                    tmp.push(val.name);
+                    tmp.push(val.address);
+                    tmp.push(val.phone);
+                    tmp.push(val.who);
+                    tmp.push(val._id.toString());
+
+                    return tmp;
+                  });
+
+                  res.render('crud', { schema: schema, data: result, apiUrl: 'customer' });
+                  debug('載入經銷商資料成功', result);
+                })
+                .catch( err => {
+                  debug('載入經銷商資料失敗', err);
+                  next(err);
+                });
       break;
 
+
+    // 產品編輯頁面
     case 'product':
       schema = [
-        { title: '產品編號', ctrl: 'text' },
-        { title: '品項規格', ctrl: 'text' },
+        { title: '產品編號', ctrl: 'text', schema: 'pid' },
+        { title: '品項規格', ctrl: 'text', schema: 'spec' },
       ];
 
-      data = [
-        [ 'CHT-013-BO002', 'Lokovei SR-800-寶馬棕'],
-        [ 'CHT-013-BO002', 'Lokovei SR-800-寶馬藍'],
-        [ 'CHT-013-BO002', 'Lokovei SR-800-寶馬綠'],
-        [ 'CHT-013-BO002', 'Lokovei SR-800-寶馬黑'],
-        [ 'CHT-013-BO002', 'Lokovei SR-800-寶馬金'],
-      ];
+      let initPorduct = [{
+        _id: '0',
+        pid: '系統初始化 CHT-013-BO002 零件',
+        spec: '傘狀輪軸系統 - 寶藍色'
+      }]
+
+        Product.find()
+               .execAsync()
+               .then( result => {
+                  if(result.length === 0) result = initPorduct;
+
+                  result = result.map( val => {
+
+                    let tmp = [];
+                    tmp.push(val.pid);
+                    tmp.push(val.spec);
+                    tmp.push(val._id.toString());
+
+                    return tmp;
+                  });
+
+                  res.render('crud', { schema: schema, data: result, apiUrl: 'product' });
+                  debug('載入產品資料成功', result);
+                })
+                .catch( err => {
+                  debug('載入產品資料失敗', err);
+                  next(err);
+                });
       break;
 
     case 'line':
       schema = [
-        { title: '產線編號', ctrl: 'text' },
-        { title: '負責人', ctrl: 'text' },
-        { title: '聯絡方式', ctrl: 'text' },
-        { title: '備註', ctrl: 'text' } //authorization
+        { title: '產線名稱', ctrl: 'text', schema: 'name' },
+        { title: '負責人', ctrl: 'text', schema: 'who' },
+        { title: '聯絡方式', ctrl: 'text', schema: 'phone' },
+        { title: '備註', ctrl: 'text', schema: 'note' } //authorization
       ];
 
-      data = [
-        [ '產線-林口', 'Andrew', '0930-014-167', '無'],
-        [ '產線-大安', 'Srt', '0930-014-167', '無'],
-        [ '產線-五股', 'Doro', '0930-014-167', '無'],
-        [ '產線-逢甲', 'Ray', '0930-014-167', '無'],
-        [ '產線-鳳山', 'Hsuan', '0930-014-167', '無'],
-      ];
+      let initLine = [{
+        _id: '0',
+        name: '系統初始化機器人工廠',
+        who: '瓦力',
+        phone: '0930-013-167',
+        note: '很冷',
+      }]
+
+       Line.find()
+           .execAsync()
+           .then( result => {
+              if(result.length === 0) result = initLine;
+
+              result = result.map( val => {
+
+                let tmp = [];
+                tmp.push(val.name);
+                tmp.push(val.who);
+                tmp.push(val.phone);
+                tmp.push(val.note);
+                tmp.push(val._id.toString());
+
+                return tmp;
+              });
+
+              res.render('crud', { schema: schema, data: result, apiUrl: 'line' });
+              debug('載入經產線資料成功', result);
+            })
+            .catch( err => {
+              debug('載入經產線資料失敗', err);
+              next(err);
+            });
       break;
 
+    // 帳密管理頁面
     case 'account':
       schema = [
         { title: '使用者姓名', ctrl: 'text', schema: 'name' },
@@ -77,18 +159,44 @@ router.get('/crud/:part', function(req, res, next) {
         { title: '權限等級', ctrl: 'auth', schema: 'auth' } //authorization
       ];
 
-      data = [
-        [ '陳柏安', 'Andrew', '123', '員工',],
-        [ '蔡政欽', 'Srt', '123', '員工',],
-        [ '洪于雅', 'Doro', '123', '員工',],
-        [ '雷尚樺', 'Ray', '123', '員工',],
-        [ '陳思璇', 'Hsuan', '123', '員工',],
-      ];
+      let initUser = [{
+        _id: '0',
+        name: '系統初始化機器人',
+        account: 'admin',
+        pwd: 'admin',
+        auth: '主管'
+      }]
+
+      User.find()
+          .execAsync()
+          .then( result => {
+
+            if(result.length === 0) result = initUser;
+
+            result = result.map( val => {
+
+              let tmp = [];
+              tmp.push(val.name);
+              tmp.push(val.account);
+              tmp.push(val.pwd);
+              tmp.push(val.auth);
+              tmp.push(val._id.toString());
+
+              return tmp;
+            });
+
+            res.render('crud', { schema: schema, data: result, apiUrl: 'user' });
+            debug('載入使用者資料成功', result);
+          })
+          .catch( err => {
+            debug('載入使用者資料失敗', err);
+            next(err);
+          });
       break;
   }
 
 
-  res.render('crud', { schema: schema, data: data });
+  // res.render('crud', { schema: schema, data: data });
 });
 
 router.get('/print/order', function(req, res, next) {
