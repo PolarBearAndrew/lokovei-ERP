@@ -64,8 +64,7 @@ block content
         table.table.table-hover
           thead
             tr
-              th 產品編號
-              th 品名規格
+              th 產品編號/規格
               th 數量
               th 狀態
               th 備註
@@ -73,10 +72,9 @@ block content
               th 產線
           tbody
             tr
-              td CHT-013-BO002
-              td(data-ctrl="product"  style='width: 300px') Lokovei SR-800-寶馬棕
+              td(data-ctrl="product"  style='width: 300px') CHT-013-BO002/ Lokovei SR-800-寶馬棕
               td(data-ctrl="num") 3
-              td
+              td(data-status="yes")
                 label.label.label-primary 檢驗完成
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
               td(data-ctrl="date") 2015/08/27
@@ -85,10 +83,9 @@ block content
               //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
               //-     span.glyphicon.glyphicon-trash(aria-hidden='true')
             tr
-              td CHT-013-BO002
-              td(data-ctrl="product"  style='width: 300px') Lokovei SR-800-寶馬棕
+              td(data-ctrl="product"  style='width: 300px') CHT-013-BO002/ Lokovei SR-800-寶馬棕
               td(data-ctrl="num") 3
-              td
+              td(data-status="no")
                 label.label.label-warning 尚未完成
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
               td(data-ctrl="date") 2015/08/27
@@ -98,10 +95,9 @@ block content
               //-     span.glyphicon.glyphicon-trash(aria-hidden='true')
 
             tr
-              td CHT-013-BO002
-              td(data-ctrl="product"  style='width: 300px') Lokovei SR-800-寶馬棕
+              td(data-ctrl="product"  style='width: 300px') CHT-013-BO002/ Lokovei SR-800-寶馬棕
               td(data-ctrl="num") 3
-              td
+              td(data-status="fix")
                 label.label.label-danger 維修中
               td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
               td(data-ctrl="date") 2015/08/27

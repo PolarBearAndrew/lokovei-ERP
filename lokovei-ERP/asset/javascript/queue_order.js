@@ -35,9 +35,43 @@ $(document).ready(function() {
         if(show) $(arr[i]).empty().append( show );
       };
 
-      //  !!!
-      // ajax save
-      //  !!!
+      //  save job
+      var oid = id;
+      var jobs = $('.order-wrapper[data-orderId="' + id + '"] tr[data-job]');
+
+      var uids = [];
+
+      for (var i = jobs.length - 1; i >= 0; i--) {
+
+        var tmp = $(jobs[i]).children('td[data-ctrl]');
+
+        var data = {};
+
+        uids.push(uid);
+        data.uid = $(jobs[i]).attr('data-job');
+        data.oid = oid;
+        data.pid = $(tmp[0]).text();
+        data.pSpec = $(tmp[0]).text();
+        data.count = $(tmp[1]).text();
+        data.note = $(tmp[2]).text();
+        data.todoTime = $(tmp[3]).text();
+        data.line = $(tmp[4]).text();
+
+        $.ajax({
+          url: url + '/',
+          type: 'PUT',
+          data: data,
+          success: function(result){
+            console.log('更新job資料成功', result);
+          },
+          error: function(err){
+            console.log('更新job資料失敗',err)
+          }
+        })
+      };
+
+      //save order
+
 
     // going to edit
     }else{
@@ -214,8 +248,6 @@ $(document).ready(function() {
       // var id = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr').length + 1;
       var arr = $('.table-wrapper-item[data-id=' + dataId + '] tbody tr:first-child td');
       var row = '<tr data-job="@jobId">';
-
-      console.log('arr', arr)
 
       for (var i = 0; i < arr.length ; i++) {
 
