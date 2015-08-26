@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes   = require('./routes/index');
 
+var job = require('./routes/job');
 var user     = require('./routes/user');
 var line     = require('./routes/line');
 var product  = require('./routes/product');
@@ -39,6 +40,7 @@ app.use(function(req, res, next) {
 
 app.use('/', routes);
 
+app.use('/job', job);
 app.use('/user', user);
 app.use('/line', line);
 app.use('/product', product);

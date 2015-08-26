@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon entry.js",
+    "start": "DEBUG=API:* nodemon entry.js",
     "test": "mocha"
   },
   "dependencies": {

@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  var url = 'http://localhost:8080/job';
+
   initDatePicker();
 
   var customer = ['全馬', '竹輪', '立翔', '總太', '綠明'];
@@ -34,7 +36,7 @@ $(document).ready(function() {
       };
 
       //  !!!
-      // need ajax save api
+      // ajax save
       //  !!!
 
     // going to edit
@@ -185,31 +187,58 @@ $(document).ready(function() {
   // add item
   $('html, body').on('click', '.addItem', function(){
 
+    var id = '';
+    var dataId = $(this).attr('data-id');
 
-    var id = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr').length + 1;
-    var arr = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr:first-child td');
-    var row = '<tr>';
+    // post add job
+    $.ajax({
+      url: url + '/',
+      type: 'POST',
+      success: function( reuslt ){
 
+        id = reuslt._id;
 
-    for (var i = 0; i < arr.length ; i++) {
+        todo();
+        // 尋找正確的 table body 插入資料
+        // $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody').append(row);
+        // $('button[data-orderId=' + $(this).attr('data-id') + ']').click(); //啟動 edit 模式
 
-      if( arr[i].indexOf('num')){
-        row += '<td data-ctrl="num">0</td>';
-        continue;
+      },
+      error: function( err ){
+        console.log('新增訂單項目錯誤', err)
       }
 
-      var td = '<td @attr></td>'
-      var ctrl = $(arr[i]).attr('data-ctrl');
+    });
 
-      if(ctrl) td = td.replace(/@attr/g, 'data-ctrl="' + ctrl + '"')
-      else td = td.replace(/@attr/g,'')
+    function todo () {
+      // var id = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr').length + 1;
+      var arr = $('.table-wrapper-item[data-id=' + dataId + '] tbody tr:first-child td');
+      var row = '<tr data-job="@jobId">';
 
-      row += td;
-    };
+      console.log('arr', arr)
 
-    // 尋找正確的 table body 插入資料
-    $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody').append(row);
-    $('button[data-orderId=' + $(this).attr('data-id') + ']').click(); //啟動 edit 模式
+      for (var i = 0; i < arr.length ; i++) {
+
+        // if( $(arr[i]).attr('data-ctrl').indexOf('num')){
+        //   row += '<td data-ctrl="num">0</td>';
+        //   continue;
+        // }
+
+        var td = '<td @attr></td>'
+        var ctrl = $(arr[i]).attr('data-ctrl');
+
+        if(ctrl) td = td.replace(/@attr/g, 'data-ctrl="' + ctrl + '"')
+        else td = td.replace(/@attr/g,'')
+
+        row += td;
+      };
+
+      row = row.replace(/@jobId/, id);
+      // 尋找正確的 table body 插入資料
+      $('.table-wrapper-item[data-id=' + dataId + '] tbody').append(row);
+      $('button[data-orderId=' + dataId + ']').click(); //啟動 edit 模式
+    }
+
     return false
   });
 
