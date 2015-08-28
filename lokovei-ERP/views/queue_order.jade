@@ -18,9 +18,11 @@ block content
         option(value="endTime") 出車日期
         option(value="customer") 經銷商名稱
 
-  - for( var i = 0 ; i < 3 ; i ++)
-    - var orderId = i
-    .order-wrapper(data-orderID= orderId )
+  - for( var i = 0 ; i < data.length ; i++)
+    - var order = data[i]
+    - var orderId = order.oid
+    - var uid = { 'data-uid': order._id.toString() };
+    .order-wrapper(data-orderID= orderId )&attributes(uid)
       .table-wrapper
         table.table
           thead
@@ -38,21 +40,21 @@ block content
               th
           tbody
             tr
-              td 101111212
-              td(data-ctrl="customer", style='width: 100px') 全馬
-              td 302 新竹縣竹北市中正東路61號
-              td 03-5513598
-              td 范老闆
-              td(data-ctrl='em', style='width: 120px') Andrew
-              td(data-ctrl="num") 25
-              td(data-ctrl='date', style='width: 150px') 2015/8/20
+              td= orderId
+              td(data-ctrl="customer", style='width: 100px')= order.cName
+              td= order.cAddress
+              td= order.cPhone
+              td= order.cWho
+              td(data-ctrl='em', style='width: 120px')= order.usWho
+              td(data-ctrl="num")= order.count
+              td(data-ctrl='date', style='width: 150px')= order.orderDate
                 //- input.datepicker(data-date-format='mm/dd/yyyy').form-control(type='text')
-              td(data-ctrl='date', style='width: 150px') 2015/8/31
+              td(data-ctrl='date', style='width: 150px')= order.outputDate
                 //- input.datepicker(data-date-format='mm/dd/yyyy').form-control(type='text')
               td
-                button.btn.btn-success 已出貨
+                button.btn.btn-success= order.status
               td
-                button#predelete.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
+                button.predelete.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog' )&attributes(uid)
                   span.glyphicon.glyphicon-trash(aria-hidden='true')
                 button.btn.btn-warning.ctrl.edit(data-orderID= orderId, data-onEdit='0')
                   span.glyphicon.glyphicon-pencil(aria-hidden='true')
@@ -71,40 +73,17 @@ block content
               th 排程時間
               th 產線
           tbody
-            tr
-              td(data-ctrl="product"  style='width: 300px') CHT-013-BO002/ Lokovei SR-800-寶馬棕
-              td(data-ctrl="num") 3
-              td(data-status="yes")
-                label.label.label-primary 檢驗完成
-              td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
-              td(data-ctrl="date") 2015/08/27
-              td(data-ctrl="line") 產線-五股
-              //- td
-              //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
-              //-     span.glyphicon.glyphicon-trash(aria-hidden='true')
-            tr
-              td(data-ctrl="product"  style='width: 300px') CHT-013-BO002/ Lokovei SR-800-寶馬棕
-              td(data-ctrl="num") 3
-              td(data-status="no")
-                label.label.label-warning 尚未完成
-              td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
-              td(data-ctrl="date") 2015/08/27
-              td(data-ctrl="line") 產線-五股
-              //- td
-              //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
-              //-     span.glyphicon.glyphicon-trash(aria-hidden='true')
+            - for( var j = 0 ; j < order.jobs.length ; j++)
+              - var job = order.jobs[j]
+              tr
+                td(data-ctrl="product"  style='width: 300px')= job.pid
+                td(data-ctrl="num")= job.count
+                td(data-status="yes")
+                  label.label.label-primary= job.status
+                td(data-ctrl="text")= job.note
+                td(data-ctrl="date")= job.todoTime
+                td(data-ctrl="line")= job.line
 
-            tr
-              td(data-ctrl="product"  style='width: 300px') CHT-013-BO002/ Lokovei SR-800-寶馬棕
-              td(data-ctrl="num") 3
-              td(data-status="fix")
-                label.label.label-danger 維修中
-              td(data-ctrl="text") 鎳氫電池改為離電池，並且加上懸掛系統
-              td(data-ctrl="date") 2015/08/27
-              td(data-ctrl="line") 產線-五股
-              //- td
-              //-   button.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog')
-                  span.glyphicon.glyphicon-trash(aria-hidden='true')
         button.btn.btn-info.ctrl.addItem(data-id=orderId)
           span.glyphicon.glyphicon-plus(aria-hidden='true')
           |     訂單增補

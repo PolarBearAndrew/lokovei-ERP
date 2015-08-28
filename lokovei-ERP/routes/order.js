@@ -70,7 +70,6 @@ router.put('/', (req, res, next) => {
 
     //db entity
     let info = {
-        oid: req.body.oid,
         cName: req.body.cName,
         cAddress: req.body.cAddress,
         cPhone: req.body.cPhone,
@@ -85,7 +84,7 @@ router.put('/', (req, res, next) => {
 
     //db operation
     Order.findOneAndUpdate({
-            _id: req.body.uid
+            oid: req.body.oid,
         }, info)
         .updateAsync()
         .then(result => {

@@ -6,7 +6,7 @@ $(document).ready(function() {
   initDatePicker();
 
   var customer = ['全馬', '竹輪', '立翔', '總太', '綠明'];
-  var em = ['Andrew', 'Doro', 'Ray', 'Doro', 'Hsuan'];
+  var em = ['Andrew', 'Ray', 'Doro', 'Hsuan'];
   var product = ['CHT-013-BO002/Lokovei SR-800-寶馬棕', 'CHT-013-BO002/Lokovei SR-800-寶馬紅', 'CHT-013-BO002/Lokovei SR-800-寶馬藍', 'CHT-013-BO002/Lokovei SR-800-寶馬綠'];
   var line = ['產線-新莊', '產線-南港', '產線-五股', '產線-社子', '產線-板橋'];
 
@@ -318,9 +318,9 @@ $(document).ready(function() {
   var target;
 
   $('html, body').on('click', '.predelete', function(){
-    target = $(this).attr('data-uid');
+    target = $(this).attr('data-uid').toString().replace(/"/g, '');
 
-    console.log($(this).attr('data-uid'))
+    // console.log($(this).attr('data-uid'))
     //確保 del dialog
     // $('#delDialog').modal({})
   });

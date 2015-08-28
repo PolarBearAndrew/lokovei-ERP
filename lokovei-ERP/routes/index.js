@@ -25,28 +25,25 @@ router.get('/order', function(req, res, next) {
        .execAsync()
        .then( result => {
 
-          var order = result;
-          var prom = [];
+        console.log('result', result);
 
-          for (var i = result.length - 1; i >= 0; i--) {
-            prom.push( Job.find().where('oid').equals(order.oid) );
-          };
+        Job.find()
+           .execAsync()
+           .then( jobs => {
+              let data = [];
 
-          Promise.all(prom)
-                 .then( result => {
-
-                    let data = [];
-                    data = result.map( ( val, index ) => {
-                      let ans = { ...order[index]._doc }
-                      ans.job = val;
-                      return ans;
-                    });
-                    console.log('data', data);
-                    res.render('queue_order', data);
-                 })
-                 .catch( err => {
-                    debug('讀取 job 資料錯誤' ,err);
-                 })
+              data = result.map( val => {
+                let tmp = { ...val._doc }
+                tmp.jobs = jobs.filter( job => {
+                  //console.log(val.oid, val.oid, job.oid.toString() == val.oid.toString() )
+                  return job.oid.toString() == val.oid.toString();
+                })
+                //console.log('tmp', tmp)
+                return tmp;
+              })
+              console.log('data',data)
+              res.render('queue_order', { data });
+           })
 
        })
        .catch( err => {
