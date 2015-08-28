@@ -1,8 +1,11 @@
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
+// var co = require('co');
 
+let Job      = require('../models/job.js');
 let User      = require('../models/user.js');
 let Line      = require('../models/line.js');
+let Order     = require('../models/order.js');
 let Product   = require('../models/product.js');
 let Customeer = require('../models/customer.js');
 
@@ -15,7 +18,44 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/order', function(req, res, next) {
-  res.render('queue_order');
+
+  let data = {};
+
+  Order.find()
+       .execAsync()
+       .then( result => {
+
+          var data = [];
+
+          for (var i = result.length - 1; i >= 0; i--) {
+
+            var order = result[i];
+
+            Job.find()
+               .where('oid').equals(order.oid)
+               .then( job => {
+                  let ans = { ...order._doc, job: job}
+                  ans.job = job;
+                  // console.log('job', job)
+                  data.push(ans);
+               })
+               .catch( err => {
+                  debug('讀取job資料錯誤', err);
+               });
+          };
+
+
+          console.log('data', data);
+          res.render('queue_order', data);
+       })
+       .catch( err => {
+         debug('讀取 Order 頁面資料失敗');
+       });
+
+
+
+
+
 });
 
 router.get('/factory', function(req, res, next) {
