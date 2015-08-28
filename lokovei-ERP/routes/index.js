@@ -27,34 +27,18 @@ router.get('/order', function(req, res, next) {
 
           var order = result;
           var prom = [];
-          // var data = [];
 
           for (var i = result.length - 1; i >= 0; i--) {
-
-            // var order = result[i];
-
             prom.push( Job.find().where('oid').equals(order.oid) );
-               // .then( job => {
-                  // let ans = { ...order._doc, job: job}
-                  // ans.job = job;
-                  // // console.log('job', job)
-                  // data.push(ans);
-               // })
-               // .catch( err => {
-               //    debug('讀取job資料錯誤', err);
-               // });
           };
-
-          // console.log('hi')
 
           Promise.all(prom)
                  .then( result => {
 
                     let data = [];
                     data = result.map( ( val, index ) => {
-                      let ans = { ...order[index]._doc, job: val}
+                      let ans = { ...order[index]._doc }
                       ans.job = val;
-                      // console.log('job', job)
                       return ans;
                     });
                     console.log('data', data);
@@ -68,8 +52,6 @@ router.get('/order', function(req, res, next) {
        .catch( err => {
          debug('讀取 Order 頁面資料失敗');
        });
-
-
 });
 
 router.get('/factory', function(req, res, next) {
