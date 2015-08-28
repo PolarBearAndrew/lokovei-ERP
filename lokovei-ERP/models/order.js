@@ -22,6 +22,9 @@ var Order = new mongoose.Schema({
     cWho: {
         type: String
     },
+    usWho: {
+        type: String
+    },
     count: {
         type: Number
     },
