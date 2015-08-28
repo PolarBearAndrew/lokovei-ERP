@@ -251,9 +251,9 @@ $(document).ready(function() {
     $.ajax({
       url: url_job + '/',
       type: 'POST',
-      success: function( reuslt ){
+      success: function( result ){
 
-        id = reuslt._id;
+        id = result._id;
         todo();
       },
       error: function( err ){
@@ -271,6 +271,7 @@ $(document).ready(function() {
       // 尋找正確的 table body 插入資料
       $('.table-wrapper-item[data-id=' + dataId + '] tbody').append(row);
       $('button[data-orderId=' + dataId + ']').click(); //啟動 edit 模式
+      console.log('add todo');
     }
 
     return false
@@ -283,9 +284,9 @@ $(document).ready(function() {
     $.ajax({
       url: url_order + '/',
       type: 'POST',
-      success: function( reuslt ){
-        oid = reuslt.oid;
-        todoOrder(oid);
+      success: function( result ){
+        oid = result.oid;
+        todoOrder(oid, result._id);
       },
       error: function( err ){
         console.log('新增訂單項目錯誤', err)
@@ -293,10 +294,11 @@ $(document).ready(function() {
 
     });
 
-    function todoOrder(oid){
+    function todoOrder(oid, uid){
 
-      var order = '<div data-orderID="oid" class="order-wrapper"> <div class="table-wrapper"> <table class="table"> <thead> <tr> <th>訂單編號</th> <th>經銷商</th> <th>經銷商地址</th> <th>聯絡電話</th> <th>採購人員</th> <th>接單人員</th> <th>數量合計</th> <th>訂購日期</th> <th>出車日期</th> <th>狀態</th> <th></th> </tr> </thead> <tbody> <tr> <td>@oid</td> <td data-ctrl="customer" style="width: 100px"></td> <td></td> <td></td> <td></td> <td data-ctrl="em" style="width: 120px"></td> <td data-ctrl="num"></td> <td data-ctrl="date" style="width: 150px"></td> <td data-ctrl="date" style="width: 150px"></td> <td> <button class="btn btn-warning">尚未出貨</button> </td> <td> <button type="button" data-toggle="modal" data-target="#delDialog" class="btn btn-danger ctrl"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button> <button data-orderID="@oid" data-onEdit="0" class="btn btn-warning ctrl edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button><a href="/print/order/?id=0" class="btn btn-primary ctrl"><span aria-hidden="true" class="glyphicon glyphicon-print"></span></a> <button type="button" data-toggle="modal" data-target="#finishDialog" class="btn btn-success ctrl"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span></button> </td> </tr> </tbody> </table> </div> <div data-id="@oid" class="table-wrapper-item"> <table class="table table-hover"> <thead> <tr> <th>產品編號/規格</th> <th>數量</th> <th>狀態</th> <th>備註</th> <th>排程時間</th> <th>產線</th> </tr> </thead> <tbody> </tbody> </table> <button data-id="@oid" class="btn btn-info ctrl addItem"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span> 訂單增補</button> </div> </div>';
+      var order = '<div data-orderID="@oid" data-uid="@uid" class="order-wrapper"> <div class="table-wrapper"> <table class="table"> <thead> <tr> <th>訂單編號</th> <th>經銷商</th> <th>經銷商地址</th> <th>聯絡電話</th> <th>採購人員</th> <th>接單人員</th> <th>數量合計</th> <th>訂購日期</th> <th>出車日期</th> <th>狀態</th> <th></th> </tr> </thead> <tbody> <tr> <td>@oid</td> <td data-ctrl="customer" style="width: 100px"></td> <td></td> <td></td> <td></td> <td data-ctrl="em" style="width: 120px"></td> <td data-ctrl="num"></td> <td data-ctrl="date" style="width: 150px"></td> <td data-ctrl="date" style="width: 150px"></td> <td> <button class="btn btn-warning">尚未出貨</button> </td> <td> <button data-uid="@uid" type="button" data-toggle="modal" data-target="#delDialog" class="btn btn-danger ctrl predelete"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button> <button data-orderID="@oid" data-onEdit="0" class="btn btn-warning ctrl edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button><a href="/print/order/?id=0" class="btn btn-primary ctrl"><span aria-hidden="true" class="glyphicon glyphicon-print"></span></a> <button type="button" data-toggle="modal" data-target="#finishDialog" class="btn btn-success ctrl"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span></button> </td> </tr> </tbody> </table> </div> <div data-id="@oid" class="table-wrapper-item"> <table class="table table-hover"> <thead> <tr> <th>產品編號/規格</th> <th>數量</th> <th>狀態</th> <th>備註</th> <th>排程時間</th> <th>產線</th> </tr> </thead> <tbody> </tbody> </table> <button data-id="@oid" class="btn btn-info ctrl addItem"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span> 訂單增補</button> </div> </div>';
       order = order.replace(/@oid/g, oid);
+      order = order.replace(/@uid/g, uid);
 
       $(order).insertBefore($('div.order-wrapper')[0]);
 
@@ -309,6 +311,41 @@ $(document).ready(function() {
       $(btn).click();
 
     }
+
+    return false;
+  });
+
+  var target;
+
+  $('html, body').on('click', '.predelete', function(){
+    target = $(this).attr('data-uid');
+
+    console.log($(this).attr('data-uid'))
+    //確保 del dialog
+    // $('#delDialog').modal({})
+  });
+
+  // 刪除資料
+  $('html, body').on('click', '.delete', function(){
+
+    console.log('target', target);
+
+    $.ajax({
+
+      type: 'DELETE',
+      url: url_order + '/',
+      data: { uid: target },
+      success: function( result ){
+        // console.log('刪除資料成功', result);
+        $('div[data-uid="' + target + '"]').remove();
+        $('#delDialog').modal('toggle')
+      },
+
+      error: function( err ){
+        console.log('刪除資料失敗', err);
+      }
+
+    });
 
     return false;
   });

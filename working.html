@@ -1,4 +1,4 @@
-<div data-orderID="oid" class="order-wrapper">
+<div data-orderID="@oid" data-uid="@uid" class="order-wrapper">
     <div class="table-wrapper">
         <table class="table">
             <thead>
@@ -31,7 +31,7 @@
                         <button class="btn btn-warning">尚未出貨</button>
                     </td>
                     <td>
-                        <button type="button" data-toggle="modal" data-target="#delDialog" class="btn btn-danger ctrl"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button>
+                        <button data-uid="@uid" type="button" data-toggle="modal" data-target="#delDialog" class="btn btn-danger ctrl predelete"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button>
                         <button data-orderID="@oid" data-onEdit="0" class="btn btn-warning ctrl edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button><a href="/print/order/?id=0" class="btn btn-primary ctrl"><span aria-hidden="true" class="glyphicon glyphicon-print"></span></a>
                         <button type="button" data-toggle="modal" data-target="#finishDialog" class="btn btn-success ctrl"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span></button>
                     </td>
@@ -39,7 +39,7 @@
             </tbody>
         </table>
     </div>
-    <div data-id="@oit" class="table-wrapper-item">
+    <div data-id="@oid" class="table-wrapper-item">
         <table class="table table-hover">
             <thead>
                 <tr>

@@ -6,7 +6,9 @@ let router = express.Router();
 let debug = require('debug')('API:order');
 
 //model
+let Job = require('../models/job.js');
 let Order = require('../models/order.js');
+
 
 //feature
 //let postMan = require('../feature/mail.js');
@@ -112,18 +114,28 @@ router.delete('/', (req, res, next) => {
         return res.status(500).send('缺少必要參數', miss.miss);
     }
 
-    //db operation
-    Order.findOneAndRemove( { _id: req.body.uid })
-        .removeAsync()
-        .then( result => {
-            debug('[DELETE] 刪除訂單 success ->', result);
-            res.json(result);
-            return;
-        })
-        .catch( err => {
-            debug('[DELETE] 刪除訂單 fail ->', err);
-            return next(err);
-        });
+     Order.find()
+            .where('_id').equals(req.body.uid)
+            .execAsync()
+            .then( result => {
+                console.log('result.oid', result.oid);
+                return Job.remove()
+                          .where('oid').equals(result.oid)
+                          .removeAsync();
+            })
+            .then( result => {
+                return Order.findOneAndRemove( { _id: req.body.uid })
+                              .removeAsync();
+            })
+            .then( result => {
+                debug('[DELETE] 刪除產品資料 success ->', result);
+                res.json(result);
+                return;
+            })
+            .catch( err => {
+                debug('[DELETE] 刪除產品資料 fail ->', err);
+                return next(err);
+            });
 });
 
 
