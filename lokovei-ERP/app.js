@@ -10,6 +10,7 @@ var routes   = require('./routes/index');
 var job = require('./routes/job');
 var user     = require('./routes/user');
 var line     = require('./routes/line');
+var order     = require('./routes/order');
 var product  = require('./routes/product');
 var customer = require('./routes/customer');
 
@@ -37,12 +38,12 @@ app.use(function(req, res, next) {
     next();
 });
 
-
 app.use('/', routes);
 
 app.use('/job', job);
 app.use('/user', user);
 app.use('/line', line);
+app.use('/order', order);
 app.use('/product', product);
 app.use('/customer', customer);
 

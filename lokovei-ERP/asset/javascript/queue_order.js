@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-  var url = 'http://localhost:8080/job';
+  var url_job = 'http://localhost:8080/job';
+  var url_order = 'http://localhost:8080/order';
 
   initDatePicker();
 
@@ -58,7 +59,7 @@ $(document).ready(function() {
         data.line = $(tmp[4]).text();
 
         $.ajax({
-          url: url + '/',
+          url: url_job + '/',
           type: 'PUT',
           data: data,
           success: function(result){
@@ -68,6 +69,18 @@ $(document).ready(function() {
             console.log('更新job資料失敗',err)
           }
         })
+
+        // $.ajax({
+        //   url: url_order + '/',
+        //   type: 'PUT',
+        //   data: data,
+        //   success: function(result){
+        //     console.log('更新order資料成功', result);
+        //   },
+        //   error: function(err){
+        //     console.log('更新order資料失敗',err)
+        //   }
+        // })
       };
 
       //save order
@@ -226,7 +239,7 @@ $(document).ready(function() {
 
     // post add job
     $.ajax({
-      url: url + '/',
+      url: url_job + '/',
       type: 'POST',
       success: function( reuslt ){
 
@@ -276,22 +289,38 @@ $(document).ready(function() {
 
   $('html, body').on('click', '#addorder', function(){
 
+    var id = '';
     var id = $('.order-wrapper').length;
-    var order = '<div data-orderID="0" class="order-wrapper"> <div class="table-wrapper"> <table class="table"> <thead> <tr> <th>訂單編號</th> <th>經銷商</th> <th>經銷商地址</th> <th>聯絡電話</th> <th>採購人員</th> <th>接單人員</th> <th>數量合計</th> <th>訂購日期</th> <th>出車日期</th> <th>狀態</th> <th></th> </tr> </thead> <tbody> <tr> <td>@id</td> <td data-ctrl="customer" style="width: 100px"> </td> <td> </td> <td> </td> <td> </td> <td data-ctrl="em" style="width: 120px"> </td> <td data-ctrl="num"> </td> <td data-ctrl="date" style="width: 150px"> </td> <td data-ctrl="date" style="width: 150px"> </td> <td> <button class="btn btn-success">已出貨</button> </td> <td> <button type="button" data-toggle="modal" data-target="#delDialog" class="btn btn-danger ctrl"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button> <button data-orderID="0" data-onEdit="0" class="btn btn-warning ctrl edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button> <button class="btn btn-primary ctrl"><span aria-hidden="true" class="glyphicon glyphicon-print"></span></button> <button type="button" data-toggle="modal" data-target="#finishDialog" class="btn btn-success ctrl"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span></button> </td> </tr> </tbody> </table> </div> <div data-id="0" class="table-wrapper-item"> <table class="table table-hover"> <thead> <tr> <th>產品編號</th> <th>品名規格</th> <th>數量</th> <th>狀態</th> <th>備註</th> <th>排程時間</th> </tr> </thead> <tbody> <tr> <td>CHT-013-BO002</td> <td data-ctrl="product" style="width: 300px">Lokovei SR-800-寶馬棕</td> <td data-ctrl="num">1</td> <td> <label class="label label-warning">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="date"> </td> </tr> </tbody> </table> <button data-id="0" class="btn btn-info ctrl addItem"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span> 訂單增補</button> </div> </div>'
-    order = order.replace(/@id/, id);
 
-    $(order).insertBefore($('div.order-wrapper')[0]);
+    $.ajax({
+      url: url_order + '/',
+      type: 'POST',
+      success: function( reuslt ){
+        id = reuslt.oid;
+        todoOrder();
+      },
+      error: function( err ){
+        console.log('新增訂單項目錯誤', err)
+      }
 
-    //set id
-    $( $('.order-wrapper')[0] ).attr('data-orderid', id);
-    $( $('.order-wrapper .edit')[0] ).attr('data-orderid', id);
-    // $( $('.order-wrapper')[0] ).children('td').text(' ');
+    });
 
-    var btn = $('.order-wrapper .edit')[0];
-    $(btn).click();
+    function todoOrder(){
 
-    console.log( btn );
-    // .click();
+      var order = '<div data-orderID="0" class="order-wrapper"> <div class="table-wrapper"> <table class="table"> <thead> <tr> <th>訂單編號</th> <th>經銷商</th> <th>經銷商地址</th> <th>聯絡電話</th> <th>採購人員</th> <th>接單人員</th> <th>數量合計</th> <th>訂購日期</th> <th>出車日期</th> <th>狀態</th> <th></th> </tr> </thead> <tbody> <tr> <td>@id</td> <td data-ctrl="customer" style="width: 100px"> </td> <td> </td> <td> </td> <td> </td> <td data-ctrl="em" style="width: 120px"> </td> <td data-ctrl="num"> </td> <td data-ctrl="date" style="width: 150px"> </td> <td data-ctrl="date" style="width: 150px"> </td> <td> <button class="btn btn-success">已出貨</button> </td> <td> <button type="button" data-toggle="modal" data-target="#delDialog" class="btn btn-danger ctrl"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button> <button data-orderID="0" data-onEdit="0" class="btn btn-warning ctrl edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button> <button class="btn btn-primary ctrl"><span aria-hidden="true" class="glyphicon glyphicon-print"></span></button> <button type="button" data-toggle="modal" data-target="#finishDialog" class="btn btn-success ctrl"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span></button> </td> </tr> </tbody> </table> </div> <div data-id="0" class="table-wrapper-item"> <table class="table table-hover"> <thead> <tr> <th>產品編號</th> <th>品名規格</th> <th>數量</th> <th>狀態</th> <th>備註</th> <th>排程時間</th> </tr> </thead> <tbody> <tr> <td>CHT-013-BO002</td> <td data-ctrl="product" style="width: 300px">Lokovei SR-800-寶馬棕</td> <td data-ctrl="num">1</td> <td> <label class="label label-warning">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="date"> </td> </tr> </tbody> </table> <button data-id="0" class="btn btn-info ctrl addItem"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span> 訂單增補</button> </div> </div>'
+      order = order.replace(/@id/, id);
+
+      $(order).insertBefore($('div.order-wrapper')[0]);
+
+      //set id
+      $( $('.order-wrapper')[0] ).attr('data-orderid', id);
+      $( $('.order-wrapper .edit')[0] ).attr('data-orderid', id);
+      // $( $('.order-wrapper')[0] ).children('td').text(' ');
+
+      var btn = $('.order-wrapper .edit')[0];
+      $(btn).click();
+
+    }
 
     return false;
   });

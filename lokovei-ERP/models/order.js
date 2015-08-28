@@ -7,7 +7,7 @@ var db = link.db;
  *  Schema of Order
  */
 var Order = new mongoose.Schema({
-    orderId: {
+    oid: {
         type: String
     },
     cName: {
@@ -33,9 +33,6 @@ var Order = new mongoose.Schema({
     },
     status:{
         type: String
-    },
-    jobID:{
-        type: Array
     }
 });
 

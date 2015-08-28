@@ -1,30 +1,32 @@
-var route   = 'job';
+var route   = 'order';
 var url     = 'http://localhost:8080/' + route;
 var request = require('request');
 
 //debug
-var debug = require('debug')('TEST:job');
+var debug = require('debug')('TEST:order');
 
 //init data
 var initData = {
-    oid: '1001',
-    pid: 'CHT-013-BO002',
-    pSpec: 'Lokovei SR-800-寶馬棕',
-    count: 1,
-    status: '尚未完成',
-    note: '無',
-    todoTime: '2015/8/31',
-    line: '台北松山'
+    oid: '',
+    cName: '',
+    cAddress: '',
+    cPhone: '',
+    cWho: '',
+    count: '',
+    orderDate: '',
+    outputDate: '',
+    status: '',
+    jobID: [ 'job1' ]
 };
 
 var uid = null;
-var Product = require('../models/job.js');
+var Product = require('../models/order.js');
 
-describe('[ (05) API unit test - job ]', () => {
+describe('[ (06) API unit test - order ]', () => {
 
     before( () => {
 
-        return  Product.removeAsync({ cWho: 'andrew'})
+        return  Product.removeAsync({ oid: ''})
                       .then( result => {
                           return Product.removeAsync({name: ''});
                       })
@@ -32,7 +34,7 @@ describe('[ (05) API unit test - job ]', () => {
 
                       })
                       .catch( err=>{
-                          debug('[ API unit test - job ] 資料初始化錯誤', err);
+                          debug('[ API unit test - order ] 資料初始化錯誤', err);
                       });
     });
 
@@ -54,7 +56,8 @@ describe('[ (05) API unit test - job ]', () => {
 
                 //test data
                 Object.keys(initData).map(( key, index ) => {
-                    data.should.have.property( key, '' );
+                    if( key != 'count' && key != 'jobID' && key != 'oid')
+                        data.should.have.property( key, '' );
                 });
 
                 uid = data._id.toString();

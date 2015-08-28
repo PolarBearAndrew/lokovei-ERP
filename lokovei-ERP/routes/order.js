@@ -24,8 +24,9 @@ router.post('/', (req, res, next) => {
 
     debug('[POST] 新增訂單 req.body ->', req.body );
 
+    let d = new Date();
     let order = new Order({
-        oid: '',
+        oid: d.getTime(),
         cName: '',
         cAddress: '',
         cPhone: '',
@@ -33,8 +34,7 @@ router.post('/', (req, res, next) => {
         count: '',
         orderDate: '',
         outputDate: '',
-        status: '',
-        jobID: []
+        status: ''
     });
 
     //db operation
@@ -59,7 +59,7 @@ router.put('/', (req, res, next) => {
 
     debug('[PUT] 更新訂單資料 req.body ->', req.body );
 
-    let miss = check( req.body, ['oid', 'cName', 'cAddress', 'cPhone', 'cWho', 'count', 'orderDate', 'outputDate', 'status', 'jobID'] );
+    let miss = check( req.body, ['oid', 'cName', 'cAddress', 'cPhone', 'cWho', 'count', 'orderDate', 'outputDate', 'status'] );
     if(!miss.check){
         debug('[POST] 更新訂單 miss data ->', miss.miss);
         return res.status(500).send('缺少必要參數', miss.miss);
