@@ -20,13 +20,16 @@ var Job = new mongoose.Schema({
     count:{
         type: String
     },
-    status:{
+    battery:{
         type: String
     },
     note:{
         type: String
     },
     todoTime:{
+        type: String
+    },
+    status:{
         type: String
     },
     line:{

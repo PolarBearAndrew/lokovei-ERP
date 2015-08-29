@@ -11,6 +11,7 @@ var job      = require('./routes/job');
 var user     = require('./routes/user');
 var line     = require('./routes/line');
 var order    = require('./routes/order');
+var battery  = require('./routes/battery');
 var product  = require('./routes/product');
 var customer = require('./routes/customer');
 
@@ -44,6 +45,7 @@ app.use('/job', job);
 app.use('/user', user);
 app.use('/line', line);
 app.use('/order', order);
+app.use('/battery', battery);
 app.use('/product', product);
 app.use('/customer', customer);
 

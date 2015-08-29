@@ -6,6 +6,7 @@ let Job       = require('../models/job.js');
 let User      = require('../models/user.js');
 let Line      = require('../models/line.js');
 let Order     = require('../models/order.js');
+let Battery   = require('../models/battery.js');
 let Product   = require('../models/product.js');
 let Customeer = require('../models/customer.js');
 
@@ -252,6 +253,44 @@ router.get('/crud/:part', function(req, res, next) {
             debug('載入使用者資料失敗', err);
             next(err);
           });
+      break;
+
+    // 電池資訊頁面
+    case 'battery':
+      schema = [
+        { title: '電池型號', ctrl: 'text', schema: 'name' },
+        { title: '備註', ctrl: 'text', schema: 'note' } //authorization
+      ];
+
+      let initBattery = [{
+        _id: '0',
+        name: '系統機器人專用電池',
+        note: '勁量電池,跑超快的兔子'
+      }]
+
+      Battery.find()
+            .execAsync()
+            .then( result => {
+
+              if(result.length === 0) result = initBattery;
+
+              result = result.map( val => {
+
+                let tmp = [];
+                tmp.push(val.name);
+                tmp.push(val.note);
+                tmp.push(val._id.toString());
+
+                return tmp;
+              });
+
+              res.render('crud', { schema: schema, data: result, apiUrl: 'user' });
+              debug('載入電池資料成功', result);
+            })
+            .catch( err => {
+              debug('載入電池資料失敗', err);
+              next(err);
+            });
       break;
   }
 

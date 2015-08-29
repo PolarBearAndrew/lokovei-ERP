@@ -11,6 +11,7 @@ var initData = {
     pid: 'CHT-013-BO002',
     pSpec: 'Lokovei SR-800-寶馬棕',
     count: 1,
+    battery: '勁量電池',
     status: '尚未完成',
     note: '無',
     todoTime: '2015/8/31',

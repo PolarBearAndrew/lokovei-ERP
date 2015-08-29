@@ -29,6 +29,7 @@ router.post('/', (req, res, next) => {
         pid: '',
         pSpec: '',
         count: '',
+        battery: '',
         status: '',
         note: '',
         todoTime: '',
@@ -58,7 +59,7 @@ router.put('/', (req, res, next) => {
     debug('[PUT] 更新作業資料 req.body ->', req.body );
 
     //check
-    let miss = check( req.body, ['uid', 'oid', 'pid', 'pSpec', 'count' , 'note', 'todoTime', 'line'] );
+    let miss = check( req.body, ['uid', 'oid', 'pid', 'pSpec', 'count', 'battery', 'note', 'todoTime', 'line'] );
     if(!miss.check){
         debug('[POST] 更新作業 miss data ->', miss.miss);
         return res.status(500).send('缺少必要參數', miss.miss);
@@ -70,6 +71,7 @@ router.put('/', (req, res, next) => {
         pid: req.body.pid,
         pSpec: req.body.pSpec,
         count: req.body.count.toString(),
+        battery: req.body.battery,
         note: req.body.note,
         todoTime: req.body.todoTime,
         line: req.body.line
