@@ -100,6 +100,41 @@ router.put('/', (req, res, next) => {
 
 
 /*
+ * [POST] 更新訂單狀態
+ * request :
+ * respone : db result
+ */
+router.post('/status', (req, res, next) => {
+
+    debug('[POST] 更新訂單狀態 req.body ->', req.body);
+
+    let miss = check(req.body, ['uid', 'status']);
+    if (!miss.check) {
+        debug('[POST] 更新訂單 miss data ->', miss.miss);
+        return res.status(500).send('缺少必要參數', miss.miss);
+    }
+
+    //db entity
+    let info = { status: req.body.status };
+
+    //db operation
+    Order.findOneAndUpdate({
+            _id: req.body.uid,
+        }, info)
+        .updateAsync()
+        .then(result => {
+            debug('[POST] 更新訂單狀態 success ->', result);
+            res.json(result);
+            return;
+        })
+        .catch(err => {
+            debug('[POST] 更新訂單狀態 fail ->', err);
+            return next(err);
+        });
+});
+
+
+/*
  * [PUT] 更新訂單資料
  * request : body.uid, body.name, body.account, body.pwd, body.auth
  * respone : db result

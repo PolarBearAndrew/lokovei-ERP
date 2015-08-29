@@ -58,17 +58,17 @@ block content
                 //- input.datepicker(data-date-format='mm/dd/yyyy').form-control(type='text')
               td
                 - if(order.status == '已結案')
-                  button.status.btn.btn-success= order.status
+                  button.status.btn.btn-success&attributes(uid)= order.status
                 - else if(order.status == '已出貨')
-                  button.status.btn.btn-primary= order.status
+                  button.status.btn.btn-primary&attributes(uid)= order.status
                 - else if(order.status == '尚未出貨')
-                  button.status.btn.btn-info= order.status
+                  button.status.btn.btn-info&attributes(uid)= order.status
                 - else if(order.status == '尚未完成')
-                  button.status.btn.btn-warning= order.status
+                  button.status.btn.btn-warning&attributes(uid)= order.status
                 - else if(order.status == '訂單取消')
-                  button.status.btn.btn-danger= order.status
+                  button.status.btn.btn-danger&attributes(uid)= order.status
                 - else
-                  button.status.btn.btn-default 尚未設定
+                  button.status.btn.btn-default&attributes(uid) 尚未設定
               td(style='width: 130px')
                 button.predelete.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog' )&attributes(uid)
                   span.glyphicon.glyphicon-trash(aria-hidden='true')
@@ -143,16 +143,16 @@ block content
           h4.modal-title 訂單狀況選擇
         .modal-body
           p
-            button.statusChoose.btn.btn-success(style="width: 100%") 已結案
+            button.statusChoose.btn.btn-success(style="width: 100%", data-value='已結案') 已結案
           p
-            button.statusChoose.btn.btn-primary(style="width: 100%") 已出貨
+            button.statusChoose.btn.btn-primary(style="width: 100%", data-value='已出貨') 已出貨
           p
-            button.statusChoose.btn.btn-info(style="width: 100%") 尚未出貨
+            button.statusChoose.btn.btn-info(style="width: 100%", data-value='尚未出貨') 尚未出貨
           p
-            button.statusChoose.btn.btn-warning(style="width: 100%") 尚未完成
+            button.statusChoose.btn.btn-warning(style="width: 100%", data-value='尚未完成') 尚未完成
           p
-            button.statusChoose.btn.btn-danger(style="width: 100%") 訂單取消
+            button.statusChoose.btn.btn-danger(style="width: 100%", data-value='訂單取消') 訂單取消
           p
-            button.status.btn.btn-default(style="width: 100%") 無狀態
+            button.status.btn.btn-default(style="width: 100%", data-value='無狀態') 無狀態
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
