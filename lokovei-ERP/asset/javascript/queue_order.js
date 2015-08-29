@@ -158,7 +158,7 @@ $(document).ready(function() {
           }
         })
 
-
+      // save order item
       var jobs = $('.order-wrapper[data-orderId="' + id + '"] tr[data-job]');
 
       for (var i = jobs.length - 1; i >= 0; i--) {
