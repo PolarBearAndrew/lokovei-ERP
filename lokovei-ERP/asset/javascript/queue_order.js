@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+  // const
   var url_job       = 'http://localhost:8080/job';
   var url_user      = 'http://localhost:8080/user';
   var url_line      = 'http://localhost:8080/line';
@@ -7,15 +8,17 @@ $(document).ready(function() {
   var url_product   = 'http://localhost:8080/product';
   var url_customer  = 'http://localhost:8080/customer';
 
-  initDatePicker();
-
+  // select option data
   var em = [];        //['Andrew', 'Ray', 'Doro', 'Hsuan']
   var line = [];      //['產線-新莊', '產線-南港', '產線-五股', '產線-社子', '產線-板橋']
   var product = [];   //['CHT-013-BO002/Lokovei SR-800-寶馬棕', 'CHT-013-BO002/Lokovei SR-800-寶馬紅', 'CHT-013-BO002/Lokovei SR-800-寶馬藍', 'CHT-013-BO002/Lokovei SR-800-寶馬綠']
   var customer = [];  //['全馬', '竹輪', '立翔', '總太', '綠明']
 
-  // init data
-  // ========================================
+  initDatePicker();
+
+
+  // init select options data
+  // init customer
   $.ajax({
     url: url_customer + '/all',
     type: 'GET',
@@ -85,7 +88,7 @@ $(document).ready(function() {
       product = result.map( function( val ){
         var tmp = {
           val: val._id,
-          text: val.pid + val.spec
+          text: val.pid + '/' + val.spec
         }
         return tmp;
       });
@@ -94,10 +97,10 @@ $(document).ready(function() {
       console.log('讀取產品資料錯誤', err);
     }
   })
+  // init select option data end
 
-  //init data end
-  //====================================
 
+  // edit
   $('html, body').on('click', '.edit', function(){
 
     // icon edit/save
@@ -153,22 +156,24 @@ $(document).ready(function() {
       // save order item
       var jobs = $('.order-wrapper[data-orderId="' + id + '"] tr[data-job]');
 
-      for (var i = jobs.length - 1; i >= 0; i--) {
+      for (var i = 0; i < jobs.length; i++) {
 
         var tmp = $(jobs[i]).children('td[data-ctrl]');
-
         var data = {};
+
+        var p = $(tmp[0]).text();
 
         // uids.push(uid);
         data.uid = $(jobs[i]).attr('data-job');
         data.oid = oid;
-        data.pid = $(tmp[0]).text();
-        data.pSpec = $(tmp[0]).text();
-        data.count = $(tmp[1]).text();
+        data.pid = p.substring( 0 , p.indexOf('/') );
+        data.pSpec = p.substring( p.indexOf('/') , p.length - 1 );
+        data.count = parseInt( $(tmp[1]).text() || 0 );
         data.note = $(tmp[2]).text();
         data.todoTime = $(tmp[3]).text();
         data.line = $(tmp[4]).text();
 
+        // save
         $.ajax({
           url: url_job + '/',
           type: 'PUT',
@@ -205,6 +210,7 @@ $(document).ready(function() {
     return false;
   });
 
+  // get control or values
   function controls( ctrl, value ){
 
     var show;
@@ -332,6 +338,8 @@ $(document).ready(function() {
   // add item
   $('html, body').on('click', '.addItem', function(){
 
+
+
     var id = '';
     var dataId = $(this).attr('data-id');
 
@@ -351,6 +359,16 @@ $(document).ready(function() {
     });
 
     function todo () {
+
+      var editBtn = $('button[data-orderId=' + dataId + ']');
+
+      //console.log('add ! ' );
+      //先儲存
+      if ( $(editBtn).attr('data-onEdit') === (1).toString() ){
+        console.log('save first');
+        $(editBtn).click();
+      }
+
       // var id = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr').length + 1;
       var arr = $('.table-wrapper-item[data-id=' + dataId + '] tbody tr:first-child td');
       var row = '<tr data-job="@jobId"><td data-ctrl="product" style="width: 300px"></td> <td data-ctrl="num">0</td> <td data-status="yes"> <label class="label label-primary">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="date" style="width: 150px"></td> <td data-ctrl="line"></td> </tr>';
@@ -365,6 +383,7 @@ $(document).ready(function() {
     return false
   });
 
+  // add order
   $('html, body').on('click', '#addorder', function(){
 
     var oid = $('.order-wrapper').length;
@@ -407,16 +426,10 @@ $(document).ready(function() {
 
   $('html, body').on('click', '.predelete', function(){
     target = $(this).attr('data-uid').toString().replace(/"/g, '');
-
-    // console.log($(this).attr('data-uid'))
-    //確保 del dialog
-    // $('#delDialog').modal({})
   });
 
-  // 刪除資料
+  // delete data
   $('html, body').on('click', '.delete', function(){
-
-    console.log('target', target);
 
     $.ajax({
 
@@ -470,11 +483,7 @@ $(document).ready(function() {
   $('html, body').on('change', '#sort', function(){
 
     var sortFunc = $(this).val();
-    window.location.assign('http://localhost:8080/order/' + sortFunc );
+    window.location.assign( url_order + '/' + sortFunc );
     return false;
   });
-
-  //
-
 });//  end doc reade
-

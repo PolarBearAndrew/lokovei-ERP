@@ -91,7 +91,7 @@ block content
           tbody
             - for( var j = 0 ; j < order.jobs.length ; j++)
               - var job = order.jobs[j]
-              tr
+              tr(data-job=job._id)
                 td(data-ctrl="product"  style='width: 300px')= job.pid
                 td(data-ctrl="num")= job.count
                 td(data-status="yes")

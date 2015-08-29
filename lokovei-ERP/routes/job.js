@@ -112,7 +112,7 @@ router.delete('/', (req, res, next) => {
     }
 
     //db operation
-    Job.findOneAndRemove( { _id: req.body.uid })
+     Job.findOneAndRemove( { _id: req.body.uid })
         .removeAsync()
         .then( result => {
             debug('[DELETE] 刪除作業 success ->', result);
