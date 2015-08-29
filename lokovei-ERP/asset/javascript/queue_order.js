@@ -30,7 +30,6 @@ $(document).ready(function() {
         return tmp;
       });
     },
-
     error: function( err ){
       console.log('讀取經銷商資料錯誤', err);
     }
@@ -51,7 +50,6 @@ $(document).ready(function() {
         return tmp;
       });
     },
-
     error: function( err ){
       console.log('讀取員工資料資料錯誤', err);
     }
@@ -71,10 +69,7 @@ $(document).ready(function() {
         }
         return tmp;
       });
-
-      console.log('line', line);
     },
-
     error: function( err ){
       console.log('讀取產品資料錯誤', err);
     }
@@ -94,10 +89,7 @@ $(document).ready(function() {
         }
         return tmp;
       });
-
-      console.log('product', product);
     },
-
     error: function( err ){
       console.log('讀取產品資料錯誤', err);
     }
@@ -448,15 +440,23 @@ $(document).ready(function() {
 
 
   $('html, body').on('change', 'td[data-ctrl="customer"] select', function(){
-    //console.log('onchange');
-    var name = $(this).val();
-    console.log('val', name);
-    $.ajax({
-      url: url_customer + '/?name=' + name,
-      type: 'GET',
 
+    var cAddress = $(this).parent().next('td');
+    var cPhone = $(cAddress).next('td');
+    var cWho = $(cPhone).next('td');
+
+    var id = customer[$(this).val()].val; //取得id
+
+    // console.log('show', show);
+
+    $.ajax({
+      url: url_customer + '/?id=' + id,
+      type: 'GET',
       success: function( result ){
-        console.log('result', result)
+        tmp = result[0];
+        $(cAddress).text( tmp.address );
+        $(cPhone).text( tmp.phone );
+        $(cWho).text( tmp.who );
       },
 
       error: function( err ){
