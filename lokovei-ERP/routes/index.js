@@ -9,7 +9,7 @@ let Order     = require('../models/order.js');
 let Product   = require('../models/product.js');
 let Customeer = require('../models/customer.js');
 
-let debug   = require('debug')('API:route');
+let debug = require('debug')('API:route');
 
 
 /* GET home page. */
