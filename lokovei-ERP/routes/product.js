@@ -111,4 +111,27 @@ router.delete('/', (req, res, next) => {
 });
 
 
+/*
+ * [GET] 取得產品資料
+ * request :
+ * respone : db result
+ */
+router.get('/all', (req, res, next) => {
+
+    debug('[GET] 取得產品資料');
+
+     //db operation
+    Product.find({})
+        .execAsync()
+        .then( result => {
+            debug('[GET] 取得產品資料 success ->', result);
+            res.json(result);
+            return;
+        })
+        .catch( err => {
+            debug('[GET] 取得產品資料 fail ->', err);
+            return next(err);
+        });
+});
+
 module.exports = router;

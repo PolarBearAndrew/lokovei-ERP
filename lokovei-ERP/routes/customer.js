@@ -115,4 +115,56 @@ router.delete('/', (req, res, next) => {
 });
 
 
+/*
+ * [PUT] 更新經銷商資料
+ * request : body.uid, body.name, body.account, body.pwd, body.auth
+ * respone : db result
+ */
+router.get('/', (req, res, next) => {
+
+    debug('[DELETE] 查詢指定經銷商 req.body ->', req.body );
+
+    //check
+    let miss = check( req.query, ['name'] );
+    if(!miss.check){
+        debug('[POST] 查詢指定經銷商 miss data ->', miss.miss);
+        return res.status(500).send('缺少必要參數', miss.miss);
+    }
+
+    //db operation
+    Customer.find()
+            .where('name').equals(req.query.name)
+            .then( result => {
+
+                res.json( result );
+            })
+            .catch( err => {
+                debug('[DELETE] 查詢指定經銷商 fail ->', err);
+                return next(err);
+            });
+});
+
+/*
+ * [PUT] 取得經銷商資料
+ * request : body.uid, body.name, body.account, body.pwd, body.auth
+ * respone : db result
+ */
+router.get('/all', (req, res, next) => {
+
+    debug('[DELETE] 查詢經銷商 req.body ->', req.body );
+
+    //db operation
+    Customer.find({})
+            .execAsync()
+            .then( result => {
+                debug('[DELETE] 查詢指定經銷商 success ->', result);
+                res.json( result );
+            })
+            .catch( err => {
+                debug('[DELETE] 查詢經銷商 fail ->', err);
+                return next(err);
+            });
+});
+
+
 module.exports = router;

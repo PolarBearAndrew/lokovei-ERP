@@ -1,14 +1,107 @@
 $(document).ready(function() {
 
   var url_job = 'http://localhost:8080/job';
+  var url_user = 'http://localhost:8080/user';
+  var url_line = 'http://localhost:8080/line';
   var url_order = 'http://localhost:8080/order';
+  var url_product = 'http://localhost:8080/product';
+  var url_customer = 'http://localhost:8080/customer';
 
   initDatePicker();
 
-  var customer = ['全馬', '竹輪', '立翔', '總太', '綠明'];
-  var em = ['Andrew', 'Ray', 'Doro', 'Hsuan'];
+  var customer = []; //['全馬', '竹輪', '立翔', '總太', '綠明']
+  var em = []; //['Andrew', 'Ray', 'Doro', 'Hsuan']
   var product = ['CHT-013-BO002/Lokovei SR-800-寶馬棕', 'CHT-013-BO002/Lokovei SR-800-寶馬紅', 'CHT-013-BO002/Lokovei SR-800-寶馬藍', 'CHT-013-BO002/Lokovei SR-800-寶馬綠'];
   var line = ['產線-新莊', '產線-南港', '產線-五股', '產線-社子', '產線-板橋'];
+
+  // init data
+  // ========================================
+  $.ajax({
+    url: url_customer + '/all',
+    type: 'GET',
+
+    success: function( result ){
+      // console.log('result', result)
+      customer = result.map( function( val ){
+        var tmp = {
+          val: val._id,
+          text: val.name
+        }
+        return tmp;
+      });
+    },
+
+    error: function( err ){
+      console.log('讀取經銷商資料錯誤', err);
+    }
+  })
+
+  $.ajax({
+    url: url_user + '/all',
+    type: 'GET',
+
+    success: function( result ){
+      // console.log('result', result)
+      em = result.map( function( val ){
+        var tmp = {
+          val: val._id,
+          text: val.name
+        }
+        return tmp;
+      });
+    },
+
+    error: function( err ){
+      console.log('讀取員工資料資料錯誤', err);
+    }
+  })
+
+  $.ajax({
+    url: url_line + '/all',
+    type: 'GET',
+
+    success: function( result ){
+      // console.log('result', result)
+      line = result.map( function( val ){
+        var tmp = {
+          val: val._id,
+          text: val.name
+        }
+        return tmp;
+      });
+
+      console.log('line', line);
+    },
+
+    error: function( err ){
+      console.log('讀取產品資料錯誤', err);
+    }
+  })
+
+  $.ajax({
+    url: url_product + '/all',
+    type: 'GET',
+
+    success: function( result ){
+      // console.log('result', result)
+      product = result.map( function( val ){
+        var tmp = {
+          val: val._id,
+          text: val.pid + val.spec
+        }
+        return tmp;
+      });
+
+      console.log('product', product);
+    },
+
+    error: function( err ){
+      console.log('讀取產品資料錯誤', err);
+    }
+  })
+
+  //init data end
+  //====================================
 
   $('html, body').on('click', '.edit', function(){
 
@@ -176,19 +269,23 @@ $(document).ready(function() {
         break;
 
       case 'customer':
-        show = $(obj).children('select').val();
+        index = $(obj).children('select').val();
+        show = customer[index].text;
         break;
 
       case 'em':
-        show = $(obj).children('select').val();
+        index = $(obj).children('select').val();
+        show = em[index].text;
         break;
 
       case 'product':
-        show = $(obj).children('select').val();
+        index = $(obj).children('select').val();
+        show = product[index].text;
         break;
 
       case 'line':
-        show = $(obj).children('select').val();
+        index = $(obj).children('select').val();
+        show = line[index].text;
         break;
 
       case 'num':
@@ -215,17 +312,17 @@ $(document).ready(function() {
   function buildSelector( arr, selected ){
 
     var select = '<select class="form-control">';
-    var option = '<option value="@val">@val</option>';
-    var optionChecked = '<option value="@val" selected>@val</option>';
+    var option = '<option value="@val">@text</option>';
+    var optionChecked = '<option value="@val" selected>@text</option>';
     var selectEnd = '</select>';
     var tmp = '';
 
     for (var i = 0; i < arr.length; i++) {
 
-      if( arr[i].indexOf(selected) == -1 )
-        tmp += option.replace( /@val/g, arr[i] );
+      if( arr[i].text.indexOf(selected) == -1 )
+        tmp += option.replace( /@val/g, i ).replace( /@text/g, arr[i].text );
       else
-        tmp += optionChecked.replace( /@val/g, arr[i] );
+        tmp += optionChecked.replace( /@val/g, i ).replace( /@text/g, arr[i].text );
 
     };
 
@@ -349,6 +446,27 @@ $(document).ready(function() {
 
     return false;
   });
+
+
+  $('html, body').on('change', 'td[data-ctrl="customer"] select', function(){
+    //console.log('onchange');
+    var name = $(this).val();
+    console.log('val', name);
+    $.ajax({
+      url: url_customer + '/?name=' + name,
+      type: 'GET',
+
+      success: function( result ){
+        console.log('result', result)
+      },
+
+      error: function( err ){
+        console.log('讀取經銷商資料錯誤', err);
+      }
+    })
+
+    return false;
+  })
 
 });//  end doc reade
 

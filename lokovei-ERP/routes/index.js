@@ -33,15 +33,11 @@ router.get('/order', function(req, res, next) {
               let data = [];
 
               data = result.map( val => {
-                let tmp = { ...val._doc }
-                tmp.jobs = jobs.filter( job => {
-                  //console.log(val.oid, val.oid, job.oid.toString() == val.oid.toString() )
-                  return job.oid.toString() == val.oid.toString();
-                })
-                //console.log('tmp', tmp)
+                let tmp = { ...val._doc };
+                tmp.jobs = jobs.filter( job => job.oid.toString() == val.oid.toString() )
                 return tmp;
               })
-              console.log('data',data)
+              //console.log('data',data)
               res.render('queue_order', { data });
            })
 

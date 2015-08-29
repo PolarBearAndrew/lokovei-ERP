@@ -115,4 +115,31 @@ router.delete('/', (req, res, next) => {
 });
 
 
+/*
+ * [GET] 取得使用者資料
+ * request :
+ * respone : db result
+ */
+router.get('/all', (req, res, next) => {
+
+    debug('[GET] 取得使用者資料 req.body ->', req.body );
+
+    //db operation
+    User.find({})
+        .execAsync()
+        .then( result => {
+            debug('[GET] 取得使用者資料 success ->', result);
+            res.json(result);
+            return;
+        })
+        .catch( err => {
+            debug('[GET] 取得使用者資料 fail ->', err);
+            return next(err);
+        });
+});
+
+
+
+
+
 module.exports = router;

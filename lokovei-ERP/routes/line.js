@@ -115,4 +115,29 @@ router.delete('/', (req, res, next) => {
 });
 
 
+/*
+ * [GET] 取得產線資料
+ * request : body.uid, body.name, body.account, body.pwd, body.auth
+ * respone : db result
+ */
+router.get('/all', (req, res, next) => {
+
+    debug('[GET] 取得產線資料 req.body ->', req.body );
+
+
+    //db operation
+    Line.find({})
+        .execAsync()
+        .then( result => {
+            debug('[GET] 取得產線資料 success ->', result);
+            res.json(result);
+            return;
+        })
+        .catch( err => {
+            debug('[GET] 取得產線資料 fail ->', err);
+            return next(err);
+        });
+});
+
+
 module.exports = router;
