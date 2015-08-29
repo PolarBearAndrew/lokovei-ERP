@@ -467,5 +467,14 @@ $(document).ready(function() {
     return false;
   })
 
+  $('html, body').on('change', '#sort', function(){
+
+    var sortFunc = $(this).val();
+    window.location.assign('http://localhost:8080/order/' + sortFunc );
+    return false;
+  });
+
+  //
+
 });//  end doc reade
 

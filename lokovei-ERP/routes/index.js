@@ -69,40 +69,13 @@ router.get('/order/:sort', function(req, res, next) {
               })
 
               data.sort(sortFunc(req.params.sort));
-              console.log('data', data)
-              res.render('queue_order', { data });
+              res.render('queue_order', { data: data, sort: req.params.sort });
            })
 
        })
        .catch( err => {
          debug('讀取 Order 頁面資料失敗');
        });
-
-  function sortFunc(type){
-
-    let func = ( () => { return 1 } );
-
-    switch(type){
-      case 'none':
-        func = ( () => { return 1 } );
-        break;
-      case 'startTime':
-        func = ( ( a, b ) => {
-          return parseInt( a.orderDate.replace(/\//g, '') ) - parseInt( b.orderDate.replace(/\//g, '') );
-        });
-        break;
-      case 'endTime':
-        func = ( ( a, b ) => {
-          return parseInt( a.outputDate.replace(/\//g, '') ) - parseInt( b.outputDate.replace(/\//g, '') );
-        });
-        break;
-      case 'customer':
-        func = ( ( a, b ) => { return a.cName - b.cName } );
-        break;
-    }
-
-    return func;
-  }
 });
 
 router.get('/factory', function(req, res, next) {
@@ -292,5 +265,32 @@ router.get('/print/order', function(req, res, next) {
 
   res.render('print_order', data);
 });
+
+// sort func
+function sortFunc(type){
+
+  let func = ( () => { return 1 } );
+
+  switch(type){
+    case 'none':
+      func = ( () => { return 1 } );
+      break;
+    case 'startTime':
+      func = ( ( a, b ) => {
+        return parseInt( a.orderDate.replace(/\//g, '') ) - parseInt( b.orderDate.replace(/\//g, '') );
+      });
+      break;
+    case 'endTime':
+      func = ( ( a, b ) => {
+        return parseInt( a.outputDate.replace(/\//g, '') ) - parseInt( b.outputDate.replace(/\//g, '') );
+      });
+      break;
+    case 'customer':
+      func = ( ( a, b ) => { return a.cName - b.cName } );
+      break;
+  }
+
+  return func;
+}
 
 module.exports = router;

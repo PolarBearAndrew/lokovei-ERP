@@ -13,11 +13,14 @@ block content
       button#addorder.btn.btn-success.ctrl
         span.glyphicon.glyphicon-plus(aria-hidden='true')
         |   新增訂單
-      select.form-control.sortCtrl
-        option(value="none") 無
-        option(value="startTime") 訂單日期
-        option(value="endTime") 出車日期
-        option(value="customer") 經銷商名稱
+      select#sort.form-control.sortCtrl
+        - var sortlist = [ { val: 'none', text: '無'}, { val: 'startTime', text: '訂單日期'}, { val: 'endTime', text: '出車日期'}, { val: 'customer', text: '經銷商名稱'} ]
+        - for( var s = 0; s < sortlist.length; s++)
+          - if( sortlist[s].val == sort )
+            option(value=sortlist[s].val, selected)= sortlist[s].text
+          -else
+            option(value=sortlist[s].val)= sortlist[s].text
+
 
   - for( var i = 0 ; i < data.length ; i++)
     - var order = data[i]
