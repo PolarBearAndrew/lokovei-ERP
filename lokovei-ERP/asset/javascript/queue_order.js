@@ -1,18 +1,18 @@
 $(document).ready(function() {
 
-  var url_job = 'http://localhost:8080/job';
-  var url_user = 'http://localhost:8080/user';
-  var url_line = 'http://localhost:8080/line';
-  var url_order = 'http://localhost:8080/order';
-  var url_product = 'http://localhost:8080/product';
-  var url_customer = 'http://localhost:8080/customer';
+  var url_job       = 'http://localhost:8080/job';
+  var url_user      = 'http://localhost:8080/user';
+  var url_line      = 'http://localhost:8080/line';
+  var url_order     = 'http://localhost:8080/order';
+  var url_product   = 'http://localhost:8080/product';
+  var url_customer  = 'http://localhost:8080/customer';
 
   initDatePicker();
 
-  var customer = []; //['全馬', '竹輪', '立翔', '總太', '綠明']
-  var em = []; //['Andrew', 'Ray', 'Doro', 'Hsuan']
-  var product = ['CHT-013-BO002/Lokovei SR-800-寶馬棕', 'CHT-013-BO002/Lokovei SR-800-寶馬紅', 'CHT-013-BO002/Lokovei SR-800-寶馬藍', 'CHT-013-BO002/Lokovei SR-800-寶馬綠'];
-  var line = ['產線-新莊', '產線-南港', '產線-五股', '產線-社子', '產線-板橋'];
+  var em = [];        //['Andrew', 'Ray', 'Doro', 'Hsuan']
+  var line = [];      //['產線-新莊', '產線-南港', '產線-五股', '產線-社子', '產線-板橋']
+  var product = [];   //['CHT-013-BO002/Lokovei SR-800-寶馬棕', 'CHT-013-BO002/Lokovei SR-800-寶馬紅', 'CHT-013-BO002/Lokovei SR-800-寶馬藍', 'CHT-013-BO002/Lokovei SR-800-寶馬綠']
+  var customer = [];  //['全馬', '竹輪', '立翔', '總太', '綠明']
 
   // init data
   // ========================================
@@ -34,8 +34,9 @@ $(document).ready(function() {
     error: function( err ){
       console.log('讀取經銷商資料錯誤', err);
     }
-  })
+  });
 
+  // init user
   $.ajax({
     url: url_user + '/all',
     type: 'GET',
@@ -56,6 +57,7 @@ $(document).ready(function() {
     }
   })
 
+  // init line
   $.ajax({
     url: url_line + '/all',
     type: 'GET',
@@ -78,6 +80,7 @@ $(document).ready(function() {
     }
   })
 
+  //init product
   $.ajax({
     url: url_product + '/all',
     type: 'GET',
@@ -108,10 +111,6 @@ $(document).ready(function() {
     // icon edit/save
     var icoEdit = '<span aria-hidden="true" class="glyphicon glyphicon-pencil"></span>';
     var icoSave = '<span aria-hidden="true" class="glyphicon glyphicon-floppy-open"></span>';
-
-    // use controls list
-    // var editInfo = ['none', 'customer', 'none', 'none', 'none', 'em', 'none', 'date', 'date', 'skip', 'skip',
-    //                 'none', 'product', 'num', 'none', 'text'];
 
     // get info we need
     var id = $(this).attr('data-orderId');
