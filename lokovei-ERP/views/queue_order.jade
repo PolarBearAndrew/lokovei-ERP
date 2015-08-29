@@ -92,7 +92,7 @@ block content
             - for( var j = 0 ; j < order.jobs.length ; j++)
               - var job = order.jobs[j]
               tr(data-job=job._id)
-                td(data-ctrl="product"  style='width: 300px')= job.pid
+                td(data-ctrl="product"  style='width: 300px')= ( job.pid + job.pSpec )
                 td(data-ctrl="num")= job.count
                 td(data-status="yes")
                   label.label.label-primary= job.status

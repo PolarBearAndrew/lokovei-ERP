@@ -135,7 +135,7 @@ router.post('/status', (req, res, next) => {
 
 
 /*
- * [PUT] 更新訂單資料
+ * [DELETE] 刪除訂單
  * request : body.uid, body.name, body.account, body.pwd, body.auth
  * respone : db result
  */
@@ -146,32 +146,31 @@ router.delete('/', (req, res, next) => {
     //check
     let miss = check(req.body, ['uid']);
     if (!miss.check) {
-        debug('[POST] 新增訂單 miss data ->', miss.miss);
+        debug('[DELETE] 刪除訂單 miss data ->', miss.miss);
         return res.status(500).send('缺少必要參數', miss.miss);
     }
 
-   Order.find()
+   Order.findOne()
         .where('_id').equals(req.body.uid)
         .execAsync()
         .then(result => {
-            console.log('result.oid', result.oid);
-            return Job.remove()
-                .where('oid').equals(result.oid)
-                .removeAsync();
+            console.log('result', result);
+            return Job.remove({ oid: result.oid })
+                      .execAsync();
         })
         .then(result => {
             return Order.findOneAndRemove({
-                    _id: req.body.uid
-                })
-                .removeAsync();
+                        _id: req.body.uid
+                    })
+                    .removeAsync();
         })
         .then(result => {
-            debug('[DELETE] 刪除產品資料 success ->', result);
+            debug('[DELETE] 刪除訂單資料 success ->', result);
             res.json(result);
             return;
         })
         .catch(err => {
-            debug('[DELETE] 刪除產品資料 fail ->', err);
+            debug('[DELETE] 刪除訂單資料 fail ->', err);
             return next(err);
         });
 });

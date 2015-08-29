@@ -6,7 +6,7 @@ $( document ).ready( function(){
   $('html, body').on('click', '.status', function(){
     //console.log('click .status');
     id = $(this).attr('data-uid');
-    console.log('id', id);
+    // console.log('id', id);
     $('#statusDialog').modal('toggle');
     return false;
   });
@@ -25,11 +25,7 @@ $( document ).ready( function(){
       data: { uid: id, status: status },
       success: function(result){
         console.log('設定狀態成功', result);
-
-
         $('.status[data-uid="' + id + '"]').attr('class', color + ' status' ).text(status);
-
-
       },
       error: function(err){
         console.log('設定狀態錯誤', err);

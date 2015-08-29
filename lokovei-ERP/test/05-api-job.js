@@ -67,6 +67,8 @@ describe('[ (05) API unit test - job ]', () => {
 
         it('[PUT] 更新作業資料', done => {
 
+            initData.status = '已出貨';
+
             request({
                 url: url + '/',
                 method: 'PUT',

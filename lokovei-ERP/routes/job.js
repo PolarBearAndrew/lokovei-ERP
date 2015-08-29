@@ -57,8 +57,6 @@ router.put('/', (req, res, next) => {
 
     debug('[PUT] 更新作業資料 req.body ->', req.body );
 
-
-
     //check
     let miss = check( req.body, ['uid', 'oid', 'pid', 'pSpec', 'count' , 'note', 'todoTime', 'line'] );
     if(!miss.check){
@@ -71,17 +69,16 @@ router.put('/', (req, res, next) => {
         oid: req.body.oid,
         pid: req.body.pid,
         pSpec: req.body.pSpec,
-        count: req.body.count,
-        status: req.body.status,
+        count: req.body.count.toString(),
         note: req.body.note,
         todoTime: req.body.todoTime,
-        line: req.body.line,
-        jobID: req.body.jobID
+        line: req.body.line
     };
 
+    let _id = req.body.uid.replace(/\"/g, '');
 
     //db operation
-    Job.findOneAndUpdate( { _id: req.body.uid }, info)
+     Job.findOneAndUpdate( { _id: _id }, info )
         .updateAsync()
         .then( result => {
             debug('[PUT] 更新作業資料 success ->', result);
@@ -96,7 +93,7 @@ router.put('/', (req, res, next) => {
 
 
 /*
- * [PUT] 更新作業資料
+ * [DELETE] 刪除作業資料
  * request : body.uid, body.name, body.account, body.pwd, body.auth
  * respone : db result
  */
@@ -111,8 +108,10 @@ router.delete('/', (req, res, next) => {
         return res.status(500).send('缺少必要參數', miss.miss);
     }
 
+    let _id = req.body.uid.replace(/\"/g, '');
+
     //db operation
-     Job.findOneAndRemove( { _id: req.body.uid })
+     Job.findOneAndRemove( { _id: _id })
         .removeAsync()
         .then( result => {
             debug('[DELETE] 刪除作業 success ->', result);
