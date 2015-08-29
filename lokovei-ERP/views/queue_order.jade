@@ -3,10 +3,10 @@ extends layout
 block content
   //- date picker
   link(rel="stylesheet", href="/stylesheets/bootstrap-datepicker3.min.css")
-  script(src="javascript/bootstrap-datepicker.min.js")
+  script(src="/javascript/bootstrap-datepicker.min.js")
 
   link(rel="stylesheet", href="/stylesheets/queue_order.css")
-  script(src="javascript/queue_order.js")
+  script(src="/javascript/queue_order.js")
 
   .container
     .row
@@ -14,6 +14,7 @@ block content
         span.glyphicon.glyphicon-plus(aria-hidden='true')
         |   新增訂單
       select.form-control.sortCtrl
+        option(value="none") 無
         option(value="startTime") 訂單日期
         option(value="endTime") 出車日期
         option(value="customer") 經銷商名稱
@@ -53,7 +54,7 @@ block content
                 //- input.datepicker(data-date-format='mm/dd/yyyy').form-control(type='text')
               td
                 button.btn.btn-success= order.status
-              td
+              td(style='width: 130px')
                 button.predelete.btn.btn-danger.ctrl(type='button', data-toggle='modal', data-target='#delDialog' )&attributes(uid)
                   span.glyphicon.glyphicon-trash(aria-hidden='true')
                 button.btn.btn-warning.ctrl.edit(data-orderID= orderId, data-onEdit='0')

@@ -2,7 +2,7 @@ var express = require('express');
 var router  = express.Router();
 // var co = require('co');
 
-let Job      = require('../models/job.js');
+let Job       = require('../models/job.js');
 let User      = require('../models/user.js');
 let Line      = require('../models/line.js');
 let Order     = require('../models/order.js');
@@ -45,6 +45,64 @@ router.get('/order', function(req, res, next) {
        .catch( err => {
          debug('讀取 Order 頁面資料失敗');
        });
+});
+
+router.get('/order/:sort', function(req, res, next) {
+
+  let data = {};
+
+  Order.find()
+       .execAsync()
+       .then( result => {
+
+        console.log('result', result);
+
+        Job.find()
+           .execAsync()
+           .then( jobs => {
+              let data = [];
+
+              data = result.map( val => {
+                let tmp = { ...val._doc };
+                tmp.jobs = jobs.filter( job => job.oid.toString() == val.oid.toString() )
+                return tmp;
+              })
+
+              data.sort(sortFunc(req.params.sort));
+              console.log('data', data)
+              res.render('queue_order', { data });
+           })
+
+       })
+       .catch( err => {
+         debug('讀取 Order 頁面資料失敗');
+       });
+
+  function sortFunc(type){
+
+    let func = ( () => { return 1 } );
+
+    switch(type){
+      case 'none':
+        func = ( () => { return 1 } );
+        break;
+      case 'startTime':
+        func = ( ( a, b ) => {
+          return parseInt( a.orderDate.replace(/\//g, '') ) - parseInt( b.orderDate.replace(/\//g, '') );
+        });
+        break;
+      case 'endTime':
+        func = ( ( a, b ) => {
+          return parseInt( a.outputDate.replace(/\//g, '') ) - parseInt( b.outputDate.replace(/\//g, '') );
+        });
+        break;
+      case 'customer':
+        func = ( ( a, b ) => { return a.cName - b.cName } );
+        break;
+    }
+
+    return func;
+  }
 });
 
 router.get('/factory', function(req, res, next) {
