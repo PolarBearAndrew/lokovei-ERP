@@ -15,7 +15,7 @@ block content
         span.glyphicon.glyphicon-plus(aria-hidden='true')
         |   新增訂單
       select#sort.form-control.sortCtrl
-        - var sortlist = [ { val: 'none', text: '無'}, { val: 'startTime', text: '訂單日期'}, { val: 'endTime', text: '出車日期'}, { val: 'customer', text: '經銷商名稱'} ]
+        - var sortlist = [ { val: 'none', text: '無排序'}, { val: 'startTime', text: '訂購日期'}, { val: 'endTime', text: '出車日期'}, { val: 'customer', text: '經銷商名稱'} ]
         - for( var s = 0; s < sortlist.length; s++)
           - if( sortlist[s].val == sort )
             option(value=sortlist[s].val, selected)= sortlist[s].text
@@ -84,6 +84,7 @@ block content
             tr
               th 產品編號/規格
               th 數量
+              th 配備電池
               th 狀態
               th 備註
               th 排程時間
@@ -94,6 +95,7 @@ block content
               tr(data-job=job._id)
                 td(data-ctrl="product"  style='width: 300px')= ( job.pid + job.pSpec )
                 td(data-ctrl="num")= job.count
+                td(data-ctrl="battery")= job.battery
                 td(data-status="yes")
                   label.label.label-primary= job.status
                 td(data-ctrl="text")= job.note

@@ -284,7 +284,7 @@ router.get('/crud/:part', function(req, res, next) {
                 return tmp;
               });
 
-              res.render('crud', { schema: schema, data: result, apiUrl: 'user' });
+              res.render('crud', { schema: schema, data: result, apiUrl: 'battery' });
               debug('載入電池資料成功', result);
             })
             .catch( err => {

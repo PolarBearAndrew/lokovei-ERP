@@ -5,17 +5,18 @@ $(document).ready(function() {
   var url_user      = 'http://localhost:8080/user';
   var url_line      = 'http://localhost:8080/line';
   var url_order     = 'http://localhost:8080/order';
+  var url_battery   = 'http://localhost:8080/battery';
   var url_product   = 'http://localhost:8080/product';
   var url_customer  = 'http://localhost:8080/customer';
 
   // select option data
-  var em = [];        //['Andrew', 'Ray', 'Doro', 'Hsuan']
-  var line = [];      //['產線-新莊', '產線-南港', '產線-五股', '產線-社子', '產線-板橋']
-  var product = [];   //['CHT-013-BO002/Lokovei SR-800-寶馬棕', 'CHT-013-BO002/Lokovei SR-800-寶馬紅', 'CHT-013-BO002/Lokovei SR-800-寶馬藍', 'CHT-013-BO002/Lokovei SR-800-寶馬綠']
-  var customer = [];  //['全馬', '竹輪', '立翔', '總太', '綠明']
+  var em       = [];   //['Andrew', 'Ray', 'Doro', 'Hsuan']
+  var line     = [];   //['產線-新莊', '產線-南港', '產線-五股', '產線-社子', '產線-板橋']
+  var product  = [];   //['CHT-013-BO002/Lokovei SR-800-寶馬棕', 'CHT-013-BO002/Lokovei SR-800-寶馬紅', 'CHT-013-BO002/Lokovei SR-800-寶馬藍', 'CHT-013-BO002/Lokovei SR-800-寶馬綠']
+  var battery  = [];
+  var customer = [];   //['全馬', '竹輪', '立翔', '總太', '綠明']
 
   initDatePicker();
-
 
   // init select options data
   // init customer
@@ -97,6 +98,29 @@ $(document).ready(function() {
       console.log('讀取產品資料錯誤', err);
     }
   })
+
+  //init battery
+  $.ajax({
+    url: url_battery + '/all',
+    type: 'GET',
+
+    success: function( result ){
+      // console.log('result', result)
+      battery = result.map( function( val ){
+        var tmp = {
+          val: val._id,
+          text: val.name + '    ' + val.note
+        }
+        return tmp;
+      });
+    },
+    error: function( err ){
+      console.log('讀取產品資料錯誤', err);
+    }
+  })
+
+
+
   // init select option data end
 
 
@@ -135,9 +159,10 @@ $(document).ready(function() {
         cWho : $(arr[4]).text(),
         usWho : $(arr[5]).text(),
         count : $(arr[6]).text(),
-        orderDate : $(arr[7]).text(),
-        outputDate : $(arr[8]).text(),
-        status : $(arr[9]).text(),
+        battery : $(arr[7]).text(),
+        orderDate : $(arr[8]).text(),
+        outputDate : $(arr[9]).text(),
+        status : $(arr[10]).text(),
       };
 
        //save order
@@ -169,9 +194,10 @@ $(document).ready(function() {
         data.pid = p.substring( 0 , p.indexOf('/') );
         data.pSpec = p.substring( p.indexOf('/') , p.length - 1 );
         data.count = parseInt( $(tmp[1]).text() || 0 );
-        data.note = $(tmp[2]).text();
-        data.todoTime = $(tmp[3]).text();
-        data.line = $(tmp[4]).text();
+        data.battery = $(tmp[2]).text();
+        data.note = $(tmp[3]).text();
+        data.todoTime = $(tmp[4]).text();
+        data.line = $(tmp[5]).text();
 
         // save
         $.ajax({
@@ -236,6 +262,10 @@ $(document).ready(function() {
         show = buildSelector( product, value );
         break;
 
+      case 'battery':
+        show = buildSelector( battery, value );
+        break;
+
       case 'line':
         show = buildSelector( line, value );
         break;
@@ -278,6 +308,11 @@ $(document).ready(function() {
       case 'product':
         index = $(obj).children('select').val();
         show = product[index].text;
+        break;
+
+      case 'battery':
+        index = $(obj).children('select').val();
+        show = battery[index].text;
         break;
 
       case 'line':
@@ -371,7 +406,7 @@ $(document).ready(function() {
 
       // var id = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr').length + 1;
       var arr = $('.table-wrapper-item[data-id=' + dataId + '] tbody tr:first-child td');
-      var row = '<tr data-job="@jobId"><td data-ctrl="product" style="width: 300px"></td> <td data-ctrl="num">0</td> <td data-status="yes"> <label class="label label-primary">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="date" style="width: 150px"></td> <td data-ctrl="line"></td> </tr>';
+      var row = '<tr data-job="@jobId"><td data-ctrl="product" style="width: 300px"></td> <td data-ctrl="num">0</td> <td data-ctrl="battery"> </td> <td data-status="yes"> <label class="label label-primary">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="date" style="width: 150px"></td> <td data-ctrl="line"></td> </tr>';
       row = row.replace(/@jobId/, id);
 
       // 尋找正確的 table body 插入資料
@@ -403,7 +438,7 @@ $(document).ready(function() {
 
     function todoOrder(oid, uid){
 
-      var order = '<div data-orderID="@oid" data-uid="@uid" class="order-wrapper"> <div class="table-wrapper"> <table class="table"> <thead> <tr> <th>訂單編號</th> <th>經銷商</th> <th>經銷商地址</th> <th>聯絡電話</th> <th>採購人員</th> <th>接單人員</th> <th>數量合計</th> <th>訂購日期</th> <th>出車日期</th> <th>狀態</th> <th></th> </tr> </thead> <tbody> <tr> <td>@oid</td> <td data-ctrl="customer" style="width: 100px"></td> <td></td> <td></td> <td></td> <td data-ctrl="em" style="width: 120px"></td> <td data-ctrl="num"></td> <td data-ctrl="date" style="width: 150px"></td> <td data-ctrl="date" style="width: 150px"></td> <td> <button class="btn btn-warning status" data-uid="@uid">尚未完成</button> </td> <td> <button data-uid="@uid" type="button" data-toggle="modal" data-target="#delDialog" class="btn btn-danger ctrl predelete"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button> <button data-orderID="@oid" data-onEdit="0" class="btn btn-warning ctrl edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button><a href="/print/order/?id=0" class="btn btn-primary ctrl"><span aria-hidden="true" class="glyphicon glyphicon-print"></span></a> <button type="button" data-toggle="modal" data-target="#finishDialog" class="btn btn-success ctrl"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span></button> </td> </tr> </tbody> </table> </div> <div data-id="@oid" class="table-wrapper-item"> <table class="table table-hover"> <thead> <tr> <th>產品編號/規格</th> <th>數量</th> <th>狀態</th> <th>備註</th> <th>排程時間</th> <th>產線</th> </tr> </thead> <tbody> </tbody> </table> <button data-id="@oid" class="btn btn-info ctrl addItem"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span> 訂單增補</button> </div> </div>';
+      var order = '<div data-orderID="@oid" data-uid="@uid" class="order-wrapper"> <div class="table-wrapper"> <table class="table"> <thead> <tr> <th>訂單編號</th> <th>經銷商</th> <th>經銷商地址</th> <th>聯絡電話</th> <th>採購人員</th> <th>接單人員</th> <th>數量合計</th> <th>訂購日期</th> <th>出車日期</th> <th>狀態</th> <th></th> </tr> </thead> <tbody> <tr> <td>@oid</td> <td data-ctrl="customer" style="width: 100px"></td> <td></td> <td></td> <td></td> <td data-ctrl="em" style="width: 120px"></td> <td data-ctrl="num"></td> <td data-ctrl="date" style="width: 150px"></td> <td data-ctrl="date" style="width: 150px"></td> <td> <button class="btn btn-warning status" data-uid="@uid">尚未完成</button> </td> <td> <button data-uid="@uid" type="button" data-toggle="modal" data-target="#delDialog" class="btn btn-danger ctrl predelete"><span aria-hidden="true" class="glyphicon glyphicon-trash"></span></button> <button data-orderID="@oid" data-onEdit="0" class="btn btn-warning ctrl edit"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span></button><a href="/print/order/?id=0" class="btn btn-primary ctrl"><span aria-hidden="true" class="glyphicon glyphicon-print"></span></a> <button type="button" data-toggle="modal" data-target="#finishDialog" class="btn btn-success ctrl"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span></button> </td> </tr> </tbody> </table> </div> <div data-id="@oid" class="table-wrapper-item"> <table class="table table-hover"> <thead> <tr> <th>產品編號/規格</th> <th>數量</th> <th>配備電池</th> <th>狀態</th> <th>備註</th> <th>排程時間</th> <th>產線</th> </tr> </thead> <tbody> </tbody> </table> <button data-id="@oid" class="btn btn-info ctrl addItem"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span> 訂單增補</button> </div> </div>';
       order = order.replace(/@oid/g, oid);
       order = order.replace(/@uid/g, uid);
 

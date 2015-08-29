@@ -10,6 +10,9 @@ var db = link.db;
 var Battery = new mongoose.Schema({
     name:{
         type: String
+    },
+    note:{
+        type: String
     }
 });
 
