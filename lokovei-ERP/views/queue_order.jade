@@ -87,7 +87,7 @@ block content
               th 配備電池
               th 狀態
               th 備註
-              th 排程時間
+              //- th 排程時間
               th 產線
           tbody
             - for( var j = 0 ; j < order.jobs.length ; j++)
@@ -99,7 +99,7 @@ block content
                 td(data-status="yes")
                   label.label.label-primary= job.status
                 td(data-ctrl="text")= job.note
-                td(data-ctrl="date")= job.todoTime
+                //- td(data-ctrl="date")= job.todoTime
                 td(data-ctrl="line")= job.line
 
         button.btn.btn-info.ctrl.addItem(data-id=orderId)

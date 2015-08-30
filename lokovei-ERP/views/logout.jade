@@ -1,0 +1,56 @@
+extends layout
+
+block content
+  link(rel="stylesheet", href="/stylesheets/welcome.css")
+  script(src="/javascript/logout.js")
+  .center
+    h1 lokovei 訂單管理系統
+    br
+    h3.text-success 登出成功
+    br
+    button.btn.btn-warning.btn-lg(data-toggle='modal', data-target='#loginDialog') 重新登入
+
+  //- login dialog
+  form.form-inline(role='form')
+    #loginDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')
+      .modal-dialog.modal-sm
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal')
+              span(aria-hidden='true') ×
+              span.sr-only Close
+            h4.modal-title lokovei 內部訂單管理 登入
+          .modal-body
+            p
+              .form-group
+                label.sr-only(for='account') 帳號
+                input#account.form-control(type='text', placeholder='帳號')
+            p
+              .form-group
+                label.sr-only(for='pwd') 密碼
+                input#pwd.form-control(type='password', placeholder='密碼')
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') 取消
+            button#login.btn.btn-success(type='button') 登入
+  #loginFailDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') ×
+            span.sr-only Close
+          h4.modal-title 登入失敗
+        .modal-body
+          p.text-danger
+            | 帳號或密碼錯誤
+  #loginoutDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') ×
+            span.sr-only Close
+          h4.modal-title 登出成功
+        .modal-body
+          p.text-success
+            | 登出己經成功，請安心離開管理系統

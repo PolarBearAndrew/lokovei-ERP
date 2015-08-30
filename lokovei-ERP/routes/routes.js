@@ -18,6 +18,10 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
+router.get('/logout', function(req, res, next) {
+  res.render('logout');
+});
+
 router.get('/order', function(req, res, next) {
 
   let data = {};

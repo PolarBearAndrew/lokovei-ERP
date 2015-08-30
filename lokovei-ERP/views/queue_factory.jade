@@ -28,13 +28,11 @@ block content
               - for( var job = 0; job < 3; job++ )
                 .thumbnail.job(id='line'+line+'job'+job draggable="true" ondragstart="drag(event)")
                   h5
-                    - var order = '<p>訂單編號：123<br/>經銷商：全馬<br/>出車日期：2015/5/12<br/>訂單總數：25</p>'
+                    - var order = '<p>訂單編號：1011010112<br/>經銷商：全馬<br/>訂單出車日期：2015/5/12</p>'
                     span.info.glyphicon.glyphicon-tags.job-info( aria-hidden='true', tabindex='0', role='button', data-toggle='popover', data-trigger='click', title='訂單資訊', data-html="true", data-content=order)
                     | CHT-013-BO002
                   h5 Lokovei SR-800-寶馬棕
-                  p 數量 3
                   p
                     label.label.label-warning 尚未檢驗
                   p
-                    | 備註：
                     | 鎳氫電池改為離電池，並且加上懸掛系統

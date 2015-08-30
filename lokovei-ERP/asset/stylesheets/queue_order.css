@@ -28,11 +28,10 @@
 
 /* line 22, ../sass/queue_order.sass */
 .statusChoose {
-  color: red;
   margin: 0 auto;
 }
 
-/* line 26, ../sass/queue_order.sass */
+/* line 25, ../sass/queue_order.sass */
 input[type="number"] {
   width: 60px;
 }

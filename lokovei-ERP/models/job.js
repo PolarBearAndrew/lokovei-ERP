@@ -27,7 +27,7 @@ var Job = new mongoose.Schema({
         type: String
     },
     todoTime:{
-        type: String
+        type: Array
     },
     status:{
         type: String

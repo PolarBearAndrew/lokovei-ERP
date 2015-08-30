@@ -196,8 +196,8 @@ $(document).ready(function() {
         data.count = parseInt( $(tmp[1]).text() || 0 );
         data.battery = $(tmp[2]).text();
         data.note = $(tmp[3]).text();
-        data.todoTime = $(tmp[4]).text();
-        data.line = $(tmp[5]).text();
+        //data.todoTime = $(tmp[4]).text();
+        data.line = $(tmp[4]).text();
 
         // save
         $.ajax({
@@ -406,7 +406,7 @@ $(document).ready(function() {
 
       // var id = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr').length + 1;
       var arr = $('.table-wrapper-item[data-id=' + dataId + '] tbody tr:first-child td');
-      var row = '<tr data-job="@jobId"><td data-ctrl="product" style="width: 300px"></td> <td data-ctrl="num">0</td> <td data-ctrl="battery"> </td> <td data-status="yes"> <label class="label label-primary">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="date" style="width: 150px"></td> <td data-ctrl="line"></td> </tr>';
+      var row = '<tr data-job="@jobId"><td data-ctrl="product" style="width: 300px"></td> <td data-ctrl="num">0</td> <td data-ctrl="battery"> </td> <td data-status="yes"> <label class="label label-primary">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="line"></td> </tr>';
       row = row.replace(/@jobId/, id);
 
       // 尋找正確的 table body 插入資料

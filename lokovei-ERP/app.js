@@ -55,6 +55,9 @@ app.use(function(req, res, next) {
  */
 app.post('/login', (req, res, next) => {
 
+    // 直接先鎖定
+    req.session.login = false;
+
     let User = require('./models/user.js');//model
     debug('[POST] 登入 req.body ->', req.body );
 
@@ -80,6 +83,10 @@ app.post('/login', (req, res, next) => {
 });
 
 app.use( (req, res, next) => {
+
+    if(true){
+        return next();
+    }
 
     // fail
     if(!req.session.login){

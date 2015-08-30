@@ -35,7 +35,7 @@
 
 /* line 32, ../sass/queue_factory.sass */
 .line {
-  height: 230px;
+  height: 180px;
   padding-left: 12px;
   display: -webkit-flex;
   display: flex;
@@ -60,5 +60,5 @@
   margin-right: 2px;
   padding-right: 4px;
   float: right;
-  cursor: help;
+  cursor: pointer;
 }
