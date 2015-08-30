@@ -182,18 +182,6 @@ router.put('/addOne', (req, res, next) => {
         return res.status(500).send('缺少必要參數', miss.miss);
     }
 
-    // let oldOne = {
-    //     line: req.body.line,
-    //     todoTime: req.body.todoTime,
-    //     status: req.body.status
-    // };
-
-    // let newOne = {
-    //     line: req.body.nline,
-    //     todoTime: req.body.ntodoTime,
-    //     status: req.body.nstatus
-    // }
-
     var oldOne = req.body.oldOne,
         newOne = req.body.newOne;
 
