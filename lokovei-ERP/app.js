@@ -4,8 +4,9 @@ var favicon      = require('serve-favicon');
 var logger       = require('morgan');
 var bodyParser   = require('body-parser');
 var cookieParser = require('cookie-parser');
+var session      = require('express-session');
 
-var routes   = require('./routes/index');
+var routes   = require('./routes/routes');
 
 var job      = require('./routes/job');
 var user     = require('./routes/user');
@@ -15,6 +16,7 @@ var battery  = require('./routes/battery');
 var product  = require('./routes/product');
 var customer = require('./routes/customer');
 
+var debug = require('debug')('API:app.js');
 
 var app = express();
 
@@ -30,6 +32,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'asset')));
 
+//這個需要更瞭解才行
+app.use(session({
+    secret: 'keyboard cat',
+    cookie: { maxAge: 1000 * 60 * 15 * 2 }, // 30min
+    resave: true,
+    saveUninitialized: true
+}))
 
 //set haeder
 app.use(function(req, res, next) {
@@ -39,11 +48,52 @@ app.use(function(req, res, next) {
     next();
 });
 
+/*
+ * [POST] 登入 api
+ * request : no
+ * respone : db result
+ */
+app.post('/login', (req, res, next) => {
+
+    let User = require('./models/user.js');//model
+    debug('[POST] 登入 req.body ->', req.body );
+
+    //db operation
+    User.findOne()
+        .where('account').equals(req.body.account)
+        .where('pwd').equals(req.body.pwd)
+        .then( result => {
+            debug('[POST] 登入 success ->', result);
+
+            if( result._id ){
+                req.session.login = true;
+                res.json({ login: 'success' });
+            }else{
+                req.session.login = false;
+                res.json({ login: 'fail' });
+            }
+        })
+        .catch( err => {
+            debug('[POST] 登入 fail ->', err);
+            return next(err);
+        });
+});
 
 app.use( (req, res, next) => {
 
-    res.render('index');
-    return;
+    // fail
+    if(!req.session.login){
+        req.session.login = false;
+        return res.render('index');
+    }
+
+    // success
+    if( req.session.login === true ){
+        req.session.touch();
+        req.session.login = true; //reset
+        console.log('req.session', req.session);
+        return next();
+    }
 })
 
 app.use('/', routes);
@@ -87,6 +137,8 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
+
+
 
 var port = 8080;
 app.listen( port, console.log('server listening on %d', port) );
