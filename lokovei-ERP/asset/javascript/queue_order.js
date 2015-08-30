@@ -109,7 +109,7 @@ $(document).ready(function() {
       battery = result.map( function( val ){
         var tmp = {
           val: val._id,
-          text: val.name + '    ' + val.note
+          text: val.name + '-' + val.note
         }
         return tmp;
       });
@@ -119,10 +119,7 @@ $(document).ready(function() {
     }
   })
 
-
-
   // init select option data end
-
 
   // edit
   $('html, body').on('click', '.edit', function(){
@@ -147,7 +144,7 @@ $(document).ready(function() {
         if(show) $(arr[i]).empty().append( show );
       };
 
-      //  save job
+      //  save order
       var oid = id;
       arr = $('.order-wrapper[data-orderId="' + id + '"] td');
 
@@ -159,10 +156,9 @@ $(document).ready(function() {
         cWho : $(arr[4]).text(),
         usWho : $(arr[5]).text(),
         count : $(arr[6]).text(),
-        battery : $(arr[7]).text(),
-        orderDate : $(arr[8]).text(),
-        outputDate : $(arr[9]).text(),
-        status : $(arr[10]).text(),
+        orderDate : $(arr[7]).text(),
+        outputDate : $(arr[8]).text(),
+        status : $(arr[9]).text(),
       };
 
        //save order
@@ -178,7 +174,7 @@ $(document).ready(function() {
           }
         })
 
-      // save order item
+      // save job
       var jobs = $('.order-wrapper[data-orderId="' + id + '"] tr[data-job]');
 
       for (var i = 0; i < jobs.length; i++) {

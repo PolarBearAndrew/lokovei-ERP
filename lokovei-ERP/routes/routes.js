@@ -83,9 +83,129 @@ router.get('/order/:sort', function(req, res, next) {
        });
 });
 
+
 router.get('/factory', function(req, res, next) {
+
+  // 把所有 job, 還沒完成的拉出來
+    Job.find({})
+       .execAsync()
+
+       // 把 job 中的 item 拉出來
+       .then( result => {
+
+          // 需要過濾資料訂單已經取消的資料 <- !!!
+
+          let data= [];
+
+          // 將資料初始化成一比一比 item job
+          result.forEach( val => {
+            var job = val;
+            val.todoTime.forEach( item =>{
+              let obj = { ...item._doc, ...job._doc };
+              data.push(obj);
+            });
+
+            let need = job.count - job.todoTime.length
+            for( var c = 0; c < need; c++ ){
+              let obj = { ...job._doc };
+              obj.status = '尚未完成';
+              obj.line = '';
+              obj.time = 0;
+              data.push(obj);
+            }
+          })
+
+          // 取得這三攤的參數
+          let day = get3dayNum(); //console.log('day', day);
+          let numList = day.map( val => val.num );
+
+
+          // 小於第一天的去掉
+          data = data.filter( val => {
+            return (val.time >= day[0].num || val.time == 0);
+          })
+
+
+          // 把已經排成的單子找出來計算 3 天內的產線剩餘的產值
+          data.forEach( val => {
+            if( numList.indexOf( val.time ) !== -1 ){
+              day[ numList.indexOf( val.time ) ].todo += 1;
+            }
+          })
+
+          // <- 抓取些下來三天的產線參數 !!!
+          let canDo = [ 15, 15, 15 ];
+          let ctrl = false;
+
+          // 計算剩餘的產量
+          day.forEach( ( val, index ) => {
+            canDo[index] -= val.todo;
+          })
+
+          canDo.forEach( val => {
+            if( val > 0 ) ctrl = true;
+          })
+
+          // 產值為 0 的話, 把資料整理整理回傳頁面直接回傳頁面
+          if( ctrl === false ){
+
+            console.log('無需排程');
+
+          }else{
+
+            console.log('啟動排程運算');
+
+          }
+
+
+          console.log('!!! data', data.length , data)
+          console.log('!!! day', day)
+
+       })
+       .catch( err => {
+         debug('讀取 factory 頁面資料失敗');
+       })
+
+
+
+
+
+
+
+  // 把還沒排成的 item 依照出貨日期排序
+
+  // 踢除超過 3 天內產值的 item
+
+  // 把他們排上去, 寫回資料庫
+
+  // 把資料整理整理回傳頁面
+
+  // 告訴他多了哪些
+
   res.render('queue_factory');
 });
+
+function get3dayNum(){
+  let today =  getTodayNum();
+  return [
+    { num: today,     todo: 0 },
+    { num: today + 1, todo: 0 },
+    { num: today + 2, todo: 0 }
+  ];
+}
+
+function getTodayNum(){
+  let minutes = 1000 * 60;
+  let hours = minutes * 60;
+  let days = hours * 24;
+  //let years = days * 365;
+
+  let d = new Date();
+  let t= d.getTime();
+
+  return Math.round(t / days); //與 差幾天  January 1, 1970.
+}
+
 
 router.get('/crud/:part', function(req, res, next) {
 
