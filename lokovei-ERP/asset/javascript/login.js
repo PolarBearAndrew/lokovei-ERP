@@ -3,8 +3,8 @@ $(document).ready( function(){
     //console.log('login click');
     //
     var data = {
-      account: '123',
-      pwd: '123'
+      account: $('#account').val(),
+      pwd: $('#pwd').val()
     }
 
     $.ajax({
@@ -13,13 +13,37 @@ $(document).ready( function(){
       data: data,
       success: function( result ){
         //console.log('登入資料取得成功', result);
-        $('#loginDialog').modal('toggle')
+        if( result.login === 'success'){
+          loginSuccess();
+        }else{
+          loginFail();
+        }
       },
       error: function( err ){
         console.log('登入錯誤', err);
+        loginFail();
       }
 
     }); //ajax end
+
+    function loginSuccess(){
+
+      // console.log('location.href', location.href);
+
+      if( location.href !== 'http://localhost:8080/'){
+        window.location.assign( location.href ); // 直接導向到原先要連接的網頁
+      }else{
+        window.location.assign( 'http://localhost:8080/order/startTime' ); // 直接導向到 order
+      }
+
+      $('#loginDialog').modal('hide');
+      $('#loginSuccessDialog').modal('show');
+    }
+
+    function loginFail(){
+      //$('#loginDialog').modal('hide');
+      $('#loginFailDialog').modal('show');
+    }
 
     return false;
   }); // login click end

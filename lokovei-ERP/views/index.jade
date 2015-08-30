@@ -31,3 +31,14 @@ block content
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') 取消
             button#login.btn.btn-success(type='button') 登入
+  #loginFailDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') ×
+            span.sr-only Close
+          h4.modal-title 登入失敗
+        .modal-body
+          p.text-danger
+            | 帳號或密碼錯誤
