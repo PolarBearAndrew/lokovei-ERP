@@ -86,80 +86,108 @@ router.get('/order/:sort', function(req, res, next) {
 
 router.get('/factory', function(req, res, next) {
 
-  // 把所有 job, 還沒完成的拉出來
-    Job.find({})
-       .execAsync()
+    let data= [];
+
+    // 把所有 job, 還沒完成的拉出來
+   Job.find({})
+      .execAsync()
 
        // 把 job 中的 item 拉出來
-       .then( result => {
+      .then( result => {
+        data = result;
+        return Order.find({}).execAsync();//取得oerder資料
+      })
+      .then( result => {
 
-          // 需要過濾資料訂單已經取消的資料 <- !!!
+        let info = {}
 
-          let data= [];
+        // 需要過濾資料訂單已經取消的資料 <- !!!
+        result.filter( val => {
+          return val.status !== '訂單取消' || val.status !== '無狀態';
+        })
 
-          // 將資料初始化成一比一比 item job
-          result.forEach( val => {
-            var job = val;
-            val.todoTime.forEach( item =>{
-              let obj = { ...item._doc, ...job._doc };
-              data.push(obj);
-            });
+        // 製作 order 出貨日期的資料
+        .forEach( val => {
+          info[val.oid] = val.outputDate;
+        });
 
-            let need = job.count - job.todoTime.length
-            for( var c = 0; c < need; c++ ){
-              let obj = { ...job._doc };
-              obj.status = '尚未完成';
-              obj.line = '';
-              obj.time = 0;
-              data.push(obj);
-            }
-          })
+        // 將資料初始化成一比一比 item job // 補上出貨日期的資料
+        data.forEach( val => {
+          var job = val;
+          val.todoTime.forEach( item =>{
+            let obj = { ...item._doc, ...job._doc };
+            obj.outputDate = info[job.oid]; // 補上出貨日期的資料
+            data.push(obj);
+          });
 
-          // 取得這三攤的參數
-          let day = get3dayNum(); //console.log('day', day);
-          let numList = day.map( val => val.num );
-
-
-          // 小於第一天的去掉
-          data = data.filter( val => {
-            return (val.time >= day[0].num || val.time == 0);
-          })
-
-
-          // 把已經排成的單子找出來計算 3 天內的產線剩餘的產值
-          data.forEach( val => {
-            if( numList.indexOf( val.time ) !== -1 ){
-              day[ numList.indexOf( val.time ) ].todo += 1;
-            }
-          })
-
-          // <- 抓取些下來三天的產線參數 !!!
-          let canDo = [ 15, 15, 15 ];
-          let ctrl = false;
-
-          // 計算剩餘的產量
-          day.forEach( ( val, index ) => {
-            canDo[index] -= val.todo;
-          })
-
-          canDo.forEach( val => {
-            if( val > 0 ) ctrl = true;
-          })
-
-          // 產值為 0 的話, 把資料整理整理回傳頁面直接回傳頁面
-          if( ctrl === false ){
-
-            console.log('無需排程');
-
-          }else{
-
-            console.log('啟動排程運算');
-
+          let need = job.count - job.todoTime.length
+          for( var c = 0; c < need; c++ ){
+            let obj = { ...job._doc };
+            obj.status = '尚未完成';
+            obj.line = '';
+            obj.time = 0;
+            obj.outputDate = info[job.oid]; // 補上出貨日期的資料
+            data.push(obj);
           }
+        })
+
+        // 取得這三攤的參數
+        let day = get3dayNum(); //console.log('day', day);
+        let numList = day.map( val => val.num );
 
 
-          console.log('!!! data', data.length , data)
-          console.log('!!! day', day)
+        // 小於第一天的去掉
+        data = data.filter( val => {
+          return (val.time >= day[0].num || val.time == 0);
+        })
+
+        // 把已經排成的單子找出來計算 3 天內的產線剩餘的產值
+        data.forEach( val => {
+          if( numList.indexOf( val.time ) !== -1 ){
+            day[ numList.indexOf( val.time ) ].todo += 1;
+          }
+        })
+
+        // <- 抓取些下來三天的產線參數 !!!
+        let canDo = [ 15, 15, 15 ];
+        let ctrl = false;
+
+        // 計算剩餘的產量
+        day.forEach( ( val, index ) => {
+          canDo[index] -= val.todo;
+        })
+
+        canDo.forEach( val => {
+          if( val > 0 ) ctrl = true;
+        })
+
+        // 產值為 0 的話, 把資料整理整理回傳頁面直接回傳頁面
+        if( ctrl === false ){
+
+          console.log('無需排程');
+
+        }else{
+
+          console.log('啟動排程運算...');
+
+
+          // 取出還沒排序的名單
+          let cal = data.filter( val => {
+            return val.time == 0;
+          });
+
+
+          // 把還沒排成的 item 依照 出貨 日期排序
+          // cal.sort( ( a, b ) => {
+          //   // let day1 = a.
+          // });
+
+
+        }
+
+
+        console.log('!!! data', data.length , data)
+        console.log('!!! day', day)
 
        })
        .catch( err => {
@@ -172,7 +200,7 @@ router.get('/factory', function(req, res, next) {
 
 
 
-  // 把還沒排成的 item 依照出貨日期排序
+
 
   // 踢除超過 3 天內產值的 item
 
