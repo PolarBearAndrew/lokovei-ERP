@@ -34,7 +34,7 @@ html
             li
               a(href='#') 您好，陳柏安
             li
-              a(href='#' type='button', data-toggle='modal', data-target='#loginDialog').btn-lg 登入
+              a(href='#' type='button') 登出
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
                 | 工作台
@@ -51,28 +51,5 @@ html
                 li.divider
                 li
                   a(href='/crud/account') 帳號管理
-    //- login dialog
-    form.form-inline(role='form')
-      #loginDialog.modal.fade
-        .modal-dialog
-          .modal-content
-            .modal-header
-              button.close(type='button', data-dismiss='modal')
-                span(aria-hidden='true') ×
-                span.sr-only Close
-              h4.modal-title lokovei 內部訂單管理 登入
-            .modal-body
-              | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              .form-group
-                label.sr-only(for='exampleInputEmail2') 帳號
-                input#exampleInputEmail2.form-control(type='text', placeholder='帳號')
-              | &nbsp;&nbsp;&nbsp;&nbsp;
-              .form-group
-                label.sr-only(for='exampleInputPassword2') 密碼
-                input#exampleInputPassword2.form-control(type='password', placeholder='密碼')
-
-            .modal-footer
-              button.btn.btn-default(type='button', data-dismiss='modal') Cancel
-              button.btn.btn-primary(type='button') Login
 
     block content

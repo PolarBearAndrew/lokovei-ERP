@@ -1,3 +1,32 @@
 extends layout
 
 block content
+  link(rel="stylesheet", href="/stylesheets/welcome.css")
+  .center
+    h1 lokovei 訂單管理系統
+    br
+    button.btn.btn-success.btn-lg(data-toggle='modal', data-target='#loginDialog') 請先登入
+
+
+  //- login dialog
+  form.form-inline(role='form')
+    #loginDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')
+      .modal-dialog.modal-sm
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal')
+              span(aria-hidden='true') ×
+              span.sr-only Close
+            h4.modal-title lokovei 內部訂單管理 登入
+          .modal-body
+            p
+              .form-group
+                label.sr-only(for='exampleInputEmail2') 帳號
+                input#exampleInputEmail2.form-control(type='text', placeholder='帳號')
+            p
+              .form-group
+                label.sr-only(for='exampleInputPassword2') 密碼
+                input#exampleInputPassword2.form-control(type='password', placeholder='密碼')
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') 取消
+            button.btn.btn-success(type='button') 登入

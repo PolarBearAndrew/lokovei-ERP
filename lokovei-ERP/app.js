@@ -39,6 +39,13 @@ app.use(function(req, res, next) {
     next();
 });
 
+
+app.use( (req, res, next) => {
+
+    res.render('index');
+    return;
+})
+
 app.use('/', routes);
 
 app.use('/job', job);

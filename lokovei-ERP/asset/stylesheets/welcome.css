@@ -1,0 +1,17 @@
+/* line 1, ../sass/welcome.sass */
+body {
+  background-color: #DEDEDE;
+}
+
+/* line 4, ../sass/welcome.sass */
+.center {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  top: 35%;
+}
+
+/* line 10, ../sass/welcome.sass */
+#loginDialog input {
+  width: 260px;
+}
