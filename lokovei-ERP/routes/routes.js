@@ -101,7 +101,7 @@ router.get('/factory', function(req, res, next) {
 
         let info = {}
 
-        // 需要過濾資料訂單已經取消的資料 <- !!!
+        // 需要過濾資料訂單已經取消的資料
         result.filter( val => {
           return val.status !== '訂單取消' || val.status !== '無狀態';
         })
@@ -136,97 +136,129 @@ router.get('/factory', function(req, res, next) {
         })
 
         // 取得這三攤的參數
-        let day = get3dayNum(); //console.log('day', day);
+        let day = getLines();
         let numList = day.map( val => val.num );
-
+        console.log('day', day);
 
         // 小於第一天的去掉
-        data = data.filter( val => {
-          return (val.time >= day[0].num || val.time == 0);
-        })
+        // data = data.filter( val => {
+        //   return (val.time >= day[0].num || val.time == 0);
+        // })
 
-        // 把已經排成的單子找出來計算 3 天內的產線剩餘的產值
-        data.forEach( val => {
-          if( numList.indexOf( val.time ) !== -1 ){
-            day[ numList.indexOf( val.time ) ].todo += 1;
-          }
-        })
-
-        // <- 抓取些下來三天的產線參數 !!!
-        // let canDo = [ 15, 15, 15 ];
-        let canDo = [ 3, 3, 0 ];
-
-        let ctrl = false,
-            need = 0; // 總需求數
-
-        // 計算剩餘的產量
-        day.forEach( ( val, index ) => {
-          canDo[index] -= val.todo;
-        })
-
-        canDo.forEach( val => {
-          if( val > 0 ) {
-            ctrl = true;
-            need += val;
-          }
-        })
-
-        // 產值為 0 的話, 把資料整理整理回傳頁面直接回傳頁面
-        if( ctrl === false ){
-
-          console.log('無需排程');
-
-        }else{
-
-          console.log('啟動排程運算...');
+        // // 把已經排成的單子找出來計算 3 天內的產線剩餘的產值
+        // data.forEach( val => {
+        //   if( numList.indexOf( val.time ) !== -1 ){
+        //     day[ numList.indexOf( val.time ) ].todo += 1;
+        //   }
+        // })
 
 
-          // 取出還沒排序的名單
-          let cal = data = data.filter( val => {
-            return val.time == 0;
-          });
+        // // let canDo = [ 15, 15, 15 ];
+        // let canDo = [ 3, 3, 0 ];
+
+        // let ctrl = false,
+        //     need = 0; // 總需求數
+
+        // // 計算剩餘的產量
+        // day.forEach( ( val, index ) => {
+        //   canDo[index] -= val.todo;
+        // })
+
+        // canDo.forEach( val => {
+        //   if( val > 0 ) {
+        //     ctrl = true;
+        //     need += val;
+        //   }
+        // })
+
+        // // 產值為 0 的話, 把資料整理整理回傳頁面直接回傳頁面
+        // if( ctrl === false ){
+
+        //   console.log('無需排程');
+
+        // }else{
+
+        //   console.log('啟動排程運算...');
 
 
-          // 把還沒排成的 item 依照 出貨 日期排序
-          cal.sort( ( a, b ) => {
-            let day1 = parseInt( a.outputDate.replace(/\//g, '') );
-            let day2 = parseInt( b.outputDate.replace(/\//g, '') );
-            return day1 - day2; // 小 -> 大
-          });
+        //   // 取出還沒排序的名單
+        //   let cal = data = data.filter( val => {
+        //     return val.time == 0;
+        //   });
 
-          // 分離超過 3 天內產值的 item
-          let todo = cal.filter( ( val, index) => { return index < need; });
-          let overFlow = cal.filter( ( val, index) => { return index >= need; });
 
-          // 把 todo 排上去,  記得處理工作量不足的情況
-          todo.forEach( val => {
-            for( var i  = 0; i < canDo.length; i++ ){ // 找出能放的空間
-              if( canDo[i] > 0){ //有剩餘空間就放下去
-                canDo[i]--;
-                val.time = day[i].num;
+        //   // 把還沒排成的 item 依照 出貨 日期排序
+        //   cal.sort( sortByDay );
 
-                // 將資料寫進去 <--!!!!!
+        //   // 分離超過 3 天內產值的 item
+        //   let todo = cal.filter( ( val, index) => { return index < need; });
+        //   let overFlow = cal.filter( ( val, index) => { return index >= need; });
 
-                break;
-              }
-            }
-          }); //todo 排上去 end
+        //   // 把 todo 排上去,  記得處理工作量不足的情況 <-- !!!
+        //   todo.forEach( val => {
+        //     for( var i  = 0; i < canDo.length; i++ ){ // 找出能放的空間
+        //       if( canDo[i] > 0){ //有剩餘空間就放下去
+        //         canDo[i]--;
+        //         val.time = day[i].num;
 
-          overFlow.concat(
-              todo.filter( val => val.time == 0 )
-            );
+        //         // 將資料寫進去 <--!!!!!
+
+        //         break;
+        //       }
+        //     }
+        //   }); //todo 排上去 end
+
+        //   // 將為排成的工作從 todo 移動到 overFlow (應該不會有需要移動的資訊, 單純避免意外)
+        //   overFlow.concat( todo.filter( val => val.time == 0 ) );
+
+        //   let all = data.concat(todo);
 
           // 把資料整理整理回傳頁面 new 新增的工作 all 全部的工作 overflow 無法顯示在佇列的代辦工作
-          let renderData = { new: todo, all: data.concat(todo), overFlow: overFlow };
+          // let renderData = { new: todo, all: all, overFlow: overFlow };
+          let renderData = null;
           res.render('queue_factory', renderData);
 
-          //console.log('!!! todo', todo.length , todo)
-        }
+
+          // console.log('!!! all', all.length , all)
+        // }
       })
       .catch( err => {
-        debug('讀取 factory 頁面資料失敗');
+        debug('讀取 factory 頁面資料失敗', err);
       });
+
+      function sortByDay( a, b ){
+        let day1 = parseInt( a.outputDate.replace(/\//g, '') );
+        let day2 = parseInt( b.outputDate.replace(/\//g, '') );
+        return day1 - day2; // 小 -> 大
+      }
+
+      function sortByLine( a, b ){
+        let day1 = parseInt( a.outputDate.replace(/\//g, '') );
+        let day2 = parseInt( b.outputDate.replace(/\//g, '') );
+        return day1 - day2; // 小 -> 大
+      }
 });
+
+function getLines(){
+
+  // 抓取 line 的總數與資源 <-- !!!!
+
+  let count = 3;
+
+  // 建立 line 的參數
+  let data = [];
+  let days = get3dayNum();
+
+  days = days.forEach( val => {
+    for( var c = 0; c < count; c++ ){
+      let tmp = {};
+      tmp.num = val.num * 10 + c;
+      tmp.todo = 3; // 假設的 line 的資源 <--- !!!
+      data.push(tmp);
+    }
+  });
+  return data;
+}
 
 function get3dayNum(){
   let today =  getTodayNum();
