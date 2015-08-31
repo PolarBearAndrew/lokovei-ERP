@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  link(rel="stylesheet", href="stylesheets/queue_factory.css")
+  script(src="javascript/queue_factory.js")
+  script(src="javascript/queue_factory_drag.js")
+  .screen
+    .wrapper
+      - var lineCount = 10
+      .day
+        - for( var line = 0; line < lineCount; line++ )
+          - if( line == 0 )
+            .thumbnail.dayTitle
+              h4 產線訂單佇列表
+          .line
+            .thumbnail.lineName
+              h3= '產線編號' + ( line + 1 )
+              p 負責人：陳柏安
+              p 0930-014-167
+              p 備註：無
+      - for( var day = 0; day < 5; day++ )
+        .day
+          - for( var line = 0; line < lineCount; line++ )
+            - if( line == 0 )
+              .thumbnail.dayTitle
+                h4 2015/8/20 (四)
+            .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)")
+              - for( var job = 0; job < 3; job++ )
+                .thumbnail.job(id='line'+line+'job'+job draggable="true" ondragstart="drag(event)")
+                  h5
+                    - var order = '<p>訂單編號：1011010112<br/>經銷商：全馬<br/>訂單出車日期：2015/5/12</p>'
+                    span.info.glyphicon.glyphicon-tags.job-info( aria-hidden='true', tabindex='0', role='button', data-toggle='popover', data-trigger='click', title='訂單資訊', data-html="true", data-content=order)
+                    | CHT-013-BO002
+                  h5 Lokovei SR-800-寶馬棕
+                  p
+                    label.label.label-warning 尚未檢驗
+                  p
+                    | 鎳氫電池改為離電池，並且加上懸掛系統

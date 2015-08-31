@@ -113,13 +113,17 @@ router.get('/factory', function(req, res, next) {
 
         // 將資料初始化成一比一比 item job // 補上出貨日期的資料
         data.forEach( val => {
+
           var job = val;
+
+          // 抓取出 todoTime 內部的資料
           val.todoTime.forEach( item =>{
             let obj = { ...item._doc, ...job._doc };
             obj.outputDate = info[job.oid]; // 補上出貨日期的資料
             data.push(obj);
           });
 
+          // 補上還沒初始化 todoTime 的數量
           let need = job.count - job.todoTime.length
           for( var c = 0; c < need; c++ ){
             let obj = { ...job._doc };
@@ -149,8 +153,11 @@ router.get('/factory', function(req, res, next) {
         })
 
         // <- 抓取些下來三天的產線參數 !!!
-        let canDo = [ 15, 15, 15 ];
-        let ctrl = false;
+        // let canDo = [ 15, 15, 15 ];
+        let canDo = [ 3, 3, 0 ];
+
+        let ctrl = false,
+            need = 0; // 總需求數
 
         // 計算剩餘的產量
         day.forEach( ( val, index ) => {
@@ -158,7 +165,10 @@ router.get('/factory', function(req, res, next) {
         })
 
         canDo.forEach( val => {
-          if( val > 0 ) ctrl = true;
+          if( val > 0 ) {
+            ctrl = true;
+            need += val;
+          }
         })
 
         // 產值為 0 的話, 把資料整理整理回傳頁面直接回傳頁面
@@ -172,45 +182,50 @@ router.get('/factory', function(req, res, next) {
 
 
           // 取出還沒排序的名單
-          let cal = data.filter( val => {
+          let cal = data = data.filter( val => {
             return val.time == 0;
           });
 
 
           // 把還沒排成的 item 依照 出貨 日期排序
-          // cal.sort( ( a, b ) => {
-          //   // let day1 = a.
-          // });
+          cal.sort( ( a, b ) => {
+            let day1 = parseInt( a.outputDate.replace(/\//g, '') );
+            let day2 = parseInt( b.outputDate.replace(/\//g, '') );
+            return day1 - day2; // 小 -> 大
+          });
 
+          // 分離超過 3 天內產值的 item
+          let todo = cal.filter( ( val, index) => { return index < need; });
+          let overFlow = cal.filter( ( val, index) => { return index >= need; });
 
+          // 把 todo 排上去,  記得處理工作量不足的情況
+          todo.forEach( val => {
+            for( var i  = 0; i < canDo.length; i++ ){ // 找出能放的空間
+              if( canDo[i] > 0){ //有剩餘空間就放下去
+                canDo[i]--;
+                val.time = day[i].num;
+
+                // 將資料寫進去 <--!!!!!
+
+                break;
+              }
+            }
+          }); //todo 排上去 end
+
+          overFlow.concat(
+              todo.filter( val => val.time == 0 )
+            );
+
+          // 把資料整理整理回傳頁面 new 新增的工作 all 全部的工作 overflow 無法顯示在佇列的代辦工作
+          let renderData = { new: todo, all: data.concat(todo), overFlow: overFlow };
+          res.render('queue_factory', renderData);
+
+          //console.log('!!! todo', todo.length , todo)
         }
-
-
-        console.log('!!! data', data.length , data)
-        console.log('!!! day', day)
-
-       })
-       .catch( err => {
-         debug('讀取 factory 頁面資料失敗');
-       })
-
-
-
-
-
-
-
-
-
-  // 踢除超過 3 天內產值的 item
-
-  // 把他們排上去, 寫回資料庫
-
-  // 把資料整理整理回傳頁面
-
-  // 告訴他多了哪些
-
-  res.render('queue_factory');
+      })
+      .catch( err => {
+        debug('讀取 factory 頁面資料失敗');
+      });
 });
 
 function get3dayNum(){
