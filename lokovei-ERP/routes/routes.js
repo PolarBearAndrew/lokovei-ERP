@@ -172,7 +172,6 @@ router.get('/factory', function(req, res, next) {
 
           console.log('啟動排程運算...');
 
-
           // 取出還沒排序的名單
           let cal = data.filter( val => {
             return val.time == 0;
@@ -181,8 +180,6 @@ router.get('/factory', function(req, res, next) {
           let already = data.filter( val => {
             return val.time !== 0;
           });
-
-          // !!!!
 
           // 把還沒排成的 item 依照 出貨 日期排序
           cal.sort( sortByDay );
@@ -219,7 +216,6 @@ router.get('/factory', function(req, res, next) {
 
           console.log('all', all.length, all);
 
-          // console.log('!!! all', all.length , all)
         }
       })
       .catch( err => {
