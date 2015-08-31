@@ -152,9 +152,6 @@ router.get('/factory', function(req, res, next) {
           }
         });
 
-        // // let canDo = [ 15, 15, 15 ];
-        // let canDo = [ 3, 3, 0 ];
-
         let ctrl = false,
             need = 0;  // 總需求數
 
@@ -177,8 +174,12 @@ router.get('/factory', function(req, res, next) {
 
 
           // 取出還沒排序的名單
-          let cal = data = data.filter( val => {
+          let cal = data.filter( val => {
             return val.time == 0;
+          });
+
+          let already = data.filter( val => {
+            return val.time !== 0;
           });
 
           // !!!!
@@ -206,14 +207,17 @@ router.get('/factory', function(req, res, next) {
 
           // 將尚未排成的工作從 todo 移動到 overFlow (應該不會有需要移動的資訊, 單純避免意外)
           overFlow.concat( todo.filter( val => val.time == 0 ) );
+          todo = todo.filter( val => val.time !== 0 );
 
-          let all = data.concat(todo);
+          // 將已經排序的資料陣列和命
+          let all = already.concat(todo);
+          all.sort(sortByTime)
 
           // 把資料整理整理回傳頁面 new 新增的工作 all 全部的工作 overflow 無法顯示在佇列的代辦工作
           let renderData = { new: todo, all: all, overFlow: overFlow };
           res.render('queue_factory', renderData);
 
-          console.log('data', data.length, data);
+          console.log('all', all.length, all);
 
           // console.log('!!! all', all.length , all)
         }
@@ -222,15 +226,17 @@ router.get('/factory', function(req, res, next) {
         debug('讀取 factory 頁面資料失敗', err);
       });
 
+      // 依照 出貨日期排序
       function sortByDay( a, b ){
         let day1 = parseInt( a.outputDate.replace(/\//g, '') );
         let day2 = parseInt( b.outputDate.replace(/\//g, '') );
         return day1 - day2; // 小 -> 大
       }
 
-      function sortByLine( a, b ){
-        let day1 = parseInt( a.outputDate.replace(/\//g, '') );
-        let day2 = parseInt( b.outputDate.replace(/\//g, '') );
+      // 依照排去上去的時間和日期排序
+      function sortByTime( a, b ){
+        let day1 = parseInt( a.time );
+        let day2 = parseInt( b.time );
         return day1 - day2; // 小 -> 大
       }
 });
@@ -248,7 +254,7 @@ function getLines(){
   days = days.forEach( val => {
     for( var c = 0; c < count; c++ ){
       let tmp = {};
-      tmp.num = val.num * 10 + c;
+      tmp.num = val.num * 100 + c;
       tmp.todo = 3; // 假設的 line 的資源 <--- !!!
       data.push(tmp);
     }
