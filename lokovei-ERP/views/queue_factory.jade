@@ -6,33 +6,65 @@ block content
   script(src="javascript/queue_factory_drag.js")
   .screen
     .wrapper
-      - var lineCount = 10
+      - var lineCount = 3; //-  + 1 為 title
       .day
         - for( var line = 0; line < lineCount; line++ )
           - if( line == 0 )
             .thumbnail.dayTitle
               h4 產線訂單佇列表
           .line
+            //- line info data
             .thumbnail.lineName
               h3= '產線編號' + ( line + 1 )
-              p 負責人：陳柏安
-              p 0930-014-167
-              p 備註：無
-      - for( var day = 0; day < 5; day++ )
+              p
+                | 負責人：陳柏安
+                br
+                | 0930-014-167
+      - var index = 0;
+      - for( var day = 0; day < 3; day++ )
         .day
           - for( var line = 0; line < lineCount; line++ )
             - if( line == 0 )
               .thumbnail.dayTitle
-                h4 2015/8/20 (四)
+                - var d = new Date()
+                h4= d.getFullYear() + ' / ' + (d.getMonth() + 1) + ' / ' + ( d.getUTCDate() + day )
             .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)")
-              - for( var job = 0; job < 3; job++ )
-                .thumbnail.job(id='line'+line+'job'+job draggable="true" ondragstart="drag(event)")
-                  h5
-                    - var order = '<p>訂單編號：1011010112<br/>經銷商：全馬<br/>訂單出車日期：2015/5/12</p>'
+              - for( var j = index; j < all.length; j++ )
+                - var job = all[j];
+                - index = j
+                - if( job.time % 100 != line ){ break; }
+                .thumbnail.job(id='line'+line+'job'+j draggable="true" ondragstart="drag(event)")
+                  p
+                    = job.pid
+                    br
+                    = job.pSpec
+                    br
+                    = '電池：' + job.battery
+                    br
+                    = '備註：' + job.note
+                    br
+                    - var uid = { 'data-uid': job._id }
+                    - if(job.status == '已結案')
+                      button.status.btn.btn-sm.btn-success&attributes(uid)= job.status
+                    - else if(job.status == '已出貨')
+                      button.status.btn.btn-sm.btn-primary&attributes(uid)= job.status
+                    - else if(job.status == '尚未出貨')
+                      button.status.btn.btn-sm.btn-info&attributes(uid)= job.status
+                    - else if(job.status == '尚未完成')
+                      button.status.btn.btn-sm.btn-warning&attributes(uid)= job.status
+                    - else if(job.status == '訂單取消')
+                      button.status.btn.btn-sm.btn-danger&attributes(uid)= job.status
+                    - else
+                      button.status.btn.btn-default&attributes(uid) 尚未設定
+                    - var order = '<p>訂單編號：' + job.oid; //- '<br/>經銷商：' + job. + '<br/>訂單出車日期：2015/5/12</p>'
                     span.info.glyphicon.glyphicon-tags.job-info( aria-hidden='true', tabindex='0', role='button', data-toggle='popover', data-trigger='click', title='訂單資訊', data-html="true", data-content=order)
-                    | CHT-013-BO002
-                  h5 Lokovei SR-800-寶馬棕
-                  p
-                    label.label.label-warning 尚未檢驗
-                  p
-                    | 鎳氫電池改為離電池，並且加上懸掛系統
+              - if( index >= all.length - 1 ) { index++; }
+
+- function getTodayNum(){
+-  let minutes = 1000 * 60;
+-  let hours = minutes * 60;
+-  let days = hours * 24;
+-  let d = new Date();
+-  let t= d.getTime();
+-  return Math.round(t / days); //與 差幾天  January 1, 1970.
+- }

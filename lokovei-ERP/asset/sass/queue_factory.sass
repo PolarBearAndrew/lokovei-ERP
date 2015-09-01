@@ -2,10 +2,11 @@
 @import "compass/typography/lists/inline-list"
 
 .job
-  // float: left
-  width: 180px
-  min-width: 180px
-  max-height: 230px
+  position: relative
+  width: 150px
+  height : 130px
+  max-height: 160px
+  overflow: visible
   margin-right: 4px
   cursor: -webkit-grab
   &:last-child
@@ -21,6 +22,7 @@
 .day
   float: left
   border-radius: 8px
+  min-width: 150px
   // border: 1px solid #DEDEDE
   background-color: #F5F5F5
   margin-right: 12px
@@ -32,7 +34,7 @@
 .line
   // width: 700px
   // overflow-x: scroll
-  height: 180px
+  height: 140px
   padding-left: 12px
   // border: 1px solid red
   @include display-flex
@@ -51,7 +53,14 @@
   overflow-x: scroll
 
 .info
-  margin-right: 2px
-  padding-right: 4px
-  float: right
+  // margin-top: 4px
+  // margin-right: 2px
+  // padding-right: 4px
+  // float: right
+  position: absolute
+  right: 8px
+  // bottom: 0px
+  top: calc( 100% - 35px)
+  height: 16px
+  width: 16px
   cursor: pointer

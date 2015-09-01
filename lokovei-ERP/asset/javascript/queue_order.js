@@ -188,7 +188,7 @@ $(document).ready(function() {
         data.uid = $(jobs[i]).attr('data-job');
         data.oid = oid;
         data.pid = p.substring( 0 , p.indexOf('/') );
-        data.pSpec = p.substring( p.indexOf('/') , p.length - 1 );
+        data.pSpec = p.substring( p.indexOf('/') + 1 , p.length );
         data.count = parseInt( $(tmp[1]).text() || 0 );
         data.battery = $(tmp[2]).text();
         data.note = $(tmp[3]).text();

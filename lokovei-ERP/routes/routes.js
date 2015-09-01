@@ -210,6 +210,8 @@ router.get('/factory', function(req, res, next) {
           let all = already.concat(todo);
           all.sort(sortByTime)
 
+          // 還需要 line data <--- !!!
+
           // 把資料整理整理回傳頁面 new 新增的工作 all 全部的工作 overflow 無法顯示在佇列的代辦工作
           let renderData = { new: todo, all: all, overFlow: overFlow };
           res.render('queue_factory', renderData);
@@ -259,7 +261,7 @@ function getLines(){
 }
 
 function get3dayNum(){
-  let today =  getTodayNum();
+  let today =  getTodayNum(); // 要跳過週末
   return [
     { num: today,     todo: 0 },
     { num: today + 1, todo: 0 },
