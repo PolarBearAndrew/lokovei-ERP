@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  console.log('init factory')
 
   $('.job-info').popover()
 
@@ -26,7 +25,7 @@ $(document).ready(function(){
     var status = $(this).attr('data-value');
     var color = $(this).attr('class').replace(/statusChoose/g, '');
 
-    console.log('set staus');
+    //console.log('set staus');
 
     // $.ajax({
     //   url: url_order + '/status',
@@ -34,7 +33,7 @@ $(document).ready(function(){
     //   data: { uid: id, status: status },
     //   success: function(result){
     //     console.log('設定狀態成功', result);
-        $( $('.status[data-uid="' + id + '"]')[0] ).attr('class', color + ' status' ).text(status);
+        $( $('.status[data-uid="' + id + '"]')[0] ).attr('class', color + ' status btn-sm' ).text(status);
     //   },
     //   error: function(err){
     //     console.log('設定狀態錯誤', err);

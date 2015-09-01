@@ -123,8 +123,12 @@ router.get('/factory', function(req, res, next) {
 
           // 抓取出 todoTime 內部的資料
           val.todoTime.forEach( item =>{
-            let obj = { ...item._doc, ...job._doc };
+            let obj = { ...job._doc };
             obj.outputDate = info[job.oid]; // 補上出貨日期的資料
+            obj.time = item.time;
+            obj.line = item.line;
+            obj.status = item.status;
+            obj.todoTime = null;
             data.push(obj);
           });
 
@@ -136,9 +140,12 @@ router.get('/factory', function(req, res, next) {
             obj.line = '';
             obj.time = 0;
             obj.outputDate = info[job.oid]; // 補上出貨日期的資料
+            obj.todoTime = null;
             data.push(obj);
           }
         })
+
+        //console.log('data', data);
 
         // 取得這三攤的參數
         let line = getLines();
@@ -147,8 +154,8 @@ router.get('/factory', function(req, res, next) {
 
         // 小於第一天的去掉
         data = data.filter( val => {
-          return (val.time >= line[0].num || val.time == 0);
-        })
+          return (val.time >= line[0].num || val.time === 0);
+        });
 
         // 把已經排成的單子找出來計算 3 天內的產線剩餘的產值
         data.forEach( val => {
@@ -179,7 +186,7 @@ router.get('/factory', function(req, res, next) {
 
           // 取出還沒排序的名單
           let cal = data.filter( val => {
-            return val.time == 0;
+            return val.time === 0;
           });
 
           let already = data.filter( val => {
@@ -199,9 +206,6 @@ router.get('/factory', function(req, res, next) {
               if( line[i].todo > 0){ //有剩餘空間就放下去
                 line[i].todo--;
                 val.time = line[i].num;
-
-                // 將資料寫進 DB去 <--!!!!!
-
                 break;
               }
             }
@@ -221,7 +225,35 @@ router.get('/factory', function(req, res, next) {
           let renderData = { lineData: lineData, new: todo, all: all, overFlow: overFlow };
           res.render('queue_factory', renderData);
 
-          console.log('all', all.length, all, lineData);
+          // console.log('all', all.length, all, lineData);
+
+          // 使用 oid 分組, 批次寫回去
+
+          //db operation
+           Job.findOne( { _id: _id } )
+              .execAsync()
+              .then( result => {
+
+                  let tmp = result.todoTime;
+
+                  for( var t = 0; t < tmp.length; t++){
+                    if( oldOne == tmp[t] ){
+                      tmp[t] = newOne;
+                      break;
+                    }
+                  }
+
+                  return Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
+                            .updateAsync();
+              })
+              .then( result => {
+                  debug('[PUT] 更新作業時間 success ->', result);
+                  //res.json(result);
+              })
+              .catch( err => {
+                  debug('[PUT] 更新作業時間 fail ->', err);
+                  return next(err);
+              });
 
         }
       })
