@@ -7,6 +7,7 @@ block content
   .screen
     .wrapper
       - var lineCount = lineData.length;
+      //-  left title , line data
       .day
         - for( var l = 0; l < lineCount ; l++ )
           - if( l == 0 )
@@ -20,20 +21,26 @@ block content
                 = lineData[l].who
                 br
                 = lineData[l].phone
-      - var index = 0;
+
+      - var d = new Date()
+      - var index = 0; //- index is using on change day
       - for( var day = 0; day < 3; day++ )
         .day
           - for( var line = 0; line < lineCount; line++ )
-            - if( line == 0 )
+            - if( line == 0 ) //- title
               .thumbnail.dayTitle
-                - var d = new Date()
                 h4= d.getFullYear() + ' / ' + (d.getMonth() + 1) + ' / ' + ( d.getUTCDate() + day )
-            .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)")
+            //- show job
+            - var time = Math.round(d / 86400000) * 100 + line;
+            .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)" data-time= time)
               - for( var j = index; j < all.length; j++ )
                 - var job = all[j];
-                - index = j
+                //- debug
+                //- h1= index
+                //- h4= job.time
                 - if( job.time % 100 != line ){ break; }
-                .thumbnail.job(id='line'+line+'job'+j draggable="true" ondragstart="drag(event)")
+                - index++;
+                .thumbnail.job(id='line'+line+'job'+j draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job.oid data-status=job.status )
                   p
                     = job.pid
                     br
@@ -45,20 +52,20 @@ block content
                     br
                     - var uid = { 'data-uid': job._id.toString() + job.time.toString() }
                     - if(job.status == '已結案')
-                      button.status.btn.btn-sm.btn-success&attributes(uid)= job.status
+                      button.status.btn.btn-sm.btn-success(data-time=job.time data-oid=job.oid data-status=job.status )&attributes(uid)= job.status
                     - else if(job.status == '已出貨')
-                      button.status.btn.btn-sm.btn-primary&attributes(uid)= job.status
+                      button.status.btn.btn-sm.btn-primary(data-time=job.time data-oid=job.oid data-status=job.status )&attributes(uid)= job.status
                     - else if(job.status == '尚未出貨')
-                      button.status.btn.btn-sm.btn-info&attributes(uid)= job.status
+                      button.status.btn.btn-sm.btn-info(data-time=job.time data-oid=job.oid data-status=job.status )&attributes(uid)= job.status
                     - else if(job.status == '尚未完成')
-                      button.status.btn.btn-sm.btn-warning&attributes(uid)= job.status
+                      button.status.btn.btn-sm.btn-warning(data-time=job.time data-oid=job.oid data-status=job.status )&attributes(uid)= job.status
                     - else if(job.status == '訂單取消')
-                      button.status.btn.btn-sm.btn-danger&attributes(uid)= job.status
+                      button.status.btn.btn-sm.btn-danger(data-time=job.time data-oid=job.oid data-status=job.status )&attributes(uid)= job.status
                     - else
-                      button.status.btn.btn-default&attributes(uid) 尚未設定
+                      button.status.btn.btn-default(data-time=job.time data-oid=job.oid data-status=job.status )&attributes(uid) 尚未設定
                     - var order = '<p>訂單編號：' + job.oid; //- '<br/>經銷商：' + job. + '<br/>訂單出車日期：2015/5/12</p>'
                     span.info.glyphicon.glyphicon-tags.job-info( aria-hidden='true', tabindex='0', role='button', data-toggle='popover', data-trigger='click', title='訂單資訊', data-html="true", data-content=order)
-              - if( index >= all.length - 1 ) { index++; }
+              - if( index >= all.length ) { index++; }
 
   #statusDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')
     .modal-dialog.modal-sm
@@ -90,5 +97,5 @@ block content
 -  let days = hours * 24;
 -  let d = new Date();
 -  let t= d.getTime();
--  return Math.round(t / days); //與 差幾天  January 1, 1970.
+-  return Math.round(t / 86400000); //與 差幾天  January 1, 1970.
 - }

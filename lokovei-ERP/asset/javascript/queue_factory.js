@@ -8,37 +8,43 @@ $(document).ready(function(){
 
 
   // set status
+  var data = {};
   var id = '';
-  var url_order     = 'http://localhost:8080/order';
+  var url_order     = 'http://localhost:8080/job';
 
   $('html, body').on('click', '.status', function(){
     //console.log('click .status');
     id = $(this).attr('data-uid');
-    // console.log('id', id);
+    data.oid = $(this).attr('data-oid');
+    data.time = $(this).attr('data-time');
+    data.status = $(this).attr('data-status');
+    data.nTime = $(this).parent().parent().attr('data-time');
     $('#statusDialog').modal('toggle');
     return false;
   });
 
   $('html, body').on('click', '.statusChoose', function(){
 
-    //var btn = $(this);
-    var status = $(this).attr('data-value');
+    data.nStatus = $(this).attr('data-value');
+
+    console.log('data', data);
+
     var color = $(this).attr('class').replace(/statusChoose/g, '');
 
     //console.log('set staus');
 
-    // $.ajax({
-    //   url: url_order + '/status',
-    //   type: 'POST',
-    //   data: { uid: id, status: status },
-    //   success: function(result){
-    //     console.log('設定狀態成功', result);
-        $( $('.status[data-uid="' + id + '"]')[0] ).attr('class', color + ' status btn-sm' ).text(status);
-    //   },
-    //   error: function(err){
-    //     console.log('設定狀態錯誤', err);
-    //   }
-    // })
+    $.ajax({
+      url: url_order + '/todoTime',
+      type: 'PUT',
+      data: data,
+      success: function(result){
+        console.log('設定job狀態成功', result);
+        $( $('.status[data-uid="' + id + '"]')[0] ).attr('class', color + ' status btn-sm' ).text(data.nStatus);
+      },
+      error: function(err){
+        console.log('設定job狀態錯誤', err);
+      }
+    })
 
     $('#statusDialog').modal('toggle');
     return false;

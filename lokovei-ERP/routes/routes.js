@@ -123,11 +123,13 @@ router.get('/factory', function(req, res, next) {
 
           // 抓取出 todoTime 內部的資料
           val.todoTime.forEach( item =>{
+
+            console.log('item', item);
             let obj = { ...job._doc };
             obj.outputDate = info[job.oid]; // 補上出貨日期的資料
-            obj.time = item.time;
-            obj.line = item.line;
-            obj.status = item.status;
+            obj.time = item.time || 0;
+            obj.line = item.line || '';
+            obj.status = item.status || '尚未完成';
             obj.todoTime = null;
             data.push(obj);
           });
@@ -148,7 +150,7 @@ router.get('/factory', function(req, res, next) {
         //console.log('data', data);
 
         // 取得這三攤的參數
-        let line = getLines();
+        let line = getLines(lineData.length);
         let numList = line.map( val => val.num );
         console.log('line', line);
 
@@ -225,40 +227,46 @@ router.get('/factory', function(req, res, next) {
           let renderData = { lineData: lineData, new: todo, all: all, overFlow: overFlow };
           res.render('queue_factory', renderData);
 
-          // console.log('all', all.length, all, lineData);
+          console.log('all', all.length, all);
 
           // 使用 oid 分組, 批次寫回去
+          let newJob = all; // 需要被更新的人
+          let oid = [];
 
-          //db operation
-           Job.findOne( { _id: _id } )
-              .execAsync()
-              .then( result => {
+          // 取得 oid 名單
+          for(var n = 0; n < newJob.length; n++ ){
+            if( oid.indexOf( newJob[n].oid ) == -1 ){
+              oid.push(newJob[n].oid);
+            }
+          }
 
-                  let tmp = result.todoTime;
+          oid.forEach( val => {
 
-                  for( var t = 0; t < tmp.length; t++){
-                    if( oldOne == tmp[t] ){
-                      tmp[t] = newOne;
-                      break;
-                    }
-                  }
+            let tmp = newJob.filter( job => job.oid == val)
+                            .map( job => {
+                              return {
+                                time: job.time,
+                                line: job.line,
+                                status: job.status
+                              }
+                            });
 
-                  return Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
-                            .updateAsync();
-              })
-              .then( result => {
-                  debug('[PUT] 更新作業時間 success ->', result);
-                  //res.json(result);
-              })
-              .catch( err => {
-                  debug('[PUT] 更新作業時間 fail ->', err);
-                  return next(err);
-              });
-
+             //db operation
+             Job.findOneAndUpdate( { oid: oid }, { todoTime: tmp } )
+                .updateAsync()
+                .then( result => {
+                    debug('[PUT] 後續更新todoTime時間 success ->', result);
+                })
+                .catch( err => {
+                    debug('[PUT] 更新作業時間 fail ->', err);
+                    return next(err);
+                });
+          })
         }
       })
       .catch( err => {
         debug('讀取 factory 頁面資料失敗', err);
+        return next(err);
       });
 
       // 依照 出貨日期排序
@@ -276,11 +284,10 @@ router.get('/factory', function(req, res, next) {
       }
 });
 
-function getLines(){
+function getLines(count, info){
 
   // 抓取 line 的總數與資源 <-- !!!!
-
-  let count = 3;
+  //let count = 3;
 
   // 建立 line 的參數
   let data = [];

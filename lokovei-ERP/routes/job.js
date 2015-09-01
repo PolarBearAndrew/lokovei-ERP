@@ -131,79 +131,90 @@ router.delete('/', (req, res, next) => {
  * request : body.uid, body.name, body.account, body.pwd, body.auth
  * respone : db result
  */
-router.put('/addOne', (req, res, next) => {
+// router.put('/addOne', (req, res, next) => {
 
-    debug('[PUT] 增加作業時間 req.body ->', req.body );
+//     debug('[PUT] 增加作業時間 req.body ->', req.body );
 
-    //check
-    let miss = check( req.body, ['uid', 'todoTime'] );
-    if(!miss.check){
-        debug('[PUT] 增加作業時間 miss data ->', miss.miss);
-        return res.status(500).send('缺少必要參數', miss.miss);
-    }
+//     //check
+//     let miss = check( req.body, ['uid', 'todoTime'] );
+//     if(!miss.check){
+//         debug('[PUT] 增加作業時間 miss data ->', miss.miss);
+//         return res.status(500).send('缺少必要參數', miss.miss);
+//     }
 
-    //db entity
-    let _id = req.body.uid.replace(/\"/g, '');
-    let newOne = req.body.todoTime;
+//     //db entity
+//     let _id = req.body.uid.replace(/\"/g, '');
+//     let newOne = req.body.todoTime;
 
-    //db operation
-     Job.findOne( { _id: _id } )
-        .execAsync()
-        .then( result => {
-            let tmp = result.todoTime;
-            tmp.push(newOne);
-            return Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
-                      .execUpdate();
-        })
-        .then( result => {
-            debug('[PUT] 增加作業時間 success ->', result);
-            res.json(result);
-        })
-        .catch( err => {
-            debug('[PUT] 增加作業時間 fail ->', err);
-            return next(err);
-        });
-});
+//     //db operation
+//      Job.findOne( { _id: _id } )
+//         .execAsync()
+//         .then( result => {
+//             let tmp = result.todoTime;
+//             tmp.push(newOne);
+//             return Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
+//                       .execUpdate();
+//         })
+//         .then( result => {
+//             debug('[PUT] 增加作業時間 success ->', result);
+//             res.json(result);
+//         })
+//         .catch( err => {
+//             debug('[PUT] 增加作業時間 fail ->', err);
+//             return next(err);
+//         });
+// });
 
 /*
  * [PUT] 更新作業時間
  * request : body.uid, body.name, body.account, body.pwd, body.auth
  * respone : db result
  */
-router.put('/addOne', (req, res, next) => {
+router.put('/todoTime', (req, res, next) => {
 
     debug('[PUT] 更新作業時間 req.body ->', req.body );
 
     //check
-    // let miss = check( req.body, ['uid', 'line', 'todoTime', 'status', 'nLine', 'nTodoTime', 'nStatus'] );
-    let miss = check( req.body, ['uid', 'oldOne', 'newOne'] );
+    let miss = check( req.body, ['oid', 'status', 'time', 'nTime', 'nStatus'] );
     if(!miss.check){
         debug('[PUT] 更新作業時間 miss data ->', miss.miss);
         return res.status(500).send('缺少必要參數', miss.miss);
     }
 
-    var oldOne = req.body.oldOne,
-        newOne = req.body.newOne;
+    var oldOne = {
+        time : parseInt( req.body.time ),
+        status : req.body.status
+    };
+    var newOne = {
+        time : req.body.nTime,
+        status : req.body.nStatus
+    };
 
     //db entity
-    var _id = req.body.uid;
-
+    var oid = req.body.oid;
 
     //db operation
-     Job.findOne( { _id: _id } )
+     Job.findOne( { oid: oid } )
         .execAsync()
         .then( result => {
 
             let tmp = result.todoTime;
 
-            tmp = tmp.filter( val => {
-                return val != oldOne;
-            });
 
-            tmp.push(newOne);
+            for( var j = 0; j < tmp.length; j++){
+                // console.log('test', tmp[j].time == oldOne.time,tmp[j].status === oldOne.status )
+                if( tmp[j].time == oldOne.time && tmp[j].status === oldOne.status ){
+                    tmp[j] = newOne;
+                    console.log('tmp', tmp[j])
+                    break;
+                }
+            }
 
-            return Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
-                      .execUpdate();
+            console.log('tmp', tmp.length, tmp);
+
+
+            return Job.findOneAndUpdate( { oid: oid }, { todoTime: tmp } )
+                      .updateAsync();
         })
         .then( result => {
             debug('[PUT] 更新作業時間 success ->', result);
