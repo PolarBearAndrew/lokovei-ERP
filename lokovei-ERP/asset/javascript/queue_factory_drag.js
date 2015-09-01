@@ -49,7 +49,7 @@ function drop(ev) {
           // console.log('設定job狀態成功', data.nStatus);
 
           $(job).attr('data-time', data.nTime);
-          $(job).children('[data-time]').attr('data-time', data.nTime);
+          $(job).children('').children('[data-time]').attr('data-time', data.nTime);
         },
         error: function(err){
           console.log('設定job狀態錯誤', err);
