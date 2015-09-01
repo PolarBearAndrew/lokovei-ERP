@@ -6,20 +6,20 @@ block content
   script(src="javascript/queue_factory_drag.js")
   .screen
     .wrapper
-      - var lineCount = 3; //-  + 1 為 title
+      - var lineCount = lineData.length;
       .day
-        - for( var line = 0; line < lineCount; line++ )
-          - if( line == 0 )
+        - for( var l = 0; l < lineCount ; l++ )
+          - if( l == 0 )
             .thumbnail.dayTitle
               h4 產線訂單佇列表
           .line
             //- line info data
             .thumbnail.lineName
-              h3= '產線編號' + ( line + 1 )
+              h4= '產線：' + lineData[l].name
               p
-                | 負責人：陳柏安
+                = lineData[l].who
                 br
-                | 0930-014-167
+                = lineData[l].phone
       - var index = 0;
       - for( var day = 0; day < 3; day++ )
         .day
@@ -43,7 +43,7 @@ block content
                     br
                     = '備註：' + job.note
                     br
-                    - var uid = { 'data-uid': job._id }
+                    - var uid = { 'data-uid': job._id.toString() + job.time.toString() }
                     - if(job.status == '已結案')
                       button.status.btn.btn-sm.btn-success&attributes(uid)= job.status
                     - else if(job.status == '已出貨')
@@ -59,6 +59,30 @@ block content
                     - var order = '<p>訂單編號：' + job.oid; //- '<br/>經銷商：' + job. + '<br/>訂單出車日期：2015/5/12</p>'
                     span.info.glyphicon.glyphicon-tags.job-info( aria-hidden='true', tabindex='0', role='button', data-toggle='popover', data-trigger='click', title='訂單資訊', data-html="true", data-content=order)
               - if( index >= all.length - 1 ) { index++; }
+
+  #statusDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') ×
+            span.sr-only Close
+          h4.modal-title 訂單狀況選擇
+        .modal-body
+          p
+            button.statusChoose.btn.btn-success(style="width: 100%", data-value='已結案') 已結案
+          p
+            button.statusChoose.btn.btn-primary(style="width: 100%", data-value='已出貨') 已出貨
+          p
+            button.statusChoose.btn.btn-info(style="width: 100%", data-value='尚未出貨') 尚未出貨
+          p
+            button.statusChoose.btn.btn-warning(style="width: 100%", data-value='尚未完成') 尚未完成
+          p
+            button.statusChoose.btn.btn-danger(style="width: 100%", data-value='訂單取消') 訂單取消
+          p
+            button.statusChoose.btn.btn-default(style="width: 100%", data-value='無狀態') 無狀態
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
 
 - function getTodayNum(){
 -  let minutes = 1000 * 60;

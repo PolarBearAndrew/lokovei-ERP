@@ -87,6 +87,7 @@ router.get('/order/:sort', function(req, res, next) {
 router.get('/factory', function(req, res, next) {
 
     let data= [];
+    let lineData;
 
     // 把所有 job, 還沒完成的拉出來
    Job.find({})
@@ -95,6 +96,10 @@ router.get('/factory', function(req, res, next) {
        // 把 job 中的 item 拉出來
       .then( result => {
         data = result;
+        return Line.find({}).execAsync();//取得line資料
+      })
+      .then( result => {
+        lineData = result;
         return Order.find({}).execAsync();//取得oerder資料
       })
       .then( result => {
@@ -213,10 +218,10 @@ router.get('/factory', function(req, res, next) {
           // 還需要 line data <--- !!!
 
           // 把資料整理整理回傳頁面 new 新增的工作 all 全部的工作 overflow 無法顯示在佇列的代辦工作
-          let renderData = { new: todo, all: all, overFlow: overFlow };
+          let renderData = { lineData: lineData, new: todo, all: all, overFlow: overFlow };
           res.render('queue_factory', renderData);
 
-          console.log('all', all.length, all);
+          console.log('all', all.length, all, lineData);
 
         }
       })
