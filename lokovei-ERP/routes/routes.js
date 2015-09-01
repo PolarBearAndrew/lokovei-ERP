@@ -86,7 +86,8 @@ router.get('/order/:sort', function(req, res, next) {
 
 router.get('/factory', function(req, res, next) {
 
-    let data = [];
+    var data = [];
+    let source = [];
     let lineData = [];
 
     // 把所有 job, 還沒完成的拉出來
@@ -95,7 +96,7 @@ router.get('/factory', function(req, res, next) {
 
        // 把 job 中的 item 拉出來
       .then( result => {
-        data = result;
+        source = result;
         return Line.find({}).execAsync();//取得line資料
       })
       .then( result => {
@@ -117,7 +118,7 @@ router.get('/factory', function(req, res, next) {
         });
 
         // 將資料初始化成一比一比 item job // 補上出貨日期的資料
-        data.forEach( val => {
+        source.forEach( val => {
 
           var job = val;
 
@@ -136,7 +137,6 @@ router.get('/factory', function(req, res, next) {
 
           // 補上還沒初始化 todoTime 的數量
           let need = job.count - job.todoTime.length;
-          console.log('!!need', need, need > 0, data.length);
           if(need > 0){
             //need = 0
             for( var c = 0; c < need; c++ ){
@@ -152,7 +152,7 @@ router.get('/factory', function(req, res, next) {
           }
         })
 
-        console.log('data', data.length, data);
+        console.log('test 1 ', data.length, data)
 
         // 取得這三攤的參數
         let line = getLines(lineData.length);
@@ -172,13 +172,13 @@ router.get('/factory', function(req, res, next) {
         });
 
         let ctrl = false,
-            need = 0;  // 總需求數
+            needJobCount = 0;  // 總需求數
 
         // 計算剩餘的產量
         for( var i = 0; i < line.length; i++ ){
           if( line[i].todo > 0 ){
             ctrl = true;
-            need += line[i].todo;
+            needJobCount += line[i].todo;
           }
         }
 
@@ -204,8 +204,8 @@ router.get('/factory', function(req, res, next) {
           cal.sort( sortByDay );
 
           // 分離超過 3 天內產值的 item
-          let todo = cal.filter( ( val, index) => { return index < need; });
-          let overFlow = cal.filter( ( val, index) => { return index >= need; });
+          let todo = cal.filter( ( val, index) => { return index < needJobCount; });
+          let overFlow = cal.filter( ( val, index) => { return index >= needJobCount; });
 
           // 把 todo 排上去,  記得處理工作量不足的情況 <-- !!!
           todo.forEach( val => {
@@ -258,7 +258,7 @@ router.get('/factory', function(req, res, next) {
                               }
                             });
 
-                            console.log('tmp', tmp)
+                            // console.log('存入資料', tmp.length, tmp);
 
             let _id = val._id;
 

@@ -210,7 +210,7 @@ router.put('/todoTime', (req, res, next) => {
                 }
             }
 
-            console.log('tmp', tmp.length, tmp);
+            // console.log('存入資料', tmp.length, tmp);
 
 
             return Job.findOneAndUpdate( { oid: oid }, { todoTime: tmp } )
