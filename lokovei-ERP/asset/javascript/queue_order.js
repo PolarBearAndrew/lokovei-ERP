@@ -402,7 +402,7 @@ $(document).ready(function() {
 
       // var id = $('.table-wrapper-item[data-id=' + $(this).attr('data-id') + '] tbody tr').length + 1;
       var arr = $('.table-wrapper-item[data-id=' + dataId + '] tbody tr:first-child td');
-      var row = '<tr data-job="@jobId"><td data-ctrl="product" style="width: 300px"></td> <td data-ctrl="num">0</td> <td data-ctrl="battery"> </td> <td data-status="yes"> <label class="label label-primary">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="line"></td> </tr>';
+      var row = '<tr data-job="@jobId"><td data-ctrl="product" style="width: 300px"></td> <td data-ctrl="num">0</td> <td data-ctrl="battery"> </td> <td data-status="yes"> <label class="label label-primary">尚未完成</label> </td> <td data-ctrl="text">無</td> <td data-ctrl="line" class="hide"></td> </tr>';
       row = row.replace(/@jobId/, id);
 
       // 尋找正確的 table body 插入資料

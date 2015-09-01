@@ -191,10 +191,10 @@ router.put('/todoTime', (req, res, next) => {
     };
 
     //db entity
-    var oid = req.body.oid;
+    var _id = req.body.oid;
 
     //db operation
-     Job.findOne( { oid: oid } )
+     Job.findOne( { _id: _id } )
         .execAsync()
         .then( result => {
 
@@ -213,7 +213,7 @@ router.put('/todoTime', (req, res, next) => {
             // console.log('存入資料', tmp.length, tmp);
 
 
-            return Job.findOneAndUpdate( { oid: oid }, { todoTime: tmp } )
+            return Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
                       .updateAsync();
         })
         .then( result => {

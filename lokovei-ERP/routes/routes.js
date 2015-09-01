@@ -182,19 +182,20 @@ router.get('/factory', function(req, res, next) {
           }
         }
 
+        // 取出還沒排序的名單
+        let cal = data.filter( val => {
+          return val.time == 0;
+        });
+
         // 產值為 0 的話, 把資料整理整理回傳頁面直接回傳頁面
-        if( ctrl === false){ // || cal.length <= 0
+        // if( ctrl === false || cal.length === 0){ // || cal.length <= 0
 
-          console.log('無需排程');
+        //   console.log('無需排程');
 
-        }else{
+        // }else{
 
           console.log('啟動排程運算...');
 
-          // 取出還沒排序的名單
-          let cal = data.filter( val => {
-            return val.time == 0;
-          });
 
           console.log('需要運算:', cal.length, cal)
 
@@ -277,7 +278,7 @@ router.get('/factory', function(req, res, next) {
                     return next(err);
                 });
           })
-        }
+        // }
       })
       .catch( err => {
         debug('讀取 factory 頁面資料失敗', err);
