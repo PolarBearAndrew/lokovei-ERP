@@ -38,7 +38,7 @@ block content
               th 聯絡電話
               th 採購人員
               th 接單人員
-              th 數量合計
+              //- th 數量合計
               th 訂購日期
               th 出車日期
               th 狀態
@@ -51,7 +51,7 @@ block content
               td= order.cPhone
               td= order.cWho
               td(data-ctrl='em', style='width: 120px')= order.usWho
-              td(data-ctrl="num")= order.count
+              //- td= order.count
               td(data-ctrl='date', style='width: 150px')= order.orderDate
                 //- input.datepicker(data-date-format='mm/dd/yyyy').form-control(type='text')
               td(data-ctrl='date', style='width: 150px')= order.outputDate
@@ -85,7 +85,7 @@ block content
               th 產品編號/規格
               th 數量
               th 配備電池
-              th 狀態
+              //- th 狀態
               th 備註
               //- th 排程時間
               th 產線
@@ -96,7 +96,7 @@ block content
                 td(data-ctrl="product"  style='width: 300px')= ( job.pid + '/'+ job.pSpec )
                 td(data-ctrl="num")= job.count
                 td(data-ctrl="battery")= job.battery
-                td(data-status="yes")
+                //- td(data-status="yes")
                   label.label.label-primary= job.status
                 td(data-ctrl="text")= job.note
                 //- td(data-ctrl="date")= job.todoTime
