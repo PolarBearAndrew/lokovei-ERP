@@ -125,46 +125,6 @@ router.delete('/', (req, res, next) => {
         });
 });
 
-
-/*
- * [PUT] 增加作業時間
- * request : body.uid, body.name, body.account, body.pwd, body.auth
- * respone : db result
- */
-// router.put('/addOne', (req, res, next) => {
-
-//     debug('[PUT] 增加作業時間 req.body ->', req.body );
-
-//     //check
-//     let miss = check( req.body, ['uid', 'todoTime'] );
-//     if(!miss.check){
-//         debug('[PUT] 增加作業時間 miss data ->', miss.miss);
-//         return res.status(500).send('缺少必要參數', miss.miss);
-//     }
-
-//     //db entity
-//     let _id = req.body.uid.replace(/\"/g, '');
-//     let newOne = req.body.todoTime;
-
-//     //db operation
-//      Job.findOne( { _id: _id } )
-//         .execAsync()
-//         .then( result => {
-//             let tmp = result.todoTime;
-//             tmp.push(newOne);
-//             return Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
-//                       .execUpdate();
-//         })
-//         .then( result => {
-//             debug('[PUT] 增加作業時間 success ->', result);
-//             res.json(result);
-//         })
-//         .catch( err => {
-//             debug('[PUT] 增加作業時間 fail ->', err);
-//             return next(err);
-//         });
-// });
-
 /*
  * [PUT] 更新作業時間
  * request : body.uid, body.name, body.account, body.pwd, body.auth

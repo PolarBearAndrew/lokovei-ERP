@@ -1,6 +1,11 @@
 $(document).ready( function(){
 
   logoutSuccess();
+
+  localStorage.setItem("lokoveiUser", '');
+  localStorage.setItem("lokoveiAuth", '');
+
+
   $.ajax({
     url: 'http://localhost:8080/login',
     type: 'POST',

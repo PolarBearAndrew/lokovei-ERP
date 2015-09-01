@@ -31,7 +31,7 @@ html
           //-   button.btn.btn-default(type='submit') Submit
           ul.nav.navbar-nav.navbar-right
             li
-              a(href='#') 您好，陳柏安
+              a#user(href='#')
             li
               a(href='/logout' type='button') 登出
             li.dropdown
@@ -52,3 +52,4 @@ html
                   a(href='/crud/account') 帳號管理
 
     block content
+    script(src="/javascript/auth.js")

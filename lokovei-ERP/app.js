@@ -70,7 +70,7 @@ app.post('/login', (req, res, next) => {
 
             if( result._id ){
                 req.session.login = true;
-                res.json({ login: 'success' });
+                res.json({ login: 'success', name: result.name, auth: result.auth });
             }else{
                 req.session.login = false;
                 res.json({ login: 'fail' });

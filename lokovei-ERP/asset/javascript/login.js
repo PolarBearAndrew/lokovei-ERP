@@ -14,7 +14,7 @@ $(document).ready( function(){
       success: function( result ){
         //console.log('登入資料取得成功', result);
         if( result.login === 'success'){
-          loginSuccess();
+          loginSuccess( result );
         }else{
           loginFail();
         }
@@ -26,9 +26,14 @@ $(document).ready( function(){
 
     }); //ajax end
 
-    function loginSuccess(){
+    function loginSuccess(data){
 
-      // console.log('location.href', location.href);
+      //console.log('success', data);
+
+      $('#user').text(data.name + '/' + data.auth);
+      localStorage.setItem("lokoveiUser", data.name);
+      localStorage.setItem("lokoveiAuth", data.auth);
+
 
       if( location.href !== 'http://localhost:8080/'){
         window.location.assign( location.href ); // 直接導向到原先要連接的網頁
