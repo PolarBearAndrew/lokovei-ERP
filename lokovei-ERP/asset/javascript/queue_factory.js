@@ -42,8 +42,19 @@ $(document).ready(function(){
       type: 'PUT',
       data: data,
       success: function(result){
-        console.log('設定job狀態成功', result);
-        $('.status[data-id="' + posi + '"]').attr('class', color + ' status btn-sm' ).text(data.nStatus);
+        // console.log('設定job狀態成功', result);
+
+        var btn = $('.status[data-id="' + posi + '"]');
+
+        //refresh btn data-status
+        $(btn).attr('class', color + ' status btn-sm' )
+              .attr('data-status', data.nStatus)
+              .text(data.nStatus);
+
+        //refresh div data-status
+        $(btn).parent()
+              .parent()
+              .attr('data-status', data.nStatus);
       },
       error: function(err){
         console.log('設定job狀態錯誤', err);
