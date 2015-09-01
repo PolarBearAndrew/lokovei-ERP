@@ -35,7 +35,7 @@ $(document).ready(function(){
 
     var color = $(this).attr('class').replace(/statusChoose/g, '');
 
-    console.log('posi', posi);
+    // console.log('posi', posi);
 
     $.ajax({
       url: url_order + '/todoTime',
@@ -43,6 +43,7 @@ $(document).ready(function(){
       data: data,
       success: function(result){
         // console.log('設定job狀態成功', result);
+        // console.log('設定job狀態成功', data.nStatus);
 
         var btn = $('.status[data-id="' + posi + '"]');
 
