@@ -31,14 +31,14 @@ block content
               .thumbnail.dayTitle
                 h4= d.getFullYear() + ' / ' + (d.getMonth() + 1) + ' / ' + ( d.getUTCDate() + day )
             //- show job
-            - var time = Math.round(d / 86400000) * 100 + line;
+            - var time = ( Math.round(d / 86400000) + day ) * 100 + line;
             .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)" data-time= time)
               - for( var j = index; j < all.length; j++ )
                 - var job = all[j];
                 //- debug
                 //- h1= index
                 //- h4= job.time
-                - if( job.time % 100 != line ){ break; }
+                - if( job.time != time ){ break; }
                 - index++;
                 - var id = 'line'+line+'job'+j;
                 .thumbnail.job(id=id draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job.oid data-status=job.status )
@@ -65,7 +65,9 @@ block content
                     - else
                       button.status.btn.btn-default(data-id=id  data-time=job.time data-oid=job.oid data-status=job.status )&attributes(uid) 尚未設定
                     - var order = '<p>訂單編號：' + job.oid; //- '<br/>經銷商：' + job. + '<br/>訂單出車日期：2015/5/12</p>'
-                    span.info.glyphicon.glyphicon-tags.job-info( aria-hidden='true', tabindex='0', role='button', data-toggle='popover', data-trigger='click', title='訂單資訊', data-html="true", data-content=order)
+
+                    //- 測試用功能
+                    span.hide.info.glyphicon.glyphicon-tags.job-info( aria-hidden='true', tabindex='0', role='button', data-toggle='popover', data-trigger='click', title='訂單資訊', data-html="true", data-content=order)
               - if( index >= all.length ) { index++; }
 
   #statusDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')

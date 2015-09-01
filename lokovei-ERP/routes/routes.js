@@ -189,12 +189,14 @@ router.get('/factory', function(req, res, next) {
 
         }else{
 
-          console.log('啟動排程運算...', data.length, data);
+          console.log('啟動排程運算...');
 
           // 取出還沒排序的名單
           let cal = data.filter( val => {
             return val.time == 0;
           });
+
+          console.log('需要運算:', cal.length, cal)
 
           let already = data.filter( val => {
             return val.time !== 0;
@@ -252,7 +254,7 @@ router.get('/factory', function(req, res, next) {
             let tmp = saveDate.filter( job => job._id === val)
                             .map( job => {
                               return {
-                                time: job.time,
+                                time: job.time.toString(),
                                 line: job.line,
                                 status: job.status
                               }
@@ -260,13 +262,15 @@ router.get('/factory', function(req, res, next) {
 
                             // console.log('存入資料', tmp.length, tmp);
 
-            let _id = val._id;
+            let _id = val;
+
+            // console.log('更新:', _id, val)
 
              //db operation
              Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
                 .updateAsync()
                 .then( result => {
-                    debug('[PUT] 後續更新todoTime時間 success ->', result);
+                    debug('[PUT] 後續更新todoTime時間 success ->', _id, result);
                 })
                 .catch( err => {
                     debug('[PUT] 更新作業時間 fail ->', err);
