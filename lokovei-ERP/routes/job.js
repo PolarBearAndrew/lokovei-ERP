@@ -191,7 +191,7 @@ router.put('/todoTime', (req, res, next) => {
     };
 
     //db entity
-    var _id = req.body.oid;
+    var _id = req.body.oid; //改為使用 _id
 
     //db operation
      Job.findOne( { _id: _id } )
