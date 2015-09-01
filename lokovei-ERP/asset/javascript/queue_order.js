@@ -155,10 +155,10 @@ $(document).ready(function() {
         cPhone : $(arr[3]).text(),
         cWho : $(arr[4]).text(),
         usWho : $(arr[5]).text(),
-        count : $(arr[6]).text(),
-        orderDate : $(arr[7]).text(),
-        outputDate : $(arr[8]).text(),
-        status : $(arr[9]).text(),
+        // count : $(arr[6]).text(),
+        orderDate : $(arr[6]).text(),
+        outputDate : $(arr[7]).text(),
+        status : $(arr[8]).text(),
       };
 
        //save order

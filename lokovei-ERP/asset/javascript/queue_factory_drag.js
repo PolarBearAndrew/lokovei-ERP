@@ -19,12 +19,6 @@ function drag(ev) {
     data.oid = $(job).attr('data-oid');
     data.time = $(job).attr('data-time');
     data.status = $(job).attr('data-status');
-
-
-
-    //id = $(job).attr('data-uid');
-    // console.log('data', data);
-
 }
 
 function drop(ev) {
