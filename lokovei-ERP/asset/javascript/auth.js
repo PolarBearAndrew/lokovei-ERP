@@ -71,8 +71,7 @@ $(document).ready(function(){
     }
 
   }
-})
-
+});
 
 function back(){
   history.go(-1)　// 返回上一頁

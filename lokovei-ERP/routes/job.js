@@ -65,6 +65,8 @@ router.put('/', (req, res, next) => {
         return res.status(500).send('缺少必要參數', miss.miss);
     }
 
+    console.log('uid', uid)
+
     //db entity
     let info = {
         oid: req.body.oid,
