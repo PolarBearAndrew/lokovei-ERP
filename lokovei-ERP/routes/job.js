@@ -56,16 +56,16 @@ router.post('/', (req, res, next) => {
  */
 router.put('/', (req, res, next) => {
 
+
     debug('[PUT] 更新作業資料 req.body ->', req.body );
 
     //check
     let miss = check( req.body, ['uid', 'oid', 'pid', 'pSpec', 'count', 'battery', 'note', 'line'] );
     if(!miss.check){
+
         debug('[POST] 更新作業 miss data ->', miss.miss);
         return res.status(500).send('缺少必要參數', miss.miss);
     }
-
-    console.log('uid', uid)
 
     //db entity
     let info = {
@@ -79,6 +79,7 @@ router.put('/', (req, res, next) => {
     };
 
     let _id = req.body.uid.replace(/\"/g, '');
+
 
     //db operation
      Job.findOneAndUpdate( { _id: _id }, info )

@@ -189,11 +189,14 @@ $(document).ready(function() {
         data.oid = oid;
         data.pid = p.substring( 0 , p.indexOf('/') );
         data.pSpec = p.substring( p.indexOf('/') + 1 , p.length );
-        data.count = parseInt( $(tmp[1]).text() || 0 );
+        data.count = ( parseInt( $(tmp[1]).text() || 0 ) ).toString();
         data.battery = $(tmp[2]).text();
         data.note = $(tmp[3]).text();
         //data.todoTime = $(tmp[4]).text();
-        data.line = $(tmp[4]).text();
+        // data.line = $(tmp[4]).text();
+        data.line = '';
+
+        console.log('data', data);
 
         // save
         $.ajax({
