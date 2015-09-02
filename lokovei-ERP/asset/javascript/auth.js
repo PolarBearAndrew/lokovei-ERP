@@ -40,7 +40,7 @@ $(document).ready(function(){
     ],
 
     default: [
-      { path: '/', auth: false },
+      { path: '/', auth: true },
       { path: '/order', auth: false },
       { path: '/order/none', auth: false },
       { path: '/order/startTime', auth: false },
@@ -62,16 +62,18 @@ $(document).ready(function(){
 
   for( var r = 0; r < myRule.length; r++){
 
-    if( myRule[r].path === url && myRule[r].auth === true){
+    if( myRule[r].path === path && myRule[r].auth === true){
       //...
       break;
 
-    }else if( myRule[r].path === url && myRule[r].auth === false){
-
+    }else if( myRule[r].path === path && myRule[r].auth === false){
+      // $('body').append('<div id="mask"><div class="center"><h2>權限不足</h2><br/><button class="btn btn-warning btn-lg" onclick="back()">回上一頁</button></div></div>')
     }
 
   }
-
-
-
 })
+
+
+function back(){
+  history.go(-1)　// 返回上一頁
+}
