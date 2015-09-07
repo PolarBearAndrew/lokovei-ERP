@@ -13,7 +13,9 @@ block content
           - if( l == 0 )
             .thumbnail.dayTitle
               h4 產線訂單佇列表
+              br
           .line
+            br
             //- line info data
             .thumbnail.lineName
               h4= '產線：' + lineData[l].name
@@ -26,18 +28,22 @@ block content
       - var index = 0; //- index is using on change day
       - for( var day = 0; day < 3; day++ )
         .day
+          - var time = ( Math.round(d / 86400000) + day ) * 100;
           .thumbnail.dayTitle
             h4= d.getFullYear() + ' / ' + (d.getMonth() + 1) + ' / ' + ( d.getUTCDate() + day )
+            form.form-inline
+              .form-group
+                input(type="number" min="0" style="width:80px" data-time=time).form-control
+                button.doSort.btn.btn-success(data-time=time) 排程
           //- show job
-          - var time = ( Math.round(d / 86400000) + day );
           .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)" data-time= time)
             - for( var j = index; j < all.length; j++ )
               - var job = all[j];
               - job._id = job._id.toString()
               //- debug
               //- h1= index
-              //- h4= job.time
-              - if( parseInt(job.time / 100 ) != time ){ break; } //- 可以把 /100 拿掉, 如果我一開始就存正確的資料
+              //- h4= job.time + '///' + time
+              - if( job.time != time ){ break; } //- 可以把 /100 拿掉, 如果我一開始就存正確的資料
               - index++;
               - var id = 'line'+line+'job'+j;
               .thumbnail.job(id=id draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job._id data-status=job.status )

@@ -86,7 +86,7 @@ router.get('/order/:sort', function(req, res, next) {
 
 router.get('/factory', function(req, res, next) {
 
-  //讀取資料
+    //讀取資料
     var data = [];
     let source = [];
     let lineData = [ { name: '可愛馬五股工廠'} ];
@@ -150,123 +150,18 @@ router.get('/factory', function(req, res, next) {
           }
         })
 
-        /*
-        // 取得這三攤的參數
-        let line = getLines(lineData.length);
-        let numList = line.map( val => val.num );
-        // console.log('line', line);
-
-        // 小於第一天的去掉
-        data = data.filter( val => {
-          return (val.time >= line[0].num || val.time === 0);
-        });
-
-        // 把已經排成的單子找出來計算 3 天內的產線剩餘的產值
-        data.forEach( val => {
-          if( numList.indexOf( val.time ) !== -1 ){
-            line[ numList.indexOf( val.time ) ].todo -= 1;
-          }
-        });
-
-        let ctrl = false,
-            needJobCount = 0;  // 總需求數
-
-        // 計算剩餘的產量
-        for( var i = 0; i < line.length; i++ ){
-          if( line[i].todo > 0 ){
-            ctrl = true;
-            needJobCount += line[i].todo;
-          }
-        }
-
-        // 取出還沒排序的名單
-        let cal = data.filter( val => {
-          return val.time == 0;
-        });
-        */
-        // let already = data.filter( val => {
-        //   return val.time !== 0;
-        // });
+        let tmp = data.filter( val => val.time == 0 )
+        data = data.filter( val => val.time != 0 )
 
         // 依照 出貨 日期排序
-        data.sort( sortByDay );
+        data.sort( sortByTime );
 
-        // 分離超過 3 天內產值的 item
-        // let todo = cal.filter( ( val, index) => { return index < needJobCount; });
-        // let overFlow = cal.filter( ( val, index) => { return index >= needJobCount; });
+        data.concat(tmp);
 
-        // 把 todo 排上去,  記得處理工作量不足的情況 <-- !!!
-        // todo.forEach( val => {
-        //   for( var i  = 0; i < line.length; i++ ){ // 找出能放的空間
-        //     if( line[i].todo > 0){ //有剩餘空間就放下去
-        //       line[i].todo--;
-        //       val.time = line[i].num;
-        //       break;
-        //     }
-        //   }
-        // }); //todo 排上去 end
-
-        // 將尚未排成的工作從 todo 移動到 overFlow (應該不會有需要移動的資訊, 單純避免意外)
-        // overFlow.concat( todo.filter( val => val.time == 0 ) );
-        // todo = todo.filter( val => val.time !== 0 );
-
-        // 將已經排序的資料陣列和命
-        // let all = already.concat(todo);
-        // all.sort(sortByTime)
-
-        // 還需要 line data <--- !!!
-
-        // 把資料整理整理回傳頁面 new 新增的工作 all 全部的工作 overflow 無法顯示在佇列的代辦工作
-        //
         console.log('data', data);
 
-        let renderData = { lineData: lineData, new: [], all: data, overFlow: [] };
+        let renderData = { lineData: lineData, all: data };
         res.render('queue_factory', renderData);
-
-        // console.log('all', all.length, all);
-
-        // // 使用 oid 分組, 批次寫回去
-        // let saveDate = all; // 需要被更新的人
-        // let id = [];
-
-        // // 取得 id 名單
-        // for(var n = 0; n < saveDate.length; n++ ){
-        //   if( id.indexOf( saveDate[n]._id ) == -1 ){
-        //     id.push(saveDate[n]._id);
-        //   }
-        // }
-
-        // // console.log('oid', oid);
-
-        // id.forEach( val => {
-
-        //   let tmp = saveDate.filter( job => job._id === val)
-        //                   .map( job => {
-        //                     return {
-        //                       time: job.time.toString(),
-        //                       line: job.line,
-        //                       status: job.status
-        //                     }
-        //                   });
-
-        //                   // console.log('存入資料', tmp.length, tmp);
-
-        //   let _id = val;
-
-        //   // console.log('更新:', _id, val)
-
-        //    //db operation
-        //    Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
-        //       .updateAsync()
-        //       .then( result => {
-        //           debug('[PUT] 後續更新todoTime時間 success ->', _id, result);
-        //       })
-        //       .catch( err => {
-        //           debug('[PUT] 更新作業時間 fail ->', err);
-        //           return next(err);
-        //       });
-        // })
-      // }
       })
       .catch( err => {
         debug('讀取 factory 頁面資料失敗', err);
@@ -543,6 +438,157 @@ router.get('/print/order', function(req, res, next) {
   let data = {};
 
   res.render('print_order', data);
+});
+
+router.post('/sort', (req, res, next) => {
+
+    let count = req.body.count;
+    let time = req.body.time;
+
+    //讀取資料
+    var data = [];
+    let source = [];
+    let lineData = [ { name: '可愛馬五股工廠'} ];
+
+    // 把所有 job, 還沒完成的拉出來
+    Job.find({})
+      .execAsync()
+
+       // 把 job 中的 item 拉出來
+      .then( result => {
+        source = result;
+        return Order.find({}).execAsync();//取得oerder資料
+      })
+      .then( result => {
+
+        let info = {}
+
+        // 需要過濾資料訂單已經取消的資料
+        result.filter( val => {
+          return val.status !== '訂單取消' || val.status !== '無狀態';
+        })
+
+        // 製作 order 出貨日期的資料
+        .forEach( val => {
+          info[val.oid] = val.outputDate;
+        });
+
+        // 將資料初始化成一比一比 item job // 補上出貨日期的資料
+        source.forEach( val => {
+
+          var job = val;
+
+          // 抓取出 todoTime 內部的資料
+          val.todoTime.forEach( item =>{
+
+            //console.log('item', item);
+            let obj = { ...job._doc };
+            obj.outputDate = info[job.oid]; // 補上出貨日期的資料
+            obj.time = item.time;
+            obj.line = item.line;
+            obj.status = item.status;
+            obj.todoTime = null;
+            data.push(obj);
+          });
+
+          // 補上還沒初始化 todoTime 的數量
+          // 因為有可能他新增完成單子, 沒有要排程
+          let need = job.count - job.todoTime.length;
+          if(need > 0){
+            //need = 0
+            for( var c = 0; c < need; c++ ){
+              //console.log('add');
+              let obj = { ...job._doc };
+              obj.status = '尚未完成';
+              obj.line = '';
+              obj.time = 0;
+              obj.outputDate = info[job.oid]; // 補上出貨日期的資料
+              obj.todoTime = null;
+              data.push(obj);
+            }
+          }
+        });
+
+
+
+        // 將還沒排程的工作, 排上去
+        for( var i = 0; i < data.length; i++){
+          if( data[i].time == 0 ){
+            data[i].time = time;
+            count--;
+
+            console.log('sort add', data[i])
+
+            if( count == 0 ){
+              break;
+            }
+          }
+        }
+
+        console.log('data', data);
+
+        res.json({ 'sort': true });
+
+        // 使用 oid 分組, 批次寫回去
+        let saveDate = data; // 需要被更新的人
+        let id = [];
+
+        // 取得 id 名單
+        for(var n = 0; n < saveDate.length; n++ ){
+          if( id.indexOf( saveDate[n]._id ) == -1 ){
+            id.push(saveDate[n]._id);
+          }
+        }
+
+        // console.log('oid', oid);
+
+        id.forEach( val => {
+
+          let tmp = saveDate.filter( job => job._id === val)
+                          .map( job => {
+                            return {
+                              time: job.time.toString(),
+                              line: job.line,
+                              status: job.status
+                            }
+                          });
+
+                          // console.log('存入資料', tmp.length, tmp);
+
+          let _id = val;
+
+          // console.log('更新:', _id, val)
+
+           //db operation
+           Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
+              .updateAsync()
+              .then( result => {
+                  debug('[PUT] 後續更新todoTime時間 success ->', _id, result);
+              })
+              .catch( err => {
+                  debug('[PUT] 更新作業時間 fail ->', err);
+                  return next(err);
+              });
+        })
+      })
+      .catch( err => {
+        debug('排程失敗', err);
+        return next(err);
+      });
+
+      // 依照 出貨日期排序
+      function sortByDay( a, b ){
+        let day1 = parseInt( a.outputDate.replace(/\//g, '') );
+        let day2 = parseInt( b.outputDate.replace(/\//g, '') );
+        return day1 - day2; // 小 -> 大
+      }
+
+      // 依照排去上去的時間和日期排序
+      function sortByTime( a, b ){
+        let day1 = parseInt( a.time );
+        let day2 = parseInt( b.time );
+        return day1 - day2; // 小 -> 大
+      }
 });
 
 // sort func

@@ -12,6 +12,7 @@ $(document).ready(function(){
   var data = {};
   var id = '';
   var url_order     = 'http://localhost:8080/job';
+  var url_route     = 'http://localhost:8080';
 
   $('html, body').on('click', '.status', function(){
     //console.log('click .status');
@@ -66,4 +67,30 @@ $(document).ready(function(){
     return false;
 
   });
+
+  $('html, body').on('click', '.doSort', function(){
+
+    var time = $(this).attr('data-time');
+    var count = $('input[data-time]').val() || 0;
+
+    if(count == 0){
+      console.log('無需求數量');
+      return false;
+    }
+
+    $.ajax({
+      url: url_route + '/sort',
+      type: 'POST',
+      data: { time: time, count: count },
+      success: function(result){
+        console.log('排程成功', result);
+        window.location.assign('http://localhost:8080/factory');
+      },
+      error: function(err){
+        console.log('排程錯誤', err);
+      }
+    })
+    return false;
+  });
+
 });
