@@ -126,7 +126,8 @@ router.get('/factory', function(req, res, next) {
 
             //console.log('item', item);
             let obj = { ...job._doc };
-            obj.order = order[job.oid];
+            let tmp = order[job.oid] || {};
+            obj.order = { ...tmp._doc };
             obj.outputDate = info[job.oid]; // 補上出貨日期的資料
             obj.time = item.time;
             obj.line = item.line;
@@ -143,7 +144,8 @@ router.get('/factory', function(req, res, next) {
             for( var c = 0; c < need; c++ ){
               //console.log('add');
               let obj = { ...job._doc };
-              obj.order = order[job.oid];
+              let tmp = order[job.oid] || {};
+              obj.order = { ...tmp._doc };
               obj.outputDate = info[job.oid]; // 補上出貨日期的資料
               obj.status = '尚未完成';
               obj.line = '';
@@ -162,7 +164,7 @@ router.get('/factory', function(req, res, next) {
 
         data.concat(tmp);
 
-        console.log('data', data.map(val => val.time));
+        console.log('data', data);
 
         let renderData = { lineData: lineData, all: data };
         res.render('queue_factory', renderData);

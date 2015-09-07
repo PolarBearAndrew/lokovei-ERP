@@ -6,7 +6,7 @@ block content
   script(src="javascript/queue_factory_drag.js")
 
   #newJobTable.thumbnail.lineName
-    button.btn.btn-success 新增工作到今日的佇列中
+    button.btn.btn-success 新增到今日
     div(data-ctrl="product")
     div(data-ctrl="battery")
     div(data-ctrl="text" placeHolder="備註")
@@ -57,6 +57,13 @@ block content
                     = job.pid
                     br
                     = job.pSpec
+                    br
+                    - if( job.order.outputDate )
+                      = '出貨：' + job.order.outputDate
+                      br
+                      = '經銷商：' + job.order.cWho
+                    - else
+                      = '預備製作用庫存'
                     br
                     = '備註：' + job.note
                     br
