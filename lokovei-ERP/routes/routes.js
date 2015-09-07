@@ -106,44 +106,41 @@ router.get('/factory', function(req, res, next) {
 
 function getLines(count, info){
 
-  // 抓取 line 的總數與資源 <-- !!!!
-  //let count = 3;
 
-  // 建立 line 的參數
-  let data = [];
-  let days = get3dayNum();
-
-  days = days.forEach( val => {
-    for( var c = 0; c < count; c++ ){
-      let tmp = {};
-      tmp.num = val.num * 100 + c;
-      tmp.todo = 3; // 假設的 line 的資源 <--- !!!
-      data.push(tmp);
-    }
-  });
-  return data;
 }
+// let data = [];
+// let days = get3dayNum();
 
-function get3dayNum(){
-  let today =  getTodayNum(); // 要跳過週末
-  return [
-    { num: today,     todo: 0 },
-    { num: today + 1, todo: 0 },
-    { num: today + 2, todo: 0 }
-  ];
-}
+// days = days.forEach( val => {
+//   for( var c = 0; c < count; c++ ){
+//     let tmp = {};
+//     tmp.num = val.num * 100 + c;
+//     tmp.todo = 3; // 假設的 line 的資源 <--- !!!
+//     data.push(tmp);
+//   }
+// });
+// return data;
 
-function getTodayNum(){
-  let minutes = 1000 * 60;
-  let hours = minutes * 60;
-  let days = hours * 24;
-  //let years = days * 365;
+// function get3dayNum(){
+//   let today =  getTodayNum(); // 要跳過週末
+//   return [
+//     { num: today,     todo: 0 },
+//     { num: today + 1, todo: 0 },
+//     { num: today + 2, todo: 0 }
+//   ];
+// }
 
-  let d = new Date();
-  let t= d.getTime();
+// function getTodayNum(){
+//   let minutes = 1000 * 60;
+//   let hours = minutes * 60;
+//   let days = hours * 24;
+//   //let years = days * 365;
 
-  return Math.round(t / days); //與 差幾天  January 1, 1970.
-}
+//   let d = new Date();
+//   let t= d.getTime();
+
+//   return Math.round(t / days); //與 差幾天  January 1, 1970.
+// }
 
 
 router.get('/crud/:part', function(req, res, next) {
