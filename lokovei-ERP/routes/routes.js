@@ -102,7 +102,8 @@ router.get('/factory', function(req, res, next) {
       })
       .then( result => {
 
-        let info = {}
+        let info = {};
+        let order = {};
 
         // 需要過濾資料訂單已經取消的資料
         result.filter( val => {
@@ -112,6 +113,7 @@ router.get('/factory', function(req, res, next) {
         // 製作 order 出貨日期的資料
         .forEach( val => {
           info[val.oid] = val.outputDate;
+          order[val.oid] = val;
         });
 
         // 將資料初始化成一比一比 item job // 補上出貨日期的資料
@@ -124,6 +126,7 @@ router.get('/factory', function(req, res, next) {
 
             //console.log('item', item);
             let obj = { ...job._doc };
+            obj.order = order[job.oid];
             obj.outputDate = info[job.oid]; // 補上出貨日期的資料
             obj.time = item.time;
             obj.line = item.line;
@@ -140,10 +143,11 @@ router.get('/factory', function(req, res, next) {
             for( var c = 0; c < need; c++ ){
               //console.log('add');
               let obj = { ...job._doc };
+              obj.order = order[job.oid];
+              obj.outputDate = info[job.oid]; // 補上出貨日期的資料
               obj.status = '尚未完成';
               obj.line = '';
               obj.time = 0;
-              obj.outputDate = info[job.oid]; // 補上出貨日期的資料
               obj.todoTime = null;
               data.push(obj);
             }
@@ -158,7 +162,7 @@ router.get('/factory', function(req, res, next) {
 
         data.concat(tmp);
 
-        console.log('data', data);
+        console.log('data', data.map(val => val.time));
 
         let renderData = { lineData: lineData, all: data };
         res.render('queue_factory', renderData);
@@ -440,6 +444,7 @@ router.get('/print/order', function(req, res, next) {
   res.render('print_order', data);
 });
 
+//sortTodo
 router.post('/sort', (req, res, next) => {
 
     let count = req.body.count;
@@ -462,15 +467,16 @@ router.post('/sort', (req, res, next) => {
       .then( result => {
 
         let info = {}
+        let order = {};
 
         // 需要過濾資料訂單已經取消的資料
         result.filter( val => {
           return val.status !== '訂單取消' || val.status !== '無狀態';
         })
-
         // 製作 order 出貨日期的資料
         .forEach( val => {
           info[val.oid] = val.outputDate;
+          order[val.oid] = val;
         });
 
         // 將資料初始化成一比一比 item job // 補上出貨日期的資料
@@ -483,6 +489,7 @@ router.post('/sort', (req, res, next) => {
 
             //console.log('item', item);
             let obj = { ...job._doc };
+            obj.order = order[job.oid];
             obj.outputDate = info[job.oid]; // 補上出貨日期的資料
             obj.time = item.time;
             obj.line = item.line;
@@ -499,10 +506,11 @@ router.post('/sort', (req, res, next) => {
             for( var c = 0; c < need; c++ ){
               //console.log('add');
               let obj = { ...job._doc };
+              obj.order = order[job.oid];
+              obj.outputDate = info[job.oid]; // 補上出貨日期的資料
               obj.status = '尚未完成';
               obj.line = '';
               obj.time = 0;
-              obj.outputDate = info[job.oid]; // 補上出貨日期的資料
               obj.todoTime = null;
               data.push(obj);
             }
@@ -578,8 +586,8 @@ router.post('/sort', (req, res, next) => {
 
       // 依照 出貨日期排序
       function sortByDay( a, b ){
-        let day1 = parseInt( a.outputDate.replace(/\//g, '') );
-        let day2 = parseInt( b.outputDate.replace(/\//g, '') );
+        let day1 = parseInt( a.outputDate.replace(/\//g, '') ) || 9999999999999;
+        let day2 = parseInt( b.outputDate.replace(/\//g, '') ) || 9999999999999;
         return day1 - day2; // 小 -> 大
       }
 

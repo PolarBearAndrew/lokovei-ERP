@@ -14,6 +14,10 @@
     margin-right: 22px
   .toRight
     margin-left: auto
+  button
+    position: absolute
+    bottom: 4px
+    left: 4px
 
 
 .lineName
@@ -21,18 +25,18 @@
 
 .day
   float: left
-  border-radius: 8px
   min-width: 150px
-  background-color: #F5F5F5
   margin-right: 12px
+  border-radius: 8px
+  background-color: #F5F5F5
 
 .dayTitle
   text-align: center
 
 .line
-  min-height: 140px
   height: 600px
   max-width: 800px
+  min-height: 140px
   padding-left: 12px
   // @include display-flex
   // @include align-items(center)
@@ -48,7 +52,13 @@
 .info
   position: absolute
   right: 8px
-  top: calc( 100% - 35px)
+  top: calc( 100% - 24px)
   height: 16px
   width: 16px
   cursor: pointer
+
+#newJobTable
+  position: fixed
+  //max-width: 200px
+  bottom: 0px
+  left: 0px

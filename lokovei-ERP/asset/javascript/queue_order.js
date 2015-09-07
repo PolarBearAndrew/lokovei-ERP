@@ -214,6 +214,7 @@ $(document).ready(function() {
 
     // going to edit
     }else{
+
       // change btn icon
       $(this).empty().append(icoSave);
 

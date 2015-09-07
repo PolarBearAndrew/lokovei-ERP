@@ -1,5 +1,62 @@
 $(document).ready(function(){
 
+  var url_battery   = 'http://localhost:8080/battery';
+  var url_product   = 'http://localhost:8080/product';
+
+  var product  = [];
+  var battery  = [];
+
+   //init product
+  $.ajax({
+    url: url_product + '/all',
+    type: 'GET',
+
+    success: function( result ){
+      // console.log('result', result)
+      product = result.map( function( val ){
+        var tmp = {
+          val: val._id,
+          text: val.pid + '/' + val.spec
+        }
+        return tmp;
+      });
+    },
+    error: function( err ){
+      console.log('讀取產品資料錯誤', err);
+    }
+  })
+
+  //init battery
+  $.ajax({
+    url: url_battery + '/all',
+    type: 'GET',
+
+    success: function( result ){
+      // console.log('result', result)
+      battery = result.map( function( val ){
+        var tmp = {
+          val: val._id,
+          text: val.name + '-' + val.note
+        }
+        return tmp;
+      });
+    },
+    error: function( err ){
+      console.log('讀取產品資料錯誤', err);
+    }
+  })
+
+  // init table-add-newjob
+  var arr = $('#newJobTable').children('div');
+  setTimeout( todo, 500 );
+
+  function todo(){
+    for (var i = 0; i < arr.length; i++) {
+      var ctrl = controls($(arr[i]).attr('data-ctrl'), $(arr[i]).html());
+      if(ctrl) $(arr[i]).empty().append( ctrl );
+    };
+  }
+
   $('.job-info').popover()
 
   $('#myPopover').on('hidden.bs.popover', function () {
@@ -32,11 +89,7 @@ $(document).ready(function(){
 
     data.nStatus = $(this).attr('data-value');
 
-    // console.log('data', data);
-
     var color = $(this).attr('class').replace(/statusChoose/g, '');
-
-    // console.log('posi', posi);
 
     $.ajax({
       url: url_order + '/todoTime',
@@ -73,6 +126,8 @@ $(document).ready(function(){
     var time = $(this).attr('data-time');
     var count = $('input[data-time]').val() || 0;
 
+    console.log('use time', time);
+
     if(count == 0){
       console.log('無需求數量');
       return false;
@@ -92,5 +147,130 @@ $(document).ready(function(){
     })
     return false;
   });
+
+  // get control or values
+  function controls( ctrl, value ){
+
+    var show;
+
+    if(value === ' ')
+      value = '';
+
+    switch(ctrl){
+
+      case 'none':
+        show = value;
+        break;
+
+      case 'customer':
+        show = buildSelector( customer, value);
+        break;
+
+      case 'em':
+        show = buildSelector( em, value );
+        break;
+
+      case 'product':
+        show = buildSelector( product, value );
+        break;
+
+      case 'battery':
+        show = buildSelector( battery, value );
+        break;
+
+      case 'line':
+        show = buildSelector( line, value );
+        break;
+
+      case 'num':
+        show = '<input type="number" class="form-control"  value="' + value + '" >';
+        break;
+
+      case 'date':
+        show = '<input data-date-format="mm/dd/yyyy" value="' + value + '" type="text" class="datepicker form-control"/>';
+        break;
+
+      case 'text':
+        show = '<input class="form-control" type="text" value="' + value + '"></input>'
+        break;
+    }
+    return show;
+  }
+
+  function controlsValue( ctrl, obj ){
+
+    var show;
+
+    switch(ctrl){
+
+      case 'none':
+        show =  $(obj).text();
+        break;
+
+      case 'customer':
+        index = $(obj).children('select').val();
+        show = customer[index].text;
+        break;
+
+      case 'em':
+        index = $(obj).children('select').val();
+        show = em[index].text;
+        break;
+
+      case 'product':
+        index = $(obj).children('select').val();
+        show = product[index].text;
+        break;
+
+      case 'battery':
+        index = $(obj).children('select').val();
+        show = battery[index].text;
+        break;
+
+      case 'line':
+        index = $(obj).children('select').val();
+        show = line[index].text;
+        break;
+
+      case 'num':
+        show = $(obj).children('input').val();
+        break;
+
+      case 'date':
+        //console.log('show', show);
+        show = $(obj).children('input').val();
+        break;
+
+      case 'text':
+        //console.log('show', show);
+        show = $(obj).children('input').val();
+        break;
+    }
+
+    show = show || ' ';
+
+    return show;
+  }
+
+  //build <select>
+  function buildSelector( arr, selected ){
+
+    var select = '<select class="form-control">';
+    var option = '<option value="@val">@text</option>';
+    var optionChecked = '<option value="@val" selected>@text</option>';
+    var selectEnd = '</select>';
+    var tmp = '';
+
+    for (var i = 0; i < arr.length; i++) {
+
+      if( arr[i].text.indexOf(selected) == -1 )
+        tmp += option.replace( /@val/g, i ).replace( /@text/g, arr[i].text );
+      else
+        tmp += optionChecked.replace( /@val/g, i ).replace( /@text/g, arr[i].text );
+
+    };
+
+    return select + tmp + selectEnd;
+  }
 
 });

@@ -4,31 +4,37 @@ block content
   link(rel="stylesheet", href="stylesheets/queue_factory.css")
   script(src="javascript/queue_factory.js")
   script(src="javascript/queue_factory_drag.js")
+
+  #newJobTable.thumbnail.lineName
+    button.btn.btn-success 新增工作到今日的佇列中
+    div(data-ctrl="product")
+    div(data-ctrl="battery")
+    div(data-ctrl="text" placeHolder="備註")
+
   .screen
     .wrapper
       - var lineCount = lineData.length;
       //-  left title , line data
       .day
-        - for( var l = 0; l < lineCount ; l++ )
-          - if( l == 0 )
-            .thumbnail.dayTitle
-              h4 產線訂單佇列表
+        .thumbnail.dayTitle
+          h4 產線訂單佇列表
+          br
+        .line
+          br
+          //- line info data
+          .thumbnail.lineName
+            h4= '產線：' + lineData[0].name
+            p
+              = lineData[0].who
               br
-          .line
-            br
-            //- line info data
-            .thumbnail.lineName
-              h4= '產線：' + lineData[l].name
-              p
-                = lineData[l].who
-                br
-                = lineData[l].phone
+              = lineData[0].phone
+
 
       - var d = new Date()
       - var index = 0; //- index is using on change day
       - for( var day = 0; day < 3; day++ )
         .day
-          - var time = ( Math.round(d / 86400000) + day ) * 100;
+          - var time = ( Math.round(d / 86400000) + day )  * 100;
           .thumbnail.dayTitle
             h4= d.getFullYear() + ' / ' + (d.getMonth() + 1) + ' / ' + ( d.getUTCDate() + day )
             form.form-inline
@@ -37,43 +43,41 @@ block content
                 button.doSort.btn.btn-success(data-time=time) 排程
           //- show job
           .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)" data-time= time)
-            - for( var j = index; j < all.length; j++ )
+            - for( var j = 0; j < all.length; j++ )
               - var job = all[j];
               - job._id = job._id.toString()
               //- debug
               //- h1= index
-              //- h4= job.time + '///' + time
-              - if( job.time != time ){ break; } //- 可以把 /100 拿掉, 如果我一開始就存正確的資料
-              - index++;
-              - var id = 'line'+line+'job'+j;
-              .thumbnail.job(id=id draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job._id data-status=job.status )
-                p
-                  = job.pid
-                  br
-                  = job.pSpec
-                  br
-                  = '電池：' + job.battery
-                  br
-                  = '備註：' + job.note
-                  br
-                  - var uid = { 'data-uid': job._id.toString() + job.time.toString() }
-                  - if(job.status == '已結案')
-                    button.status.btn.btn-sm.btn-success(data-id=id data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
-                  - else if(job.status == '已出貨')
-                    button.status.btn.btn-sm.btn-primary(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
-                  - else if(job.status == '尚未出貨')
-                    button.status.btn.btn-sm.btn-info(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
-                  - else if(job.status == '尚未完成')
-                    button.status.btn.btn-sm.btn-warning(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
-                  - else if(job.status == '訂單取消')
-                    button.status.btn.btn-sm.btn-danger(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
-                  - else
-                    button.status.btn.btn-default(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid) 尚未設定
-                  - var order = '<p>訂單編號：' + job.oid; //- '<br/>經銷商：' + job. + '<br/>訂單出車日期：2015/5/12</p>'
+              //- h4= time
+              - if( job.time == time )
+                - index++;
+                - var id = 'line'+line+'job'+j;
+                .thumbnail.job(id=id draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job._id data-status=job.status )
+                  p
+                    = job.pid
+                    br
+                    = job.pSpec
+                    br
+                    = '備註：' + job.note
+                    br
+                    - var uid = { 'data-uid': job._id.toString() + job.time.toString() }
+                    - if(job.status == '已結案')
+                      button.status.btn.btn-sm.btn-success(data-id=id data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                    - else if(job.status == '已出貨')
+                      button.status.btn.btn-sm.btn-primary(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                    - else if(job.status == '尚未出貨')
+                      button.status.btn.btn-sm.btn-info(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                    - else if(job.status == '尚未完成')
+                      button.status.btn.btn-sm.btn-warning(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                    - else if(job.status == '訂單取消')
+                      button.status.btn.btn-sm.btn-danger(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                    - else
+                      button.status.btn.btn-default(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid) 尚未設定
+                    - var order = '<p>訂單編號：' + job.oid; //- '<br/>經銷商：' + job. + '<br/>訂單出車日期：2015/5/12</p>'
 
-                  //- 測試用功能
-                  span.info.glyphicon.glyphicon-tags.job-info( aria-hidden='true', tabindex='0', role='button', data-toggle='popover', data-trigger='click', title='訂單資訊', data-html="true", data-content=order)
-            - if( index >= all.length ) { index++; }
+                    //- 測試用功能
+                    span.info.glyphicon.glyphicon-tags.job-info( aria-hidden='true', tabindex='0', role='button', data-toggle='popover', data-trigger='click', title='訂單資訊', data-html="true", data-content=order)
+              //- if( index >= all.length ) { index++; }
 
   #statusDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')
     .modal-dialog.modal-sm
