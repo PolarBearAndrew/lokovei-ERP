@@ -2,6 +2,7 @@
 @import "compass/typography/lists/inline-list"
 
 .job
+  float: left
   position: relative
   width: 150px
   height : 130px
@@ -13,7 +14,6 @@
     margin-right: 22px
   .toRight
     margin-left: auto
-    // color: red
 
 
 .lineName
@@ -23,26 +23,18 @@
   float: left
   border-radius: 8px
   min-width: 150px
-  // border: 1px solid #DEDEDE
   background-color: #F5F5F5
   margin-right: 12px
 
 .dayTitle
   text-align: center
 
-//   // width: 100%
 .line
-  // width: 700px
-  // overflow-x: scroll
-  height: 140px
+  min-height: 140px
+  max-width: 800px
   padding-left: 12px
-  // border: 1px solid red
-  @include display-flex
-  @include align-items(center)
-  // .thumbnail
-    // float: left
-    // margin-right: 12px
-
+  // @include display-flex
+  // @include align-items(center)
 
 .wrapper
   width: 200000px
@@ -53,13 +45,8 @@
   overflow-x: scroll
 
 .info
-  // margin-top: 4px
-  // margin-right: 2px
-  // padding-right: 4px
-  // float: right
   position: absolute
   right: 8px
-  // bottom: 0px
   top: calc( 100% - 35px)
   height: 16px
   width: 16px
