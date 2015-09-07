@@ -26,31 +26,58 @@ router.post('/', (req, res, next) => {
 
     debug('[POST] 新增訂單 req.body ->', req.body);
 
-    let d = new Date();
-    let order = new Order({
-        oid: d.getTime(),
-        cName: '',
-        cAddress: '',
-        cPhone: '',
-        cWho: '',
-        usWho: '',
-        count: '',
-        orderDate: '',
-        outputDate: '',
-        status: ''
-    });
+    Order.find({})
+         .execAsync()
+         .then( result => {
 
-    //db operation
-    order.saveAsync()
-        .spread(result => {
+            var parse = ( val ) => {
+                if(val.toString().length < 2)
+                    { return String("0") + String(val) }
+                else
+                    { return val.toString() }
+            }
+
+            let d = new Date();
+            let year = d.getFullYear().toString();
+            let month = parse( ( d.getUTCMonth() + 1 ).toString() );
+            let day = parse( d.getDate() );
+
+            let time = parseInt( year + '' + month + '' + day );
+
+
+            let count = result.filter( val => {
+                // console.log('test', val.oid / 100, time, parseInt(val.oid) % 100 == time )
+                return parseInt(val.oid / 100) == time
+            }).length++;
+
+            time *= 100;
+            time = parseInt(time) + count;
+
+            let order = new Order({
+                oid: time,
+                cName: '',
+                cAddress: '',
+                cPhone: '',
+                cWho: '',
+                usWho: '',
+                count: '',
+                orderDate: '',
+                outputDate: '',
+                status: ''
+            });
+
+            //db operation
+            return order.saveAsync();
+         })
+         .spread(result => {
             debug('[POST] 新增訂單 success ->', result);
             res.json(result);
             return;
-        })
-        .catch(err => {
-            debug('[POST] 新增訂單 fail ->', err);
+         })
+         .catch( err => {
+            debug('[POST] 新增訂單(前置查詢) fail ->', err);
             return next(err);
-        });
+         });
 });
 
 /*
