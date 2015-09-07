@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  var url_job       = 'http://localhost:8080/job';
   var url_battery   = 'http://localhost:8080/battery';
   var url_product   = 'http://localhost:8080/product';
 
@@ -59,9 +60,9 @@ $(document).ready(function(){
 
   $('.job-info').popover()
 
-  $('#myPopover').on('hidden.bs.popover', function () {
-    // do something…
-  })
+  // $('#myPopover').on('hidden.bs.popover', function () {
+  //   // do something…
+  // })
 
 
   // set status
@@ -272,5 +273,47 @@ $(document).ready(function(){
 
     return select + tmp + selectEnd;
   }
+
+  $('html, body').on('click', '#newJobTable button', function(){
+
+    var tmp = $('#newJobTable').children('div').children('');
+    var data = {};
+
+
+    var p = product[$(tmp[0]).val()].text;
+
+    // uids.push(uid);
+    data.uid = '';
+    data.oid = '';
+    data.pid = p.substring( 0 , p.indexOf('/') );
+    data.pSpec = p.substring( p.indexOf('/') + 1 , p.length );
+    data.count = 1;
+    data.battery = battery[$(tmp[1]).val()];
+    data.note = $(tmp[2]).val();
+    //data.todoTime = $(tmp[4]).text();
+    // data.line = $(tmp[4]).text();
+    data.line = '';
+
+    var d = new Date();
+    data.time = Math.round(d / 86400000) * 100;
+
+    console.log('data', data);
+
+    // save
+    $.ajax({
+      url: url_job + '/new',
+      type: 'POST',
+      data: data,
+      success: function(result){
+        console.log('手動新增 job 成功', result);
+        window.location.assign('http://localhost:8080/factory');
+      },
+      error: function(err){
+        console.log('手動新增 job 失敗',err)
+      }
+    })
+
+    return false;
+  });
 
 });

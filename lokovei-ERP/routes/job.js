@@ -50,6 +50,45 @@ router.post('/', (req, res, next) => {
 });
 
 /*
+ * [POST] 新增作業 2
+ * request : no
+ * respone : db result
+ */
+router.post('/new', (req, res, next) => {
+
+    debug('[POST] 新增作業 req.body ->', req.body );
+
+    let job = new Job({
+        oid: 'none',
+        pid: req.body.pid,
+        pSpec: req.body.pSpec,
+        count: 0,
+        battery: req.body.battery,
+        status: '尚未完成',
+        note: req.body.note,
+        todoTime: [ {
+            "status" : "尚未完成",
+            "line" : "",
+            "time" : req.body.time
+        }],
+        line: ''
+    });
+
+    //db operation
+     job.saveAsync()
+        .spread( result => {
+            debug('[POST] 新增作業 2 success ->', result);
+            res.json(result);
+            return;
+        })
+        .catch( err => {
+            debug('[POST] 新增作業 2 fail ->', err);
+            return next(err);
+        });
+});
+
+
+/*
  * [PUT] 更新作業資料
  * request : body.uid, body.name, body.account, body.pwd, body.auth
  * respone : db result
