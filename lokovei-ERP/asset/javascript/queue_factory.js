@@ -125,7 +125,7 @@ $(document).ready(function(){
   $('html, body').on('click', '.doSort', function(){
 
     var time = $(this).attr('data-time');
-    var count = $('input[data-time]').val() || 0;
+    var count = $(this).parent().children('input[data-time]').val() || 0;
 
     console.log('use time', time);
 

@@ -98,7 +98,7 @@ router.get('/factory', function(req, res, next) {
        // 把 job 中的 item 拉出來
       .then( result => {
         source = result;
-        return Order.find({}).execAsync();//取得oerder資料
+        return Order.find({}).sort({_id: 1}).execAsync();//取得oerder資料
       })
       .then( result => {
 
@@ -164,6 +164,7 @@ router.get('/factory', function(req, res, next) {
 
         data.concat(tmp);
 
+        // console.log('data', data.map(val=>val._id));
         console.log('data', data);
 
         let renderData = { lineData: lineData, all: data };
