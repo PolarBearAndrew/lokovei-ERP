@@ -53,9 +53,7 @@ router.post('/', (req, res, next) => {
 
             let tmp = todayJob[todayJob.length - 1] || {};
             tmp = tmp.oid || 0;
-            console.log('tmp', tmp);
             tmp = tmp % 100 + 1;
-            console.log('tmp2', tmp);
 
             time *= 100;
             time = parseInt(time) + tmp;
