@@ -1,4 +1,9 @@
 /* line 1, ../sass/auth.sass */
+* {
+  font-size: 1em;
+}
+
+/* line 4, ../sass/auth.sass */
 #mask {
   position: fixed;
   top: 52px;
@@ -9,7 +14,7 @@
   background-color: #DEDEDE;
 }
 
-/* line 10, ../sass/auth.sass */
+/* line 13, ../sass/auth.sass */
 .center {
   position: absolute;
   text-align: center;
