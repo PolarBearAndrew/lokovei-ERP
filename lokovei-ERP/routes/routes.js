@@ -162,10 +162,9 @@ router.get('/factory', function(req, res, next) {
         // 依照 出貨 日期排序
         data.sort( sortByTime );
 
-        data.concat(tmp);
+        data = data.concat(tmp);
 
         // console.log('data', data.map(val=>val._id));
-        console.log('data', data);
 
         let renderData = { lineData: lineData, all: data };
         res.render('queue_factory', renderData);

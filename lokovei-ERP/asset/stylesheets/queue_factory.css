@@ -75,6 +75,7 @@
 
 /* line 61, ../sass/queue_factory.sass */
 #newJobTable {
+  z-index: 99;
   position: fixed;
   bottom: 0px;
   left: 0px;
