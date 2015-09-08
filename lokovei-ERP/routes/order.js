@@ -27,6 +27,7 @@ router.post('/', (req, res, next) => {
     debug('[POST] 新增訂單 req.body ->', req.body);
 
     Order.find({})
+         .sort({ oid: 1})
          .execAsync()
          .then( result => {
 
@@ -45,13 +46,19 @@ router.post('/', (req, res, next) => {
             let time = parseInt( year + '' + month + '' + day );
 
 
-            let count = result.filter( val => {
+            let todayJob = result.filter( val => {
                 // console.log('test', val.oid / 100, time, parseInt(val.oid) % 100 == time )
                 return parseInt(val.oid / 100) == time
-            }).length++;
+            });
+
+            let tmp = todayJob[todayJob.length - 1] || {};
+            tmp = tmp.oid || 0;
+            console.log('tmp', tmp);
+            tmp = tmp % 100 + 1;
+            console.log('tmp2', tmp);
 
             time *= 100;
-            time = parseInt(time) + count;
+            time = parseInt(time) + tmp;
 
             let order = new Order({
                 oid: time,

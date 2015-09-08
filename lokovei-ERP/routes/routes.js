@@ -543,7 +543,7 @@ router.post('/sort', (req, res, next) => {
 
         for( var d = 0; d < data.length; d++){
           for( var s = 0; s < store.length; s++){
-            console.log('test', ( store[s].pid === data[d].pid && store[s].pSpec === data[d].pSpec) );
+            console.log('test', store[s].pid, data[d].pid, '//', store[s].spec, data[d].pSpec);
             if(store[s].pid === data[d].pid &&
                 store[s].pSpec === data[d].pSpec &&
                 store[s].store > 0 ){
