@@ -541,12 +541,15 @@ router.post('/sort', (req, res, next) => {
           }
         });
 
+        // 從庫存中扣除
         for( var d = 0; d < data.length; d++){
           for( var s = 0; s < store.length; s++){
-            console.log('test', store[s].pid, data[d].pid, '//', store[s].spec, data[d].pSpec);
+            //console.log('!! test', store[s].pid, data[d].pid, '//', store[s].spec, data[d].pSpec, 'ans:', store[s].pid === data[d].pid && store[s].pSpec === data[d].pSpec && store[s].store > 0);
             if(store[s].pid === data[d].pid &&
-                store[s].pSpec === data[d].pSpec &&
+                store[s].spec === data[d].pSpec &&
+                data[d].time == 0 &&
                 store[s].store > 0 ){
+              //console.log('success!!', data[d].pSpec );
               store[s].store--;
               data[d].time = -1;
             }
@@ -566,8 +569,6 @@ router.post('/sort', (req, res, next) => {
             }
           }
         }
-
-        console.log('data', data);
 
         res.json({ 'sort': true });
 
