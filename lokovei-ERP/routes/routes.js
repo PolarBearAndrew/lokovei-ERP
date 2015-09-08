@@ -168,6 +168,52 @@ router.get('/factory', function(req, res, next) {
 
         let renderData = { lineData: lineData, all: data };
         res.render('queue_factory', renderData);
+
+        // save ---------
+        // 使用 oid 分組, 批次寫回去
+        let saveDate = data; // 需要被更新的人
+        let id = [];
+
+        // 取得 id 名單
+        for(var n = 0; n < saveDate.length; n++ ){
+          if( id.indexOf( saveDate[n]._id ) == -1 ){
+            id.push(saveDate[n]._id);
+          }
+        }
+
+        // console.log('oid', oid);
+
+        id.forEach( val => {
+
+          let tmp = saveDate.filter( job => job._id === val)
+                          .map( job => {
+                            return {
+                              time: job.time.toString(),
+                              line: job.line,
+                              status: job.status
+                            }
+                          });
+
+                          // console.log('存入資料', tmp.length, tmp);
+
+          let _id = val;
+
+          // console.log('更新:', _id, val)
+
+           //db operation
+           Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
+              .updateAsync()
+              .then( result => {
+                  debug('[PUT] 後續更新todoTime時間 success ->', _id, result);
+              })
+              .catch( err => {
+                  debug('[PUT] 更新作業時間 fail ->', err);
+                  return next(err);
+              });
+        })
+
+
+
       })
       .catch( err => {
         debug('讀取 factory 頁面資料失敗', err);
@@ -188,40 +234,6 @@ router.get('/factory', function(req, res, next) {
         return day1 - day2; // 小 -> 大
       }
 });
-
-// let data = [];
-// let days = get3dayNum();
-
-// days = days.forEach( val => {
-//   for( var c = 0; c < count; c++ ){
-//     let tmp = {};
-//     tmp.num = val.num * 100 + c;
-//     tmp.todo = 3; // 假設的 line 的資源 <--- !!!
-//     data.push(tmp);
-//   }
-// });
-// return data;
-
-// function get3dayNum(){
-//   let today =  getTodayNum(); // 要跳過週末
-//   return [
-//     { num: today,     todo: 0 },
-//     { num: today + 1, todo: 0 },
-//     { num: today + 2, todo: 0 }
-//   ];
-// }
-
-// function getTodayNum(){
-//   let minutes = 1000 * 60;
-//   let hours = minutes * 60;
-//   let days = hours * 24;
-//   //let years = days * 365;
-
-//   let d = new Date();
-//   let t= d.getTime();
-
-//   return Math.round(t / days); //與 差幾天  January 1, 1970.
-// }
 
 
 router.get('/crud/:part', function(req, res, next) {

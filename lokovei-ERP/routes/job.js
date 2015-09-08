@@ -212,8 +212,7 @@ router.put('/todoTime', (req, res, next) => {
                 }
             }
 
-            // console.log('存入資料', tmp.length, tmp);
-
+            console.log('tmp', tmp)
 
             return Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
                       .updateAsync();
