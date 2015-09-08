@@ -44,7 +44,7 @@ router.get('/order', function(req, res, next) {
                 tmp.jobs = jobs.filter( job => job.oid.toString() == val.oid.toString() )
                 return tmp;
               })
-              //console.log('data',data)
+              // console.log('data',data)
               res.render('queue_order', { data });
            })
 
@@ -77,7 +77,9 @@ router.get('/order/:sort', function(req, res, next) {
                 return tmp;
               })
 
+
               data.sort(sortFunc(req.params.sort));
+              console.log('data',data)
               res.render('queue_order', { data: data, sort: req.params.sort });
            })
 
@@ -684,10 +686,10 @@ function sortFunc(type){
 
 router.get('/output', function(req, res, next) {
 
-    //讀取資料
-    var data = [];
-    let source = [];
-    let lineData = [ { name: '可愛馬五股工廠'} ];
+  //讀取資料
+  var data = [];
+  let source = [];
+  let lineData = [ { name: '可愛馬五股工廠'} ];
 
     // 把所有 job, 還沒完成的拉出來
    Job.find({})
@@ -733,86 +735,25 @@ router.get('/output', function(req, res, next) {
             obj.todoTime = null;
             data.push(obj);
           });
-
-          // 補上還沒初始化 todoTime 的數量
-          // 因為有可能他新增完成單子, 沒有要排程
-          let need = job.count - job.todoTime.length;
-          if(need > 0){
-            //need = 0
-            for( var c = 0; c < need; c++ ){
-              //console.log('add');
-              let obj = { ...job._doc };
-              let tmp = order[job.oid] || {};
-              obj.order = { ...tmp._doc };
-              obj.outputDate = info[job.oid]; // 補上出貨日期的資料
-              obj.status = '尚未完成';
-              obj.line = '';
-              obj.time = 0;
-              obj.todoTime = null;
-              data.push(obj);
-            }
-          }
         })
 
-        let tmp = data.filter( val => val.time == 0 )
-        data = data.filter( val => val.time != 0 )
+        var parse = ( val ) => {
+          if(val.toString().length < 2)
+            { return String("0") + String(val) }
+          else
+            { return val.toString() }
+        }
+
+        let d = new Date();
+        let str = d.getFullYear() + '/' + parse(d.getMonth() + 1) + '/' + parse( d.getUTCDate() );
+
+        data = data.filter( val => val.outputDate === str )
 
         // 依照 出貨 日期排序
-        data.sort( sortByTime );
-        data = data.concat(tmp);
-
-        // console.log('data', data.map(val=>val._id));
         console.log('!!! data', data);
 
         let renderData = { lineData: lineData, all: data };
         res.render('output', renderData);
-
-
-        // save ---------
-        // 使用 oid 分組, 批次寫回去
-        let saveDate = data; // 需要被更新的人
-        let id = [];
-
-        // 取得 id 名單
-        for(var n = 0; n < saveDate.length; n++ ){
-          if( id.indexOf( saveDate[n]._id ) == -1 ){
-            id.push(saveDate[n]._id);
-          }
-        }
-
-        // console.log('oid', oid);
-
-        id.forEach( val => {
-
-          let tmp = saveDate.filter( job => job._id === val)
-                          .map( job => {
-                            return {
-                              time: job.time.toString(),
-                              line: job.line,
-                              status: job.status
-                            }
-                          });
-
-                          // console.log('存入資料', tmp.length, tmp);
-
-          let _id = val;
-
-          // console.log('更新:', _id, val)
-
-           //db operation
-           Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
-              .updateAsync()
-              .then( result => {
-                  debug('[PUT] 後續更新todoTime時間 success ->', _id, result);
-              })
-              .catch( err => {
-                  debug('[PUT] 更新作業時間 fail ->', err);
-                  return next(err);
-              });
-        })
-
-
-
       })
       .catch( err => {
         debug('讀取 factory 頁面資料失敗', err);
@@ -886,25 +827,6 @@ router.get('/job', function(req, res, next) {
             obj.todoTime = null;
             data.push(obj);
           });
-
-          // // 補上還沒初始化 todoTime 的數量
-          // // 因為有可能他新增完成單子, 沒有要排程
-          // let need = job.count - job.todoTime.length;
-          // if(need > 0){
-          //   //need = 0
-          //   for( var c = 0; c < need; c++ ){
-          //     //console.log('add');
-          //     let obj = { ...job._doc };
-          //     let tmp = order[job.oid] || {};
-          //     obj.order = { ...tmp._doc };
-          //     obj.outputDate = info[job.oid]; // 補上出貨日期的資料
-          //     obj.status = '尚未完成';
-          //     obj.line = '';
-          //     obj.time = 0;
-          //     obj.todoTime = null;
-          //     data.push(obj);
-          //   }
-          // }
         })
 
         var parse = ( val ) => {
@@ -915,68 +837,17 @@ router.get('/job', function(req, res, next) {
         }
 
         let d = new Date();
-        let str = d.getFullYear() + '/' + parse(d.getMonth() + 1) + '/' + parse( d.getUTCDate() );
+        let str = ( Math.round(d / 86400000)  * 100 ).toString();
 
-        data = data.filter( val => val.outputDate === str )
+        console.log('time', str);
+
+        data = data.filter( val => val.time === str )
 
         // 依照 出貨 日期排序
-        //data.sort( sortByTime );
-        //data = data.concat(tmp);
-
-
-
-        // console.log('data', data.map(val=>val._id));
         console.log('!!! data', data);
 
         let renderData = { lineData: lineData, all: data };
         res.render('job', renderData);
-
-
-        // save ---------
-        // 使用 oid 分組, 批次寫回去
-        let saveDate = data; // 需要被更新的人
-        let id = [];
-
-        // 取得 id 名單
-        for(var n = 0; n < saveDate.length; n++ ){
-          if( id.indexOf( saveDate[n]._id ) == -1 ){
-            id.push(saveDate[n]._id);
-          }
-        }
-
-        // console.log('oid', oid);
-
-        id.forEach( val => {
-
-          let tmp = saveDate.filter( job => job._id === val)
-                          .map( job => {
-                            return {
-                              time: job.time.toString(),
-                              line: job.line,
-                              status: job.status
-                            }
-                          });
-
-                          // console.log('存入資料', tmp.length, tmp);
-
-          let _id = val;
-
-          // console.log('更新:', _id, val)
-
-           //db operation
-           Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
-              .updateAsync()
-              .then( result => {
-                  debug('[PUT] 後續更新todoTime時間 success ->', _id, result);
-              })
-              .catch( err => {
-                  debug('[PUT] 更新作業時間 fail ->', err);
-                  return next(err);
-              });
-        })
-
-
-
       })
       .catch( err => {
         debug('讀取 factory 頁面資料失敗', err);

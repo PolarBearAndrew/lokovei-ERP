@@ -89,7 +89,7 @@ $(document).ready(function() {
       product = result.map( function( val ){
         var tmp = {
           val: val._id,
-          text: val.pid + '/' + val.spec
+          text: val.pid + '/' + val.spec + '/' + val.carType
         }
         return tmp;
       });
@@ -188,7 +188,8 @@ $(document).ready(function() {
         data.uid = $(jobs[i]).attr('data-job');
         data.oid = oid;
         data.pid = p.substring( 0 , p.indexOf('/') );
-        data.pSpec = p.substring( p.indexOf('/') + 1 , p.length );
+        data.pSpec = p.substring( p.indexOf('/') + 1 , p.lastIndexOf('/') );//p.length
+        data.carType = p.substring( p.lastIndexOf('/') + 1 , p.length );
         data.count = ( parseInt( $(tmp[1]).text() || 0 ) ).toString();
         data.battery = $(tmp[2]).text();
         data.note = $(tmp[3]).text();
