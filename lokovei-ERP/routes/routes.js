@@ -887,32 +887,43 @@ router.get('/job', function(req, res, next) {
             data.push(obj);
           });
 
-          // 補上還沒初始化 todoTime 的數量
-          // 因為有可能他新增完成單子, 沒有要排程
-          let need = job.count - job.todoTime.length;
-          if(need > 0){
-            //need = 0
-            for( var c = 0; c < need; c++ ){
-              //console.log('add');
-              let obj = { ...job._doc };
-              let tmp = order[job.oid] || {};
-              obj.order = { ...tmp._doc };
-              obj.outputDate = info[job.oid]; // 補上出貨日期的資料
-              obj.status = '尚未完成';
-              obj.line = '';
-              obj.time = 0;
-              obj.todoTime = null;
-              data.push(obj);
-            }
-          }
+          // // 補上還沒初始化 todoTime 的數量
+          // // 因為有可能他新增完成單子, 沒有要排程
+          // let need = job.count - job.todoTime.length;
+          // if(need > 0){
+          //   //need = 0
+          //   for( var c = 0; c < need; c++ ){
+          //     //console.log('add');
+          //     let obj = { ...job._doc };
+          //     let tmp = order[job.oid] || {};
+          //     obj.order = { ...tmp._doc };
+          //     obj.outputDate = info[job.oid]; // 補上出貨日期的資料
+          //     obj.status = '尚未完成';
+          //     obj.line = '';
+          //     obj.time = 0;
+          //     obj.todoTime = null;
+          //     data.push(obj);
+          //   }
+          // }
         })
 
-        let tmp = data.filter( val => val.time == 0 )
-        data = data.filter( val => val.time != 0 )
+        var parse = ( val ) => {
+          if(val.toString().length < 2)
+            { return String("0") + String(val) }
+          else
+            { return val.toString() }
+        }
+
+        let d = new Date();
+        let str = d.getFullYear() + '/' + parse(d.getMonth() + 1) + '/' + parse( d.getUTCDate() );
+
+        data = data.filter( val => val.outputDate === str )
 
         // 依照 出貨 日期排序
-        data.sort( sortByTime );
-        data = data.concat(tmp);
+        //data.sort( sortByTime );
+        //data = data.concat(tmp);
+
+
 
         // console.log('data', data.map(val=>val._id));
         console.log('!!! data', data);

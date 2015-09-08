@@ -18,7 +18,7 @@ block content
             - job._id = job._id.toString()
             - var id = 'line'+line+'job'+j;
             .thumbnail.job(id=id draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job._id data-status=job.status data-pro=job.pid+'/'+job.pSpec )
-              .num= j
+              .num= j + 1
               .job-info
                 = '車殼型號：' + job.pid
                 br
