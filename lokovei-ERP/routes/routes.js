@@ -32,6 +32,8 @@ router.get('/order', function(req, res, next) {
 
         console.log('result', result);
 
+        result = result.filter( val => val.status != '已結案')
+
         Job.find()
            .execAsync()
            .then( jobs => {
@@ -61,6 +63,8 @@ router.get('/order/:sort', function(req, res, next) {
        .then( result => {
 
         console.log('result', result);
+
+        result = result.filter( val => val.status != '已結案')
 
         Job.find()
            .execAsync()
@@ -555,6 +559,23 @@ router.post('/sort', (req, res, next) => {
             }
           }
         }
+
+        console.log('store', store);
+
+        // 將庫存消耗寫回去
+        store.forEach( val => {
+
+          Product.findOneAndUpdate({ _id: val._id }, { store: val.store })
+                 .updateAsync()
+                 .then( result => {
+                   debug('更新 store 數量 success', result);
+                 })
+                 .catch( err => {
+                   debug('更新 store 數量 fail', err);
+                 })
+
+        });
+
 
         // 將還沒排程的工作, 排上去
         for( var i = 0; i < data.length; i++){

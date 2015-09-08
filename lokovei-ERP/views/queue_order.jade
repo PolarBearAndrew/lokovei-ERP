@@ -76,7 +76,7 @@ block content
                   span.glyphicon.glyphicon-pencil(aria-hidden='true')
                 a(href="/print/order/?id=" + orderId).btn.btn-primary.ctrl
                   span.glyphicon.glyphicon-print(aria-hidden='true')
-                button.btn.btn-success.ctrl(type='button', data-toggle='modal', data-target='#finishDialog')
+                button.btn.btn-success.ctrl.finishOrder(type='button')&attributes(uid)
                   span.glyphicon.glyphicon-ok(aria-hidden='true')
       .table-wrapper-item(data-id=orderId)
         table.table.table-hover
@@ -134,7 +134,7 @@ block content
           p 訂單結案後將不會出現在佇列中。
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') 取消
-          button.btn.btn-success(type='button') 結案並且隱藏
+          button#finishOrder.btn.btn-success(type='button') 結案並且隱藏
   #statusDialog.modal.fade.bs-example-modal-sm(tabindex='-1', role='dialog', aria-labelledby='mySmallModalLabel', aria-hidden='true')
     .modal-dialog.modal-sm
       .modal-content
