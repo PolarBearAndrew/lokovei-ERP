@@ -155,6 +155,7 @@ router.get('/all', (req, res, next) => {
 
     //db operation
     Customer.find({})
+            .sort({ name: 1 })
             .execAsync()
             .then( result => {
                 debug('[DELETE] 查詢指定經銷商 success ->', result);

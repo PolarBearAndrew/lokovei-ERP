@@ -123,6 +123,7 @@ router.get('/all', (req, res, next) => {
 
     //db operation
     Battery.find({})
+        .sort({ name: 1 })
         .execAsync()
         .then( result => {
             debug('[GET] 取得電池資料 success ->', result);

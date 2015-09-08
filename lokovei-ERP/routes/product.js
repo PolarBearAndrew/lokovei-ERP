@@ -125,6 +125,7 @@ router.get('/all', (req, res, next) => {
 
      //db operation
     Product.find({})
+        .sort({ pid: 1 })
         .execAsync()
         .then( result => {
             debug('[GET] 取得產品資料 success ->', result);

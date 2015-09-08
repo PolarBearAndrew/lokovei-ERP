@@ -258,6 +258,7 @@ router.get('/crud/:part', function(req, res, next) {
       }]
 
       Customeer.find()
+               .sort({ name: 1 })
                .execAsync()
                .then( result => {
                   if(result.length === 0) result = initCustomer;
@@ -300,6 +301,7 @@ router.get('/crud/:part', function(req, res, next) {
       }]
 
         Product.find()
+               .sort({ pid: 1 })
                .execAsync()
                .then( result => {
                   if(result.length === 0) result = initPorduct;
@@ -385,6 +387,7 @@ router.get('/crud/:part', function(req, res, next) {
       }]
 
       User.find()
+          .sort({ name: 1 })
           .execAsync()
           .then( result => {
 
@@ -425,6 +428,7 @@ router.get('/crud/:part', function(req, res, next) {
       }]
 
       Battery.find()
+            .sort({ name: 1 })
             .execAsync()
             .then( result => {
 

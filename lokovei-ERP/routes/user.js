@@ -126,6 +126,7 @@ router.get('/all', (req, res, next) => {
 
     //db operation
     User.find({})
+        .sort({ name: 1 })
         .execAsync()
         .then( result => {
             debug('[GET] 取得使用者資料 success ->', result);
