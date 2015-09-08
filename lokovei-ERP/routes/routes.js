@@ -474,15 +474,18 @@ router.post('/sort', (req, res, next) => {
     //讀取資料
     var data = [];
     let source = [];
+    let store = []
     let lineData = [ { name: '可愛馬五股工廠'} ];
 
     // 把所有 job, 還沒完成的拉出來
     Job.find({})
       .execAsync()
-
-       // 把 job 中的 item 拉出來
-      .then( result => {
+      .then( result => { // 把 job 中的 item 拉出來
         source = result;
+        return Product.find({}).execAsync();
+      })
+      .then( result => {
+        store = result;
         return Order.find({}).execAsync();//取得oerder資料
       })
       .then( result => {
@@ -538,7 +541,17 @@ router.post('/sort', (req, res, next) => {
           }
         });
 
-
+        for( var d = 0; d < data.length; d++){
+          for( var s = 0; s < store.length; s++){
+            console.log('test', ( store[s].pid === data[d].pid && store[s].pSpec === data[d].pSpec) );
+            if(store[s].pid === data[d].pid &&
+                store[s].pSpec === data[d].pSpec &&
+                store[s].store > 0 ){
+              store[s].store--;
+              data[d].time = -1;
+            }
+          }
+        }
 
         // 將還沒排程的工作, 排上去
         for( var i = 0; i < data.length; i++){
