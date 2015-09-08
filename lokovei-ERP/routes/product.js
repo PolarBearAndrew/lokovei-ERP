@@ -27,6 +27,7 @@ router.post('/', (req, res, next) => {
     let product = new Product({
         pid: '',
         spec: '',
+        carType: ''
     });
 
     //db operation
@@ -62,6 +63,8 @@ router.put('/', (req, res, next) => {
     let info = {
         pid: req.body.pid,
         spec: req.body.spec,
+        carType: req.body.carType,
+        store: req.body.store
     };
 
 

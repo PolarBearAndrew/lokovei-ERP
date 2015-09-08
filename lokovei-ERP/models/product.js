@@ -13,6 +13,12 @@ var Product = new mongoose.Schema({
     spec: {
         type: String
     },
+    carType: {
+        type: String
+    },
+    store: {
+        type: Number
+    }
 });
 
 //exports model

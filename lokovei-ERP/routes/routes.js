@@ -161,7 +161,6 @@ router.get('/factory', function(req, res, next) {
 
         // 依照 出貨 日期排序
         data.sort( sortByTime );
-
         data = data.concat(tmp);
 
         // console.log('data', data.map(val=>val._id));
@@ -290,6 +289,8 @@ router.get('/crud/:part', function(req, res, next) {
       schema = [
         { title: '產品編號', ctrl: 'text', schema: 'pid' },
         { title: '品項規格', ctrl: 'text', schema: 'spec' },
+        { title: '車款型號', ctrl: 'text', schema: 'carType' },
+        { title: '庫存數量', ctrl: 'num', schema: 'store' }
       ];
 
       let initPorduct = [{
@@ -308,6 +309,8 @@ router.get('/crud/:part', function(req, res, next) {
                     let tmp = [];
                     tmp.push(val.pid);
                     tmp.push(val.spec);
+                    tmp.push(val.carType);
+                    tmp.push(val.store);
                     tmp.push(val._id.toString());
 
                     return tmp;

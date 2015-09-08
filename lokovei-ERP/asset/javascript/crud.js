@@ -91,6 +91,10 @@ $(document).ready(function() {
         show = buildSelector( auth, value )
         break;
 
+      case 'num':
+        show = '<input type="number" class="form-control"  value="' + value + '" >';
+        break;
+
       case 'text':
         show = '<input class="form-control" type="text" value="' + value + '"></input>'
         break;
@@ -110,6 +114,10 @@ $(document).ready(function() {
 
       case 'auth':
         show = $(obj).children('select').val();
+        break;
+
+      case 'num':
+        show = $(obj).children('input').val();
         break;
 
       case 'text':
