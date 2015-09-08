@@ -682,4 +682,163 @@ function sortFunc(type){
   return func;
 }
 
+router.get('/output', function(req, res, next) {
+
+  res.render('output');
+});
+
+router.get('/job', function(req, res, next) {
+
+
+    //讀取資料
+    var data = [];
+    let source = [];
+    let lineData = [ { name: '可愛馬五股工廠'} ];
+
+    // 把所有 job, 還沒完成的拉出來
+   Job.find({})
+      .execAsync()
+
+       // 把 job 中的 item 拉出來
+      .then( result => {
+        source = result;
+        return Order.find({}).sort({_id: 1}).execAsync();//取得oerder資料
+      })
+      .then( result => {
+
+        let info = {};
+        let order = {};
+
+        // 需要過濾資料訂單已經取消的資料
+        result.filter( val => {
+          return val.status !== '訂單取消' || val.status !== '無狀態';
+        })
+
+        // 製作 order 出貨日期的資料
+        .forEach( val => {
+          info[val.oid] = val.outputDate;
+          order[val.oid] = val;
+        });
+
+        // 將資料初始化成一比一比 item job // 補上出貨日期的資料
+        source.forEach( val => {
+
+          var job = val;
+
+          // 抓取出 todoTime 內部的資料
+          val.todoTime.forEach( item =>{
+
+            //console.log('item', item);
+            let obj = { ...job._doc };
+            let tmp = order[job.oid] || {};
+            obj.order = { ...tmp._doc };
+            obj.outputDate = info[job.oid]; // 補上出貨日期的資料
+            obj.time = item.time;
+            obj.line = item.line;
+            obj.status = item.status;
+            obj.todoTime = null;
+            data.push(obj);
+          });
+
+          // 補上還沒初始化 todoTime 的數量
+          // 因為有可能他新增完成單子, 沒有要排程
+          let need = job.count - job.todoTime.length;
+          if(need > 0){
+            //need = 0
+            for( var c = 0; c < need; c++ ){
+              //console.log('add');
+              let obj = { ...job._doc };
+              let tmp = order[job.oid] || {};
+              obj.order = { ...tmp._doc };
+              obj.outputDate = info[job.oid]; // 補上出貨日期的資料
+              obj.status = '尚未完成';
+              obj.line = '';
+              obj.time = 0;
+              obj.todoTime = null;
+              data.push(obj);
+            }
+          }
+        })
+
+        let tmp = data.filter( val => val.time == 0 )
+        data = data.filter( val => val.time != 0 )
+
+        // 依照 出貨 日期排序
+        data.sort( sortByTime );
+        data = data.concat(tmp);
+
+        // console.log('data', data.map(val=>val._id));
+        console.log('!!! data', data);
+
+        let renderData = { lineData: lineData, all: data };
+        res.render('job', renderData);
+
+
+        // save ---------
+        // 使用 oid 分組, 批次寫回去
+        let saveDate = data; // 需要被更新的人
+        let id = [];
+
+        // 取得 id 名單
+        for(var n = 0; n < saveDate.length; n++ ){
+          if( id.indexOf( saveDate[n]._id ) == -1 ){
+            id.push(saveDate[n]._id);
+          }
+        }
+
+        // console.log('oid', oid);
+
+        id.forEach( val => {
+
+          let tmp = saveDate.filter( job => job._id === val)
+                          .map( job => {
+                            return {
+                              time: job.time.toString(),
+                              line: job.line,
+                              status: job.status
+                            }
+                          });
+
+                          // console.log('存入資料', tmp.length, tmp);
+
+          let _id = val;
+
+          // console.log('更新:', _id, val)
+
+           //db operation
+           Job.findOneAndUpdate( { _id: _id }, { todoTime: tmp } )
+              .updateAsync()
+              .then( result => {
+                  debug('[PUT] 後續更新todoTime時間 success ->', _id, result);
+              })
+              .catch( err => {
+                  debug('[PUT] 更新作業時間 fail ->', err);
+                  return next(err);
+              });
+        })
+
+
+
+      })
+      .catch( err => {
+        debug('讀取 factory 頁面資料失敗', err);
+        return next(err);
+      });
+
+      // 依照 出貨日期排序
+      function sortByDay( a, b ){
+        let day1 = parseInt( a.outputDate.replace(/\//g, '') );
+        let day2 = parseInt( b.outputDate.replace(/\//g, '') );
+        return day1 - day2; // 小 -> 大
+      }
+
+      // 依照排去上去的時間和日期排序
+      function sortByTime( a, b ){
+        let day1 = parseInt( a.time );
+        let day2 = parseInt( b.time );
+        return day1 - day2; // 小 -> 大
+      }
+});
+
+
 module.exports = router;

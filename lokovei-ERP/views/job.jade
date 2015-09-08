@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  link(rel="stylesheet", href="stylesheets/today.css")
+
+  .screen
+    center
+      .day
+        .thumbnail.dayTitle
+          - var d = new Date();
+          h4= d.getFullYear() + ' / ' + (d.getMonth() + 1) + ' / ' + d.getUTCDate() + '   今日出貨項目'
+        //- .thumbnail.cal
+
+        //- show job
+        .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)" data-time= time)
+          - for( var j = 0; j < all.length; j++ )
+            - var job = all[j];
+            - job._id = job._id.toString()
+            - var id = 'line'+line+'job'+j;
+            .thumbnail.job(id=id draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job._id data-status=job.status data-pro=job.pid+'/'+job.pSpec )
+              .num= j
+              .job-info
+                = '車殼型號：' + job.pid
+                br
+                = '配備顏色：' + job.pSpec
+                br
+                = '車架型號：' + job.carType
+                br
+                = '訂單編號：' + job.oid
+              .job-info
+                = '經銷商：' + job.order.cName + ' / ' + job.order.cWho
+                br
+                = '地址：' + job.order.cAddress
+                br
+                = '備註：' + job.note
+                br
+                = '接單人員：' + job.order.usWho
+                br
+                - var uid = { 'data-uid': job._id.toString() + job.time.toString() }
+                - if(job.status == '已結案')
+                  button.status.btn.btn-sm.btn-success(data-id=id data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else if(job.status == '已出貨')
+                  button.status.btn.btn-sm.btn-primary(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else if(job.status == '尚未出貨')
+                  button.status.btn.btn-sm.btn-info(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else if(job.status == '尚未完成')
+                  button.status.btn.btn-sm.btn-warning(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else if(job.status == '訂單取消')
+                  button.status.btn.btn-sm.btn-danger(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else
+                  button.status.btn.btn-default(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid) 尚未設定
+                - var order = '<p>訂單編號：' + job.oid; //- '<br/>經銷商：' + job. + '<br/>訂單出車日期：2015/5/12</p>'

@@ -1,0 +1,82 @@
+/* line 4, ../sass/today.sass */
+.job {
+  position: relative;
+  width: 850px;
+  height: 120px;
+  margin: 0px auto;
+  margin-bottom: 12px;
+  text-align: left;
+}
+/* line 11, ../sass/today.sass */
+.job button {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+}
+
+/* line 16, ../sass/today.sass */
+.lineName {
+  margin-right: 12px;
+}
+
+/* line 19, ../sass/today.sass */
+.day {
+  max-width: 900px;
+  margin-right: 12px;
+  border-radius: 8px;
+  background-color: #F5F5F5;
+}
+
+/* line 25, ../sass/today.sass */
+.dayTitle {
+  text-align: center;
+}
+
+/* line 28, ../sass/today.sass */
+.line {
+  max-width: 850px;
+  min-height: 140px;
+  padding-bottom: 60px;
+}
+
+/* line 34, ../sass/today.sass */
+.screen {
+  width: 100%;
+}
+
+/* line 37, ../sass/today.sass */
+.info {
+  position: absolute;
+  right: 8px;
+  top: calc( 100% - 24px);
+  height: 16px;
+  width: 16px;
+}
+
+/* line 45, ../sass/today.sass */
+#newJobTable {
+  z-index: 99;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+}
+
+/* line 52, ../sass/today.sass */
+.job-info {
+  font-size: 1.2em;
+  width: 49%;
+  float: left;
+}
+
+/* line 58, ../sass/today.sass */
+.num {
+  position: absolute;
+  color: black;
+  font-weight: bolder;
+  width: 20px;
+  height: 20px;
+  top: 4px;
+  right: 4px;
+  text-align: center;
+  border-radius: 50%;
+}
