@@ -92,7 +92,7 @@ block content
               - var job = order.jobs[j]
               tr(data-job=job._id)
                 td(data-ctrl="product"  style='width: 300px')
-                  = job.pid + '/'+ job.pSpec
+                  = job.pid + '/'+ job.pSpec + '/' + job.carType
                   //- + '/' + job.carType
                 td(data-ctrl="num")= job.count
                 td(data-ctrl="battery")= job.battery

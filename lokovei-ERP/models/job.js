@@ -34,6 +34,9 @@ var Job = new mongoose.Schema({
     },
     line:{
         type: String
+    },
+    carType:{
+        type: String
     }
 });
 
