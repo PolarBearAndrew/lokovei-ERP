@@ -19,3 +19,22 @@ p {
   float: right;
   margin-right: 200px;
 }
+
+/* line 17, ../sass/print_order.sass */
+.chose {
+  margin-left: 12px;
+}
+
+/* line 20, ../sass/print_order.sass */
+#ctrl {
+  position: fixed;
+  top: 100px;
+  left: 20px;
+}
+
+@media print {
+  /* line 26, ../sass/print_order.sass */
+  #ctrl {
+    display: none;
+  }
+}

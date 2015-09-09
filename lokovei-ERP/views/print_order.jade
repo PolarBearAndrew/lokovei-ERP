@@ -2,6 +2,20 @@ extends layout
 
 block content
   link(rel="stylesheet", href="/stylesheets/print_order.css")
+
+  #ctrl
+    button#print.btn.btn-success 列印檢驗單/合格證
+  script(type='text/javascript', language='JavaScript').
+    function varitext(text){
+    text=document
+    print(text)
+    }
+    $(document).ready(function() {
+    $('#print').click(function(){
+    varitext();
+    })
+    });
+
   .print
     center
       h1 可愛馬電行車品質檢驗單
@@ -17,12 +31,76 @@ block content
           td 1
           td 煞車功能
           td 抱剎、漲剎、鼓剎間隙應調整適宜，確認運行時要無雜音，制動性能良好，鬆剎後迅速復位。
-          td
+          td(rowspan="7")
         tr
           td 2
           td 車頭
-          td 保證把立
-          td
+          td 保證把立管插入深度應不少於深度標記，車頭與前輪應垂直，不得有明顯偏斜，確認龍頭固定螺絲是否旋緊。
+        tr
+          td 3
+          td 中軸鏈輪
+          td 中軸應迴轉靈活且無鬆動，右中軸碗和螺母應旋緊到底，D型軸與曲柄鏈輪組合，螺紋必須擰緊。
+        tr
+          td 4
+          td 鏈條
+          td 鏈條鬆緊適宜不得有夾齒現象，運轉靈活。
+        tr
+          td 5
+          td 車輪
+          td 前輪與前叉、後輪齊平。立叉管之間的間隙應對秤，其二邊的偏差不大於 5mm，輪胎氣壓是否足夠。
+        tr
+          td 6
+          td 車圈跳動
+          td 車圈徑向軸向跳動不大於 1.5 mm
+        tr
+          td 7
+          td 緊固件
+          td 所有緊固件不得鬆動，螺紋必須擰扭矩要求見技術標準，螺紋外露部分不得大於螺紋直徑。
+        tr
+          td 8
+          td 馬達
+          td 馬達運行時無噪音，運行不穩定。
+          td(rowspan="6")
+        tr
+          td 9
+          td 剎車斷電功能
+          td 左右剎把分別處於制動狀態時，確認馬達不能運行，剎車指示燈亮。
+        tr
+          td 10
+          td 調速器
+          td 霍爾轉把定律牢靠不得有鬆動，轉把旋轉靈活，確認能迅速自動復位。
+        tr
+          td 11
+          td 燈光
+          td 儀表指示燈和前大燈、左右方向燈、煞車燈都應連接牢固，並達到個功能要求。
+        tr
+          td 12
+          td 喇叭
+          td 喇叭安裝牢固，確認功能要求。
+        tr
+          td 13
+          td 外觀
+          td 塑料件和鐵件油漆不得有漏漆、脫漆、龜裂、皺紋、嚴重留疤等缺陷，貼花平整無氣泡。
+        tr
+          td 14
+          td 儀表檢查
+          td 速度錶及電量只是錶，功能必須正常。
+          td(rowspan="2")
+        tr
+          td 15
+          td 裝箱
+          td 在裝箱中不得缺件，合格證，說明書、裝箱單英齊全，紙箱外的麥頭與產品型號、顏色相符。
+        tr
+          td(colspan="2") 型號：
+          td 車號：
+          - var d = new Date()
+          - var dayStr = '中華民國'+(d.getFullYear()-1911)+' 年 '+(d.getMonth() + 1)+' 月 '+d.getUTCDate()+' 日';
+          td= dayStr
+        tr
+          td(colspan="2") 車款：
+          td 顏色：
+          td 備註：
+    p 合格標章NO.____
     br
     br
   .print
@@ -92,6 +170,14 @@ block content
         tr
           td 14
           td 裝箱附件
-          td 電池、充電器、尾箱、菜籃
-    p 生產日期：2015/08/23
+          td
+            input(type="checkbox").chose
+            | &nbsp;電池&nbsp;&nbsp;&nbsp;&nbsp;
+            input(type="checkbox").chose
+            | &nbsp;充電器&nbsp;&nbsp;&nbsp;&nbsp;
+            input(type="checkbox").chose
+            | &nbsp;尾箱&nbsp;&nbsp;&nbsp;&nbsp;
+            input(type="checkbox").chose
+            | 菜籃
+    p= dayStr
     p.right= '出場檢驗員簽核：'
