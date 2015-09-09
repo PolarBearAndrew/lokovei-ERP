@@ -779,7 +779,25 @@ router.get('/output', function(req, res, next) {
         // 依照 出貨 日期排序
         console.log('!!! data', data);
 
-        let renderData = { lineData: lineData, all: data };
+        // 計算出車資訊
+        let tmpAdr = [];
+        let car = [];
+
+        for( var j = 0; j < data.length; j++){
+          let adr = data[j].address;
+          if( tmpAdr.indexOf( adr ) != -1){
+            car[tmpAdr.indexOf( adr )].count++;
+          }else{
+            tmpAdr.push(adr);
+            car.push({
+              name: data[j].order.cName + '(' + data[j].order.cWho + ')',
+              address: data[j].order.cAddress,
+              count: 1
+            });
+          }
+        }
+
+        let renderData = { lineData: lineData, all: data, car: car };
         res.render('output', renderData);
       })
       .catch( err => {

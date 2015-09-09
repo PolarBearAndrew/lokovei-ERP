@@ -11,6 +11,18 @@ block content
           h4= d.getFullYear() + ' / ' + (d.getMonth() + 1) + ' / ' + d.getUTCDate() + '   今日出貨項目'
         //- .thumbnail.cal
 
+        .thumbnail.car
+          - for( var c = 0; c < car.length; c++ )
+            - var info = car[c];
+            h4 建議出車資訊
+            p= info.name + '         ' + info.address
+            .car-info
+              = '專車載運：' + parseInt( info.count / 4 ) * 4 + '   ( 分配為 ' + parseInt( info.count / 4 ) + ' 台專車 )'
+              br
+              = '非專車載運：' + parseInt( info.count % 4 )
+              br
+              = '總數：' + info.count
+
         //- show job
         .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)" data-time= time)
           - for( var j = 0; j < all.length; j++ )
