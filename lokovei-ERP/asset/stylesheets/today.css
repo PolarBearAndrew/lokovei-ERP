@@ -80,3 +80,10 @@
   text-align: center;
   border-radius: 50%;
 }
+
+/* line 69, ../sass/today.sass */
+.print {
+  position: absolute;
+  bottom: 38px;
+  right: 4px;
+}

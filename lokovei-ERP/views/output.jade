@@ -20,11 +20,11 @@ block content
             .thumbnail.job(id=id draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job._id data-status=job.status data-pro=job.pid+'/'+job.pSpec )
               .num= j + 1
               .job-info
-                = '車殼型號：' + job.pid
+                = '車款 - 型號：' + job.pid
                 br
-                = '配備顏色：' + job.pSpec
+                = '車號：' + job.pSpec
                 br
-                = '車架型號：' + job.carType
+                = '顏色：' + job.carType
                 br
                 = '訂單編號：' + job.oid
               .job-info
@@ -50,3 +50,5 @@ block content
                 - else
                   button.status.btn.btn-default(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid) 尚未設定
                 - var order = '<p>訂單編號：' + job.oid; //- '<br/>經銷商：' + job. + '<br/>訂單出車日期：2015/5/12</p>'
+                a(href="/print/order/?id=" + job._id target="_blank").btn.btn-primary.ctrl.print
+                  span.glyphicon.glyphicon-print(aria-hidden='true')

@@ -91,23 +91,27 @@ block content
           td 裝箱
           td 在裝箱中不得缺件，合格證，說明書、裝箱單英齊全，紙箱外的麥頭與產品型號、顏色相符。
         tr
-          td(colspan="2") 型號：
-          td 車號：
+          td(colspan="3")= '車款-型號：' + data.pid
           - var d = new Date()
           - var dayStr = '中華民國'+(d.getFullYear()-1911)+' 年 '+(d.getMonth() + 1)+' 月 '+d.getUTCDate()+' 日';
           td= dayStr
         tr
-          td(colspan="2") 車款：
-          td 顏色：
-          td 備註：
-    p 合格標章NO.____
+          td(colspan="2")= '車號：' + data.pSpec
+          td(rowspan="2" colspan="2") 備註：
+        tr
+          td(colspan="2")= '顏色：' + data.carType
+    p
+      | 合格標章NO.
+      input(type="text")
     br
     br
   .print
     center
       h1 可愛馬電行車出場檢驗隨車紀錄合格證
-    p 客戶名稱：
-    p.right= '合格標章 No.'
+    p= '客戶名稱：' + data.order.cName
+    p.right
+      | 合格標章 No.
+      input(type="text")
     table.table.table-bordered
       thead
         tr
@@ -117,16 +121,17 @@ block content
       tbody
         tr
           td 1
-          td 車款 / 型號
-          td Polly / CHT-025
+          td 車款 - 型號
+          td= data.pid
         tr
           td 2
           td 車號 / 顏色
-          td LTTQ / 北菲棕
+          td= data.pSpec + ' / ' + data.carType
         tr
           td 3
           td 馬達鋼印號
-          td 123
+          td
+            input(type="text")
         tr
           td 4
           td 馬達規格
@@ -138,7 +143,7 @@ block content
         tr
           td 6
           td 電池規格
-          td
+          td= data.battery
         tr
           td 7
           td 車速數據
@@ -180,4 +185,4 @@ block content
             input(type="checkbox").chose
             | 菜籃
     p= dayStr
-    p.right= '出場檢驗員簽核：'
+    p(style="margin-right: 200px").right= '出場檢驗員簽核：'

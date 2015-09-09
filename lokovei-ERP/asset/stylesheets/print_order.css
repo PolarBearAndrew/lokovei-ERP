@@ -17,7 +17,6 @@ p {
   font-size: 1.3em;
   font-weight: bolder;
   float: right;
-  margin-right: 200px;
 }
 
 /* line 17, ../sass/print_order.sass */
@@ -36,5 +35,10 @@ p {
   /* line 26, ../sass/print_order.sass */
   #ctrl {
     display: none;
+  }
+
+  /* line 28, ../sass/print_order.sass */
+  input {
+    border: 0px solid white;
   }
 }

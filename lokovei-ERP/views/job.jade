@@ -20,11 +20,11 @@ block content
             .thumbnail.job(id=id draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job._id data-status=job.status data-pro=job.pid+'/'+job.pSpec )
               .num= j + 1
               .job-info
-                = '車殼型號：' + job.pid
+                = '車款 - 型號：' + job.pid
                 br
-                = '配備顏色：' + job.pSpec
+                = '車號：' + job.pSpec
                 br
-                = '車架型號：' + job.carType
+                = '顏色：' + job.carType
                 br
                 = '訂單編號：' + job.oid
               .job-info

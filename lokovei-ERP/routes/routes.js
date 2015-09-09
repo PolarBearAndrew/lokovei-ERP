@@ -294,9 +294,9 @@ router.get('/crud/:part', function(req, res, next) {
     // 產品編輯頁面
     case 'product':
       schema = [
-        { title: '產品編號', ctrl: 'text', schema: 'pid' },
-        { title: '品項規格', ctrl: 'text', schema: 'spec' },
-        { title: '車款型號', ctrl: 'text', schema: 'carType' },
+        { title: '車款/型號', ctrl: 'text', schema: 'pid' },
+        { title: '車號', ctrl: 'text', schema: 'spec' },
+        { title: '顏色', ctrl: 'text', schema: 'carType' },
         { title: '庫存數量', ctrl: 'num', schema: 'store' }
       ];
 
@@ -466,9 +466,36 @@ router.get('/crud/:part', function(req, res, next) {
 
 router.get('/print/order', function(req, res, next) {
 
-  let data = {};
 
-  res.render('print_order', data);
+  let tmp;
+  let id = req.query.id;
+
+  let data;
+
+  Order.find({})
+       .execAsync()
+       .then( result => {
+          tmp = result;
+          return Job.findOne({ _id: id }).execAsync();
+       })
+       .then( result => {
+
+          let job = { ...result._doc };
+          for( var o = 0; o < tmp.length; o++){
+            if( tmp[o].oid == job.oid ){
+              job.order = tmp[o];
+              // console.log('order', tmp[0]);
+              break;
+            }
+          }
+          console.log('data', job);
+          res.render('print_order', { data: job });
+       })
+       .catch( err => {
+          debug('查詢訂單錯誤', err);
+       })
+
+
 });
 
 //sortTodo
