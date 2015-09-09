@@ -14,7 +14,7 @@ block content
         .thumbnail.car
           - for( var c = 0; c < car.length; c++ )
             - var info = car[c];
-            h4 建議出車資訊
+            h4.title 建議出車資訊
             p= info.name + '         ' + info.address
             .car-info
               = '專車載運：' + parseInt( info.count / 4 ) * 4 + '   ( 分配為 ' + parseInt( info.count / 4 ) + ' 台專車 )'
