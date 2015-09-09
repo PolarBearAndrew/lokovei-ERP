@@ -21,25 +21,26 @@
   margin-bottom: 12px;
   text-align: left;
   padding-left: 12px;
+  padding-bottom: 24px;
   border: 2px solid green;
 }
-/* line 23, ../sass/today.sass */
+/* line 24, ../sass/today.sass */
 .car .title {
   color: green;
 }
-/* line 25, ../sass/today.sass */
+/* line 26, ../sass/today.sass */
 .car .car-info {
   margin-left: 12px;
   padding-left: 12px;
   border-left: 3px solid green;
 }
 
-/* line 30, ../sass/today.sass */
+/* line 31, ../sass/today.sass */
 .lineName {
   margin-right: 12px;
 }
 
-/* line 33, ../sass/today.sass */
+/* line 34, ../sass/today.sass */
 .day {
   max-width: 900px;
   margin-right: 12px;
@@ -47,24 +48,24 @@
   background-color: #F5F5F5;
 }
 
-/* line 39, ../sass/today.sass */
+/* line 40, ../sass/today.sass */
 .dayTitle {
   text-align: center;
 }
 
-/* line 42, ../sass/today.sass */
+/* line 43, ../sass/today.sass */
 .line {
   max-width: 850px;
   min-height: 140px;
   padding-bottom: 60px;
 }
 
-/* line 48, ../sass/today.sass */
+/* line 49, ../sass/today.sass */
 .screen {
   width: 100%;
 }
 
-/* line 51, ../sass/today.sass */
+/* line 52, ../sass/today.sass */
 .info {
   position: absolute;
   right: 8px;
@@ -73,7 +74,7 @@
   width: 16px;
 }
 
-/* line 59, ../sass/today.sass */
+/* line 60, ../sass/today.sass */
 #newJobTable {
   z-index: 99;
   position: fixed;
@@ -81,14 +82,14 @@
   left: 0px;
 }
 
-/* line 66, ../sass/today.sass */
+/* line 67, ../sass/today.sass */
 .job-info {
   font-size: 1.2em;
   width: 49%;
   float: left;
 }
 
-/* line 72, ../sass/today.sass */
+/* line 73, ../sass/today.sass */
 .num {
   position: absolute;
   color: black;
@@ -101,7 +102,7 @@
   border-radius: 50%;
 }
 
-/* line 83, ../sass/today.sass */
+/* line 84, ../sass/today.sass */
 .print {
   position: absolute;
   bottom: 38px;

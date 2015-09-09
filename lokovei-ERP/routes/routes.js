@@ -784,9 +784,12 @@ router.get('/output', function(req, res, next) {
         let car = [];
 
         for( var j = 0; j < data.length; j++){
-          let adr = data[j].address;
+
+          let adr = data[j].order.cAddress;
+
           if( tmpAdr.indexOf( adr ) != -1){
             car[tmpAdr.indexOf( adr )].count++;
+
           }else{
             tmpAdr.push(adr);
             car.push({

@@ -12,9 +12,10 @@ block content
         //- .thumbnail.cal
 
         .thumbnail.car
+          h4.title 建議出車資訊
           - for( var c = 0; c < car.length; c++ )
             - var info = car[c];
-            h4.title 建議出車資訊
+            br
             p= info.name + '         ' + info.address
             .car-info
               = '專車載運：' + parseInt( info.count / 4 ) * 4 + '   ( 分配為 ' + parseInt( info.count / 4 ) + ' 台專車 )'
