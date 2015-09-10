@@ -47,3 +47,16 @@ img {
   margin-left: 200px;
   width: 800px;
 }
+
+/* line 35, ../sass/print_order.sass */
+.mask {
+  position: absolute;
+  top: 100;
+  left: 200;
+}
+/* line 39, ../sass/print_order.sass */
+.mask .text-1 {
+  position: absolute;
+  top: 100;
+  left: 200;
+}
