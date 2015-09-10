@@ -1,6 +1,6 @@
 $(document).ready( function(){
 
-  var url = 'http://192.168.1.120:8080/';
+  var url = 'http://192.168.1.120:80/';
 
   $('html, body').on('click', '#login', function(){
     //console.log('login click');

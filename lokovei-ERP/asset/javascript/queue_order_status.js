@@ -1,7 +1,7 @@
 $( document ).ready( function(){
 
   var id = '';
-  var url = 'http://192.168.1.120:8080/';
+  var url = 'http://192.168.1.120:80/';
   var url_order     = url + 'order';
 
   $('html, body').on('click', '.status', function(){
