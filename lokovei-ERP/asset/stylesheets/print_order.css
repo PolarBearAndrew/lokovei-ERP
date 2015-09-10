@@ -42,3 +42,7 @@ p {
     border: 0px solid white;
   }
 }
+/* line 31, ../sass/print_order.sass */
+img {
+  width: 800px;
+}
