@@ -56,59 +56,60 @@ p {
 }
 /* line 37, ../sass/print_order.sass */
 img {
+  z-index: 0;
   position: absolute;
   top: 30;
   left: 200;
   margin-left: 200px;
   margin-top: -50px;
-  width: 880px;
+  width: 980px;
 }
 
-/* line 45, ../sass/print_order.sass */
+/* line 46, ../sass/print_order.sass */
 .mask {
   position: absolute;
   top: 100;
   left: 200;
   font-size: 0.8em;
 }
-/* line 50, ../sass/print_order.sass */
+/* line 51, ../sass/print_order.sass */
 .mask * {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 200px;
 }
-/* line 55, ../sass/print_order.sass */
+/* line 56, ../sass/print_order.sass */
 .mask .text-1 {
   margin-left: 255px;
   margin-top: 450px;
 }
-/* line 58, ../sass/print_order.sass */
+/* line 59, ../sass/print_order.sass */
 .mask .text-2 {
   margin-left: 375px;
   margin-top: 450px;
 }
-/* line 61, ../sass/print_order.sass */
+/* line 62, ../sass/print_order.sass */
 .mask .text-3 {
   margin-left: 255px;
   margin-top: 480px;
 }
-/* line 64, ../sass/print_order.sass */
+/* line 65, ../sass/print_order.sass */
 .mask .text-4 {
   margin-left: 375px;
   margin-top: 480px;
 }
-/* line 67, ../sass/print_order.sass */
+/* line 68, ../sass/print_order.sass */
 .mask .text-5 {
   margin-left: 520px;
   margin-top: 450px;
 }
-/* line 70, ../sass/print_order.sass */
+/* line 71, ../sass/print_order.sass */
 .mask .text-6 {
   margin-left: 570px;
   margin-top: 450px;
 }
-/* line 73, ../sass/print_order.sass */
+/* line 74, ../sass/print_order.sass */
 .mask .text-7 {
   margin-left: 625px;
   margin-top: 450px;
