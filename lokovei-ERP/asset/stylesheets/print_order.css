@@ -59,6 +59,11 @@ img {
 }
 /* line 42, ../sass/print_order.sass */
 .mask .text-1 {
-  margin-left: 200px;
-  margin-top: 200px;
+  margin-left: 258px;
+  margin-top: 450px;
+}
+/* line 45, ../sass/print_order.sass */
+.mask .text-2 {
+  margin-left: 360;
+  margin-top: 450px;
 }
