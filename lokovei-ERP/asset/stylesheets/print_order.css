@@ -62,13 +62,14 @@ img {
   position: absolute;
   top: 0px;
   left: 0px;
+  text-align: left;
 }
-/* line 46, ../sass/print_order.sass */
+/* line 47, ../sass/print_order.sass */
 .mask .text-1 {
   margin-left: 258px;
   margin-top: 450px;
 }
-/* line 49, ../sass/print_order.sass */
+/* line 50, ../sass/print_order.sass */
 .mask .text-2 {
   margin-left: 360px;
   margin-top: 450px;
