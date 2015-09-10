@@ -26,7 +26,7 @@ $(document).ready(function() {
     type: 'GET',
 
     success: function( result ){
-      // console.log('result', result)
+      console.log('result', result)
       customer = result.map( function( val ){
         var tmp = {
           val: val._id,
