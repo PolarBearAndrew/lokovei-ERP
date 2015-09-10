@@ -319,7 +319,8 @@ $(document).ready(function() {
 
       case 'line':
         index = $(obj).children('select').val();
-        show = line[index].text;
+        // show = line[index].text;
+        show = '無設定產線';
         break;
 
       case 'num':
