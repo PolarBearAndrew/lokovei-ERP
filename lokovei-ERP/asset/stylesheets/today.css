@@ -108,3 +108,27 @@
   bottom: 38px;
   right: 4px;
 }
+
+/* line 89, ../sass/today.sass */
+#ctrl {
+  position: fixed;
+  top: 100px;
+  left: 20px;
+}
+
+@media print {
+  /* line 95, ../sass/today.sass */
+  #ctrl {
+    display: none;
+  }
+
+  /* line 97, ../sass/today.sass */
+  input {
+    border: 0px solid white;
+  }
+
+  /* line 99, ../sass/today.sass */
+  .print {
+    display: none;
+  }
+}

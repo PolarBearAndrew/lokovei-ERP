@@ -3,6 +3,19 @@ extends layout
 block content
   link(rel="stylesheet", href="stylesheets/today.css")
 
+  #ctrl
+    button#print.btn.btn-success 列印檢驗單/合格證
+  script(type='text/javascript', language='JavaScript').
+    function varitext(text){
+    text=document
+    print(text)
+    }
+    $(document).ready(function() {
+    $('#print').click(function(){
+    varitext();
+    })
+    });
+
   .screen
     center
       .day
