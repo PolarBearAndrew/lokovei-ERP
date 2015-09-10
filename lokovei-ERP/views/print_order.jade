@@ -29,11 +29,11 @@ block content
     .text-6= d.getMonth()+1
     .text-7= d.getUTCDate()
 
-    .text-8 Polly
-    .text-9 CHT-25
+    .text-8= data.pid.substring(0, data.pid.indexOf('-'))
+    .text-9= data.pid.substring( data.pid.indexOf('-') + 1, data.pid.length)
     .text-10
       input(type="text" placeholder="車號")
-    .text-11 北菲棕
+    .text-11= data.carType
     .text-12
       input(type="text" placeholder="車架號碼")
     .text-13
@@ -51,6 +51,10 @@ block content
     .text-21 V
     .text-22 V
     .text-23 V
+    .text-24
+      input(type="text" placeholder="合格標章")
+    .text-25
+      input(type="text" placeholder="合格標章")
 
   //- .print
   //-   center
