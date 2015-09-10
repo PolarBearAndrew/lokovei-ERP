@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   // const
-  var url = 'http://192.168.1.120:80/';
+  var url = 'http://192.168.1.120/';
   var url_job       = url + 'job';
   var url_user      = url + 'user';
   var url_line      = url + 'line';
