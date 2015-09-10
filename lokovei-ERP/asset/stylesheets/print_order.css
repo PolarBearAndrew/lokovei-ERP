@@ -44,17 +44,20 @@ p {
 }
 /* line 31, ../sass/print_order.sass */
 img {
+  position: absolute;
+  top: 100;
+  left: 200;
   margin-left: 200px;
   width: 800px;
 }
 
-/* line 35, ../sass/print_order.sass */
+/* line 38, ../sass/print_order.sass */
 .mask {
   position: absolute;
   top: 100;
   left: 200;
 }
-/* line 39, ../sass/print_order.sass */
+/* line 42, ../sass/print_order.sass */
 .mask .text-1 {
   position: absolute;
   top: 100;
