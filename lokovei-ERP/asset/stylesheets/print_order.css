@@ -41,8 +41,13 @@ p {
   input {
     border: 0px solid white;
   }
+
+  /* line 30, ../sass/print_order.sass */
+  img {
+    display: none;
+  }
 }
-/* line 31, ../sass/print_order.sass */
+/* line 33, ../sass/print_order.sass */
 img {
   position: absolute;
   top: 100;
@@ -51,36 +56,36 @@ img {
   width: 800px;
 }
 
-/* line 38, ../sass/print_order.sass */
+/* line 40, ../sass/print_order.sass */
 .mask {
   position: absolute;
   top: 100;
   left: 200;
   font-size: 0.8em;
 }
-/* line 43, ../sass/print_order.sass */
+/* line 45, ../sass/print_order.sass */
 .mask * {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 200px;
 }
-/* line 48, ../sass/print_order.sass */
+/* line 50, ../sass/print_order.sass */
 .mask .text-1 {
   margin-left: 258px;
   margin-top: 450px;
 }
-/* line 51, ../sass/print_order.sass */
+/* line 53, ../sass/print_order.sass */
 .mask .text-2 {
   margin-left: 360px;
   margin-top: 450px;
 }
-/* line 54, ../sass/print_order.sass */
+/* line 56, ../sass/print_order.sass */
 .mask .text-3 {
   margin-left: 258px;
   margin-top: 480px;
 }
-/* line 57, ../sass/print_order.sass */
+/* line 59, ../sass/print_order.sass */
 .mask .text-4 {
   margin-left: 360px;
   margin-top: 480px;
