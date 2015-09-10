@@ -58,12 +58,18 @@ img {
   left: 200;
 }
 /* line 42, ../sass/print_order.sass */
+.mask * {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+/* line 46, ../sass/print_order.sass */
 .mask .text-1 {
   margin-left: 258px;
   margin-top: 450px;
 }
-/* line 45, ../sass/print_order.sass */
+/* line 49, ../sass/print_order.sass */
 .mask .text-2 {
-  margin-left: 360;
+  margin-left: 360px;
   margin-top: 450px;
 }
