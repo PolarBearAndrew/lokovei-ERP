@@ -60,39 +60,40 @@ img {
   top: 30;
   left: 200;
   margin-left: 200px;
+  margin-top: -50px;
   width: 830px;
 }
 
-/* line 44, ../sass/print_order.sass */
+/* line 45, ../sass/print_order.sass */
 .mask {
   position: absolute;
   top: 100;
   left: 200;
   font-size: 0.8em;
 }
-/* line 49, ../sass/print_order.sass */
+/* line 50, ../sass/print_order.sass */
 .mask * {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 200px;
 }
-/* line 54, ../sass/print_order.sass */
+/* line 55, ../sass/print_order.sass */
 .mask .text-1 {
   margin-left: 255px;
   margin-top: 450px;
 }
-/* line 57, ../sass/print_order.sass */
+/* line 58, ../sass/print_order.sass */
 .mask .text-2 {
   margin-left: 375px;
   margin-top: 450px;
 }
-/* line 60, ../sass/print_order.sass */
+/* line 61, ../sass/print_order.sass */
 .mask .text-3 {
   margin-left: 255px;
   margin-top: 480px;
 }
-/* line 63, ../sass/print_order.sass */
+/* line 64, ../sass/print_order.sass */
 .mask .text-4 {
   margin-left: 375px;
   margin-top: 480px;
