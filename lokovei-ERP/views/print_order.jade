@@ -16,12 +16,12 @@ block content
     })
     });
 
-  img(src="/output.png")
+  //- img(src="/output.png")
   - var d = new Date()
   .mask
     .text-1= data.pid.substring( data.pid.indexOf('-') + 1, data.pid.length)
     .text-2
-      input(type="text")
+      input(type="text" placeholder="車號")
     //- .text-2 LTTF500142
     .text-3= data.pid.substring(0, data.pid.indexOf('-'))
     .text-4= data.carType
@@ -31,10 +31,13 @@ block content
 
     .text-8 Polly
     .text-9 CHT-25
-    .text-10 LTTQ
+    .text-10
+      input(type="text" placeholder="車號")
     .text-11 北菲棕
-    .text-12 999999-00
-    .text-13 500v
+    .text-12
+      input(type="text" placeholder="車架號碼")
+    .text-13
+      input(type="text" placeholder="馬達")
     .text-14 48v
     .text-15= data.battery
     .text-16 25km
