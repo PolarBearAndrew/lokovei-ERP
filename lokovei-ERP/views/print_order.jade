@@ -23,8 +23,8 @@ block content
     .text-2= data.pSpec
     .text-3= data.pid.substring(0, data.pid.indexOf('-'))
     .text-4= data.carType
-    .text-5= (d.getFullYear()-1911)
-    .text-6= (d.getMonth() + 1)
+    .text-5= d.getFullYear()-1911
+    .text-6= d.getMonth()+1
     .text-7= d.getUTCDate()
 
   .print
