@@ -1,0 +1,79 @@
+extends layout
+
+block content
+  link(rel="stylesheet", href="stylesheets/today.css")
+
+  #ctrl
+    button#print.btn.btn-success 列印今日出貨列表
+  script(type='text/javascript', language='JavaScript').
+    function varitext(text){
+    text=document
+    print(text)
+    }
+    $(document).ready(function() {
+    $('#print').click(function(){
+    varitext();
+    })
+    });
+
+  .screen
+    center
+      .day
+        .thumbnail.dayTitle
+          - var d = new Date();
+          h4= d.getFullYear() + ' / ' + (d.getMonth() + 1) + ' / ' + d.getUTCDate() + '   今日出貨項目'
+        //- .thumbnail.cal
+
+        .thumbnail.car
+          h4.title 建議出車資訊
+          - for( var c = 0; c < car.length; c++ )
+            - var info = car[c];
+            br
+            p= info.name + '         ' + info.address
+            .car-info
+              - if( info.count >= 4 )
+                | 建議使用專車載送
+              - else
+                | 數量少於 4 輛，不建議使用專車載送
+
+        //- show job
+        .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)" data-time= time)
+          - for( var j = 0; j < all.length; j++ )
+            - var job = all[j];
+            - job._id = job._id.toString()
+            - var id = 'line'+line+'job'+j;
+            .thumbnail.job(id=id draggable="true" ondragstart="drag(event)" data-time=job.time data-oid=job._id data-status=job.status data-pro=job.pid+'/'+job.pSpec )
+              .num= j + 1
+              .job-info
+                = '車款 - 型號：' + job.pid
+                br
+                = '車號：' + job.pSpec
+                br
+                = '顏色：' + job.carType
+                br
+                = '訂單編號：' + job.oid
+              .job-info
+                = '經銷商：' + job.order.cName + ' / ' + job.order.cWho
+                br
+                = '地址：' + job.order.cAddress
+                br
+                = '備註：' + job.note
+                br
+                = '接單人員：' + job.order.usWho
+                br
+                - var uid = { 'data-uid': job._id.toString() + job.time.toString() }
+                - if(job.status == '已結案')
+                  button.status.btn.btn-sm.btn-success(data-id=id data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else if(job.status == '已出貨')
+                  button.status.btn.btn-sm.btn-primary(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else if(job.status == '尚未出貨')
+                  button.status.btn.btn-sm.btn-info(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else if(job.status == '尚未完成')
+                  button.status.btn.btn-sm.btn-warning(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else if(job.status == '訂單取消')
+                  button.status.btn.btn-sm.btn-danger(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid)= job.status
+                - else
+                  button.status.btn.btn-default(data-id=id  data-time=job.time data-oid=job._id data-status=job.status )&attributes(uid) 尚未設定
+                - var order = '<p>訂單編號：' + job.oid; //- '<br/>經銷商：' + job. + '<br/>訂單出車日期：2015/5/12</p>'
+                a(href="/print/order/?id=" + job._id target="_blank").btn.btn-primary.ctrl.print
+                  span.glyphicon.glyphicon-print(aria-hidden='true')
