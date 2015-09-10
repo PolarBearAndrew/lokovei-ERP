@@ -20,8 +20,9 @@ block content
   - var d = new Date()
   .mask
     .text-1= data.pid.substring( data.pid.indexOf('-') + 1, data.pid.length)
-    //- .text-2= data.pSpec
-    .text-2 LTTF500142
+    .text-2
+      input(type="text")
+    //- .text-2 LTTF500142
     .text-3= data.pid.substring(0, data.pid.indexOf('-'))
     .text-4= data.carType
     .text-5= d.getFullYear()-1911
