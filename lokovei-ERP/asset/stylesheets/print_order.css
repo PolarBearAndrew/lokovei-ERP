@@ -70,7 +70,7 @@ img {
   position: absolute;
   top: 100;
   left: 200;
-  font-size: 0.8em;
+  font-size: 1.2em;
 }
 /* line 51, ../sass/print_order.sass */
 .mask * {
@@ -82,72 +82,72 @@ img {
 /* line 56, ../sass/print_order.sass */
 .mask .text-1 {
   margin-left: 255px;
-  margin-top: 530px;
+  margin-top: 490px;
 }
 /* line 59, ../sass/print_order.sass */
 .mask .text-2 {
   margin-left: 375px;
-  margin-top: 530px;
+  margin-top: 490px;
 }
 /* line 62, ../sass/print_order.sass */
 .mask .text-3 {
   margin-left: 255px;
-  margin-top: 560px;
+  margin-top: 520px;
 }
 /* line 65, ../sass/print_order.sass */
 .mask .text-4 {
   margin-left: 375px;
-  margin-top: 560px;
+  margin-top: 520px;
 }
 /* line 68, ../sass/print_order.sass */
 .mask .text-5 {
   margin-left: 520px;
-  margin-top: 530px;
+  margin-top: 490px;
 }
 /* line 71, ../sass/print_order.sass */
 .mask .text-6 {
   margin-left: 570px;
-  margin-top: 530px;
+  margin-top: 490px;
 }
 /* line 74, ../sass/print_order.sass */
 .mask .text-7 {
   margin-left: 625px;
-  margin-top: 530px;
+  margin-top: 490px;
 }
 /* line 77, ../sass/print_order.sass */
 .mask .text-8 {
   margin-left: 970px;
-  margin-top: 25px;
+  margin-top: 30px;
 }
 /* line 80, ../sass/print_order.sass */
 .mask .text-9 {
   margin-left: 1080px;
-  margin-top: 25px;
+  margin-top: 30px;
 }
 /* line 83, ../sass/print_order.sass */
 .mask .text-10 {
   margin-left: 970px;
-  margin-top: 60px;
+  margin-top: 67px;
 }
 /* line 86, ../sass/print_order.sass */
 .mask .text-11 {
   margin-left: 1080px;
-  margin-top: 60px;
+  margin-top: 67px;
 }
 /* line 89, ../sass/print_order.sass */
 .mask .text-12 {
   margin-left: 1000px;
-  margin-top: 95px;
+  margin-top: 105px;
 }
 /* line 92, ../sass/print_order.sass */
 .mask .text-13 {
   margin-left: 1000px;
-  margin-top: 130px;
+  margin-top: 143px;
 }
 /* line 95, ../sass/print_order.sass */
 .mask .text-14 {
   margin-left: 1000px;
-  margin-top: 165px;
+  margin-top: 180px;
 }
 /* line 98, ../sass/print_order.sass */
 .mask .text-15 {
@@ -157,17 +157,17 @@ img {
 /* line 101, ../sass/print_order.sass */
 .mask .text-16 {
   margin-left: 1000px;
-  margin-top: 235px;
+  margin-top: 243px;
 }
 /* line 104, ../sass/print_order.sass */
 .mask .text-17 {
   margin-left: 1000px;
-  margin-top: 270px;
+  margin-top: 290px;
 }
 /* line 107, ../sass/print_order.sass */
 .mask .text-18 {
   margin-left: 1000px;
-  margin-top: 305px;
+  margin-top: 328px;
 }
 /* line 110, ../sass/print_order.sass */
 .mask .text-19 {
@@ -177,20 +177,20 @@ img {
 /* line 113, ../sass/print_order.sass */
 .mask .text-20 {
   margin-left: 1000px;
-  margin-top: 375px;
+  margin-top: 400px;
 }
 /* line 116, ../sass/print_order.sass */
 .mask .text-21 {
   margin-left: 1000px;
-  margin-top: 410px;
+  margin-top: 440px;
 }
 /* line 119, ../sass/print_order.sass */
 .mask .text-22 {
   margin-left: 1000px;
-  margin-top: 445px;
+  margin-top: 465px;
 }
 /* line 122, ../sass/print_order.sass */
 .mask .text-23 {
   margin-left: 1000px;
-  margin-top: 480px;
+  margin-top: 535px;
 }
