@@ -44,5 +44,6 @@ p {
 }
 /* line 31, ../sass/print_order.sass */
 img {
+  margin-left: 200px;
   width: 800px;
 }
