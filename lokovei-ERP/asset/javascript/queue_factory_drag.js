@@ -1,5 +1,6 @@
 
-var url_order     = 'http://localhost:8080/job';
+var url = 'http://192.168.1.120:8080/';
+var url_order     = url + 'job';
 
 function allowDrop( ev) {
     ev.preventDefault();

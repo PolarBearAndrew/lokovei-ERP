@@ -1,13 +1,14 @@
 $(document).ready(function() {
 
   // const
-  var url_job       = 'http://localhost:8080/job';
-  var url_user      = 'http://localhost:8080/user';
-  var url_line      = 'http://localhost:8080/line';
-  var url_order     = 'http://localhost:8080/order';
-  var url_battery   = 'http://localhost:8080/battery';
-  var url_product   = 'http://localhost:8080/product';
-  var url_customer  = 'http://localhost:8080/customer';
+  var url = 'http://192.168.1.120:8080/';
+  var url_job       = url + 'job';
+  var url_user      = url + 'user';
+  var url_line      = url + 'line';
+  var url_order     = url + 'order';
+  var url_battery   = url + 'battery';
+  var url_product   = url + 'product';
+  var url_customer  = url + 'customer';
 
   // select option data
   var em       = [];   //['Andrew', 'Ray', 'Doro', 'Hsuan']

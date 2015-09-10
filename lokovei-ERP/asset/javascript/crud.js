@@ -1,8 +1,9 @@
 $(document).ready(function() {
 
+  var url = 'http://192.168.1.120:8080/';
 
   // edit tables=======================
-  var apiUrl = 'http://localhost:8080/' + $('#api').text() + '/'
+  var apiUrl = url + $('#api').text() + '/'
 
   var auth = ['員工', '主管']
 

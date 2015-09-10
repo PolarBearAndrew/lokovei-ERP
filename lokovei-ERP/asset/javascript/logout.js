@@ -1,5 +1,7 @@
 $(document).ready( function(){
 
+  var url = 'http://192.168.1.120:8080/';
+
   logoutSuccess();
 
   localStorage.setItem("lokoveiUser", '');
@@ -7,7 +9,7 @@ $(document).ready( function(){
 
 
   $.ajax({
-    url: 'http://localhost:8080/login',
+    url: url + 'login',
     type: 'POST',
     data: { account: '', pwd: '' },
     success: function( result ){ },
@@ -30,7 +32,7 @@ $(document).ready( function(){
     }
 
     $.ajax({
-      url: 'http://localhost:8080/login',
+      url: url + 'login',
       type: 'POST',
       data: data,
       success: function( result ){
@@ -52,10 +54,10 @@ $(document).ready( function(){
 
       // console.log('location.href', location.href);
 
-      // if( location.href !== 'http://localhost:8080/'){
+      // if( location.href !== url + ''){
       //   window.location.assign( location.href ); // 直接導向到原先要連接的網頁
       // }else{
-        window.location.assign( 'http://localhost:8080/order/startTime' ); // 直接導向到 order
+        window.location.assign( url + 'order/startTime' ); // 直接導向到 order
       // }
 
       $('#loginDialog').modal('hide');

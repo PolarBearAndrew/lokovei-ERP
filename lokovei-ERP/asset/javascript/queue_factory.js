@@ -1,8 +1,10 @@
 $(document).ready(function(){
 
-  var url_job       = 'http://localhost:8080/job';
-  var url_battery   = 'http://localhost:8080/battery';
-  var url_product   = 'http://localhost:8080/product';
+  var url = 'http://192.168.1.120:8080/';
+
+  var url_job       = url + 'job';
+  var url_battery   = url + 'battery';
+  var url_product   = url + 'product';
 
   var product  = [];
   var battery  = [];
@@ -69,8 +71,8 @@ $(document).ready(function(){
   var posi = '';
   var data = {};
   var id = '';
-  var url_order     = 'http://localhost:8080/job';
-  var url_route     = 'http://localhost:8080';
+  var url_order     =  url + 'job';
+  var url_route     =  url;
 
   $('html, body').on('click', '.status', function(){
     //console.log('click .status');
@@ -135,12 +137,12 @@ $(document).ready(function(){
     }
 
     $.ajax({
-      url: url_route + '/sort',
+      url: url_route + 'sort',
       type: 'POST',
       data: { time: time, count: count },
       success: function(result){
         console.log('排程成功', result);
-        window.location.assign('http://localhost:8080/factory');
+        window.location.assign( url +'factory');
       },
       error: function(err){
         console.log('排程錯誤', err);
@@ -306,7 +308,7 @@ $(document).ready(function(){
       data: data,
       success: function(result){
         console.log('手動新增 job 成功', result);
-        window.location.assign('http://localhost:8080/factory');
+        window.location.assign( url +'factory');
       },
       error: function(err){
         console.log('手動新增 job 失敗',err)

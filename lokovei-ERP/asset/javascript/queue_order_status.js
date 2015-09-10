@@ -1,7 +1,8 @@
 $( document ).ready( function(){
 
   var id = '';
-  var url_order     = 'http://localhost:8080/order';
+  var url = 'http://192.168.1.120:8080/';
+  var url_order     = url + 'order';
 
   $('html, body').on('click', '.status', function(){
     //console.log('click .status');
