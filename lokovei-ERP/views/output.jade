@@ -31,11 +31,10 @@ block content
             br
             p= info.name + '         ' + info.address
             .car-info
-              = '專車載運：' + parseInt( info.count / 4 ) * 4 + '   ( 分配為 ' + parseInt( info.count / 4 ) + ' 台專車 )'
-              br
-              = '非專車載運：' + parseInt( info.count % 4 )
-              br
-              = '總數：' + info.count
+              - if( info.count >= 4 )
+                | 建議使用專車載送
+              - else
+                | 數量少於 4 輛，不建議使用專車載送
 
         //- show job
         .line(id='line'+line ondrop="drop(event)" ondragover="allowDrop(event)" data-time= time)
