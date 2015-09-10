@@ -98,3 +98,13 @@ img {
   margin-left: 375px;
   margin-top: 480px;
 }
+/* line 67, ../sass/print_order.sass */
+.mask .text-5 {
+  margin-left: 480px;
+  margin-top: 450px;
+}
+/* line 70, ../sass/print_order.sass */
+.mask .text-6 {
+  margin-left: 555px;
+  margin-top: 450px;
+}
