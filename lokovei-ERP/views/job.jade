@@ -36,7 +36,7 @@ block content
               .job-info
                 = '車款 - 型號：' + job.pid
                 br
-                = '車號：' + job.pSpec
+                = '電池：' + job.battery
                 br
                 = '顏色：' + job.carType
                 br
@@ -45,6 +45,8 @@ block content
                 = '經銷商：' + job.order.cName + ' / ' + job.order.cWho
                 br
                 = '地址：' + job.order.cAddress
+                br
+                = '出車日期：' + job.outputDate
                 br
                 = '備註：' + job.note
                 br
