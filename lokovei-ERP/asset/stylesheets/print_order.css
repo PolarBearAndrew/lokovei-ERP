@@ -56,30 +56,31 @@ img {
   position: absolute;
   top: 100;
   left: 200;
+  font-size: 0.8em;
 }
-/* line 42, ../sass/print_order.sass */
+/* line 43, ../sass/print_order.sass */
 .mask * {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 200px;
 }
-/* line 47, ../sass/print_order.sass */
+/* line 48, ../sass/print_order.sass */
 .mask .text-1 {
   margin-left: 258px;
   margin-top: 450px;
 }
-/* line 50, ../sass/print_order.sass */
+/* line 51, ../sass/print_order.sass */
 .mask .text-2 {
   margin-left: 360px;
   margin-top: 450px;
 }
-/* line 53, ../sass/print_order.sass */
+/* line 54, ../sass/print_order.sass */
 .mask .text-3 {
   margin-left: 258px;
   margin-top: 480px;
 }
-/* line 56, ../sass/print_order.sass */
+/* line 57, ../sass/print_order.sass */
 .mask .text-4 {
   margin-left: 360px;
   margin-top: 480px;

@@ -18,10 +18,10 @@ block content
 
   img(src="/output.png")
   .mask
-    .text-1= data.pid.substring( data.pid.indexOf('-'), data.pid.length)
+    .text-1= data.pid.substring( data.pid.indexOf('-') + 1, data.pid.length)
     .text-2= data.pSpec
     .text-3= data.pid.substring(0, data.pid.indexOf('-'))
-    .text-4= data.pSpec
+    .text-4= data.carType
 
   .print
   //-   center
