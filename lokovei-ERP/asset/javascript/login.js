@@ -1,6 +1,8 @@
 $(document).ready( function(){
 
-  var url = 'http://192.168.1.120:80/';
+  // console.log('ip', );
+
+  var url = config.ip;
 
   $('html, body').on('click', '#login', function(){
     //console.log('login click');

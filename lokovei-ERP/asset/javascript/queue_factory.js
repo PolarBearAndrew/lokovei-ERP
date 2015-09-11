@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-  var url = 'http://192.168.1.120:80/';
+  var url = config.ip;
 
   var url_job       = url + 'job';
   var url_battery   = url + 'battery';

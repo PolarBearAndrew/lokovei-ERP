@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  var url = 'http://192.168.1.120:80/';
+  var url = config.ip;
 
   // edit tables=======================
   var apiUrl = url + $('#api').text() + '/'

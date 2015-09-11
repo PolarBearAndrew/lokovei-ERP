@@ -147,7 +147,7 @@ app.use(function(err, req, res, next) {
 
 
 
-var port = 80;
+var port = 8080;
 app.listen( port, console.log('server listening on %d', port) );
 
 module.exports = app;

@@ -1,8 +1,8 @@
 $( document ).ready( function(){
 
-  var id = '';
-  var url = 'http://192.168.1.120:80/';
+  var url = config.ip;
   var url_order     = url + 'order';
+  var id = '';
 
   $('html, body').on('click', '.status', function(){
     //console.log('click .status');
