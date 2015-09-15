@@ -67,7 +67,7 @@ $(document).ready(function(){
       break;
 
     }else if( myRule[r].path === path && myRule[r].auth === false){
-      // $('body').append('<div id="mask"><div class="center"><h2>權限不足</h2><br/><button class="btn btn-warning btn-lg" onclick="back()">回上一頁</button></div></div>')
+      $('body').append('<div id="mask"><div class="center"><h2>權限不足</h2><br/><button class="btn btn-warning btn-lg" onclick="back()">回上一頁</button></div></div>')
     }
 
   }
