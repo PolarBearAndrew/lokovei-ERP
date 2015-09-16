@@ -40,11 +40,11 @@ $(document).ready( function(){
       localStorage.setItem("lokoveiAuth", data.auth);
 
 
-      if( location.href !== url){
-        window.location.assign( location.href ); // 直接導向到原先要連接的網頁
-      }else{
-        window.location.assign(  url + 'order/startTime' ); // 直接導向到 order
-      }
+      // if( location.href !== url){
+      //   window.location.assign( location.href ); // 直接導向到原先要連接的網頁
+      // }else{
+      window.location.assign(  url + 'order/startTime' ); // 直接導向到 order
+      // }
 
       $('#loginDialog').modal('hide');
       $('#loginSuccessDialog').modal('show');
