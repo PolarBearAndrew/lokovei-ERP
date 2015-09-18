@@ -162,8 +162,10 @@ router.get('/factory', function(req, res, next) {
           }
         })
 
-        let tmp = data.filter( val => val.time == 0 )
-        data = data.filter( val => val.time != 0 )
+        data = data.filter( val => val.status != '訂單取消' );
+
+        let tmp = data.filter( val => val.time == 0 );
+        data = data.filter( val => val.time != 0 );
 
         // 依照 出貨 日期排序
         data.sort( sortByTime );
