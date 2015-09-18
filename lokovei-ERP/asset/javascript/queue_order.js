@@ -490,7 +490,7 @@ $(document).ready(function() {
   });
 
 
-  $('html, body').on('change', 'td[data-ctrl="customer"] select', function(){
+  $('html, body').on('change onfocus', 'td[data-ctrl="customer"] select', function(){
 
     var cAddress = $(this).parent().next('td');
     var cPhone = $(cAddress).next('td');
