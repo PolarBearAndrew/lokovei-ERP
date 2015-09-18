@@ -162,7 +162,7 @@ router.get('/factory', function(req, res, next) {
           }
         })
 
-        data = data.filter( val => val.status != '訂單取消' );
+        //data = data.filter( val => val.order.status != '訂單取消' );
 
         let tmp = data.filter( val => val.time == 0 );
         data = data.filter( val => val.time != 0 );
