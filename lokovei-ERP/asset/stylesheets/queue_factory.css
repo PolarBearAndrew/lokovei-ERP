@@ -83,6 +83,7 @@
 
 /* line 68, ../sass/queue_factory.sass */
 #deleteJobTable {
+  background-image: url("../trash.png");
   z-index: 99;
   position: fixed;
   right: 0px;
@@ -91,11 +92,11 @@
   height: 100px;
   opacity: 0.5;
 }
-/* line 76, ../sass/queue_factory.sass */
+/* line 77, ../sass/queue_factory.sass */
 #deleteJobTable .job {
   opacity: 0;
 }
-/* line 78, ../sass/queue_factory.sass */
+/* line 79, ../sass/queue_factory.sass */
 #deleteJobTable span {
   position: absolute;
   top: 15px;
