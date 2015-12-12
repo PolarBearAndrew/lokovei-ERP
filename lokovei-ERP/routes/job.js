@@ -205,7 +205,6 @@ router.put('/todoTime', (req, res, next) => {
 
             let tmp = result.todoTime;
 
-
             for( var j = 0; j < tmp.length; j++){
                 // console.log('test', tmp[j].time == oldOne.time,tmp[j].status === oldOne.status )
                 if( tmp[j].time == oldOne.time && tmp[j].status === oldOne.status ){
@@ -214,6 +213,10 @@ router.put('/todoTime', (req, res, next) => {
                     break;
                 }
             }
+
+            tmp = tmp.filter(function(job){
+              return job.time != 999;
+            });
 
             console.log('tmp', tmp)
 

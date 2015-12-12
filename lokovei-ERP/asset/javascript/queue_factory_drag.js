@@ -1,6 +1,6 @@
 
 var url = config.ip;
-var url_order     = url + 'job';
+var url_job     = url + 'job';
 
 function allowDrop( ev) {
     ev.preventDefault();
@@ -36,7 +36,7 @@ function drop(ev) {
 
       console.log('data', data);
       $.ajax({
-        url: url_order + '/todoTime',
+        url: url_job + '/todoTime',
         type: 'PUT',
         data: data,
         success: function(result){
@@ -45,6 +45,37 @@ function drop(ev) {
 
           $(job).attr('data-time', data.nTime);
           $(job).children('').children('[data-time]').attr('data-time', data.nTime);
+
+          // 計算統計數據
+          cal();
+        },
+        error: function(err){
+          console.log('設定job狀態錯誤', err);
+        }
+      });
+
+    }else if( $(ev.target).hasClass('star') === true ){
+
+      ev.preventDefault();
+      var tag = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.getElementById(tag));
+
+      job = $(id)
+
+      data.nTime = '999';
+      data.nStatus = '工作刪除';
+
+      console.log('data', data);
+      $.ajax({
+        url: url_job + '/todoTime',
+        type: 'PUT',
+        data: data,
+        success: function(result){
+          console.log('設定job新時間成功', result);
+          // console.log('設定job狀態成功', data.nStatus);
+
+          // $(job).attr('data-time', data.nTime);
+          // $(job).children('').children('[data-time]').attr('data-time', data.nTime);
 
           // 計算統計數據
           cal();

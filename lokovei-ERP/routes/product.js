@@ -84,7 +84,7 @@ router.put('/', (req, res, next) => {
 
 
 /*
- * [PUT] 更新產品資料資料
+ * [PUT] 更新產品資料
  * request : body.uid, body.name, body.account, body.pwd, body.auth
  * respone : db result
  */
